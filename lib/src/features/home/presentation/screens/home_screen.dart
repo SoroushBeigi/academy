@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Center(child: TextButton(
           onPressed: () {
-            context.pushNamed('lessonDetails');
+            context.pushNamed('videoDetails');
           },
           child: const Text('Home')),)
     );

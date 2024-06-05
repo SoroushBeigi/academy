@@ -1,6 +1,5 @@
 import 'package:academy/src/core/domain/entities/course_entity.dart';
 import 'package:academy/src/core/resources/resources.dart';
-import 'package:academy/src/features/lesson_details/lessons_details.dart';
 import 'package:academy/src/features/lessons/presentation/pages/lessons_screen.dart';
 import 'package:academy/src/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:flutter/material.dart';
@@ -31,8 +30,8 @@ class Routes {
         builder: (context, state) => const OnboardingScreen(),
       ),
       GoRoute(
-          path: '/lessons-details',
-          name: 'lessonDetails',
+          path: '/video-details',
+          name: 'videoDetails',
           pageBuilder: (BuildContext context, GoRouterState state) {
             return CustomTransitionPage(
               key: state.pageKey,
@@ -49,7 +48,7 @@ class Routes {
                       child: child,
                     );
                   },
-              child: const LessonDetails(),
+              child: const VideoDetails(),
             );
           }),
       StatefulShellRoute.indexedStack(
@@ -73,10 +72,10 @@ class Routes {
             navigatorKey: learningTabNavigatorKey,
             routes: [
               GoRoute(
-                path: '/learning',
+                path: '/favourite',
                 pageBuilder: (context, state) {
                   return getPage(
-                    child: const LearningScreen(),
+                    child: const FavouritePage(),
                     state: state,
                   );
                 },
