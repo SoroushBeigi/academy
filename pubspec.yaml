@@ -24,6 +24,7 @@ dependencies:
   flutter_animate: ^4.5.0
   smooth_page_indicator: ^1.1.0
   internet_connection_checker: ^1.0.0+1
+  video_player: ^2.8.6
 
   dio: ^5.4.1
   dio_cache_interceptor: ^3.5.0
@@ -48,3 +49,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+  assets:
+    - assets/
+
