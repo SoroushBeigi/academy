@@ -1,4 +1,5 @@
 import 'package:academy/src/di/di_setup.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -35,8 +36,16 @@ class _SplashScreenState extends State<_SplashScreen> {
           context.go('/auth');
         }
       } else {
-        cubit.setOnboarded();
-        context.go('/onboarding');
+        if(kIsWeb){
+          if (cubit.loggedIn) {
+            context.go('/main');
+          } else {
+            context.go('/auth');
+          }
+        }else {
+          cubit.setOnboarded();
+          context.go('/onboarding');
+        }
       }
     });
     super.initState();
