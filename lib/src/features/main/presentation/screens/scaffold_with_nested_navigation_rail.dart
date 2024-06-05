@@ -29,21 +29,21 @@ class ScaffoldWithNestedNavigationRail extends StatelessWidget {
                   icon: (IconManager.home)
                       .iconWidget(color: const Color(0xFF6b6d70)),
                   selectedIcon:
-                  (IconManager.homeFill).iconWidget(color: const Color(0xFFE4935D)),
+                  (IconManager.homeFill).iconWidget(color: Theme.of(context).colorScheme.primary),
                   label: const Text('Home'),
                 ),
                 NavigationRailDestination(
                   icon: (IconManager.book)
                       .iconWidget(color:const Color(0xFF6b6d70)),
                   selectedIcon:
-                  (IconManager.bookFill).iconWidget(color: const Color(0xFFE4935D)),
+                  (IconManager.bookFill).iconWidget(color: Theme.of(context).colorScheme.primary),
                   label: const Text('Library'),
                 ),
                 NavigationRailDestination(
                   icon: (IconManager.person)
                       .iconWidget(color: const Color(0xFF6b6d70)),
                   selectedIcon:
-                  (IconManager.personFill).iconWidget(color: const Color(0xFFE4935D)),
+                  (IconManager.personFill).iconWidget(color: Theme.of(context).colorScheme.primary),
                   label: const Text('Profile'),
                 )
 
