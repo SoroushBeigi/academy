@@ -13,30 +13,7 @@ class LearningScreen extends StatelessWidget {
       appBar: AppBar(title: const ChangeThemeIcon()),
       body: SingleChildScrollView(
         child: Column(
-          children: List<Widget>.generate(
-                20,
-                (index) => Animate(
-                  effects: [
-                    MoveEffect(
-                      //TODO: create a function to calculate delay value (500 here). longer lists need shorter delays
-                      duration: 500.milliseconds,
-                      delay: (500 * index).milliseconds,
-                      curve: Curves.ease,
-                      begin: Offset(-100.w, 0),
-                      end: const Offset(0, 0),
-                    )
-                  ],
 
-                  child: LearningItem(
-                    title: 'Course $index',
-                  ),
-                ),
-              ) +
-              [
-                SizedBox(
-                  height: 20.h,
-                )
-              ],
         ),
       ),
     );
