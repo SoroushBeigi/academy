@@ -37,56 +37,58 @@ class _ScaffoldWithNestedNavigationState
     //todo set color with theme
     final primary = Theme.of(context).colorScheme.primary;
     final onSurface = Theme.of(context).colorScheme.onSurfaceVariant;
-    return Scaffold(
-      body: widget.navigationShell,
-      resizeToAvoidBottomInset: false,
-      extendBody: true,
-      bottomNavigationBar: AnimatedBottomBar(
-        color: Theme.of(context).colorScheme.surface,
-        notchColor: Theme.of(context).colorScheme.surface,
-        bottomController: _controller,
-        showLabel: false,
-        removeMargins: false,
-        bottomBarWidth: 500,
-        durationInMilliSeconds: 300,
-        bottomBarItems: [
-          BottomBarItem(
-            inActiveItem:
-            (IconManager.home).iconWidget(color: onSurface),
-            activeItem:
-            (IconManager.homeFill).iconWidget(color: primary),
-            itemLabel: 'Home',
-          ),
-          BottomBarItem(
-            inActiveItem:
-            (IconManager.search).iconWidget(color: onSurface),
-            activeItem:
-            (IconManager.searchFill).iconWidget(color: primary),
-            itemLabel: 'Search',
-          ),
-          BottomBarItem(
-            inActiveItem:
-            (IconManager.add).iconWidget(color: onSurface),
-            activeItem:
-            (IconManager.addFill).iconWidget(color: primary),
-            itemLabel: 'Add',
-          ),
-          BottomBarItem(
-            inActiveItem:
-            (IconManager.saved).iconWidget(color: onSurface),
-            activeItem:
-            (IconManager.savedFill).iconWidget(color: primary),
-            itemLabel: 'Saved',
-          ),
-          BottomBarItem(
-            inActiveItem:
-            (IconManager.person).iconWidget(color: onSurface),
-            activeItem:
-            (IconManager.personFill).iconWidget(color: primary),
-            itemLabel: 'Profile',
-          ),
-        ],
-        onTap: _goBranch,
+    return SafeArea(
+      child: Scaffold(
+        body: widget.navigationShell,
+        resizeToAvoidBottomInset: false,
+        extendBody: true,
+        bottomNavigationBar: AnimatedBottomBar(
+          color: Theme.of(context).colorScheme.surface,
+          notchColor: Theme.of(context).colorScheme.surface,
+          bottomController: _controller,
+          showLabel: false,
+          removeMargins: false,
+          bottomBarWidth: 500,
+          durationInMilliSeconds: 300,
+          bottomBarItems: [
+            BottomBarItem(
+              inActiveItem:
+              (IconManager.home).iconWidget(color: onSurface),
+              activeItem:
+              (IconManager.homeFill).iconWidget(color: primary),
+              itemLabel: 'Home',
+            ),
+            BottomBarItem(
+              inActiveItem:
+              (IconManager.search).iconWidget(color: onSurface),
+              activeItem:
+              (IconManager.searchFill).iconWidget(color: primary),
+              itemLabel: 'Search',
+            ),
+            BottomBarItem(
+              inActiveItem:
+              (IconManager.add).iconWidget(color: onSurface),
+              activeItem:
+              (IconManager.addFill).iconWidget(color: primary),
+              itemLabel: 'Add',
+            ),
+            BottomBarItem(
+              inActiveItem:
+              (IconManager.saved).iconWidget(color: onSurface),
+              activeItem:
+              (IconManager.savedFill).iconWidget(color: primary),
+              itemLabel: 'Saved',
+            ),
+            BottomBarItem(
+              inActiveItem:
+              (IconManager.person).iconWidget(color: onSurface),
+              activeItem:
+              (IconManager.personFill).iconWidget(color: primary),
+              itemLabel: 'Profile',
+            ),
+          ],
+          onTap: _goBranch,
+        ),
       ),
     );
   }

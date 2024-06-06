@@ -8,7 +8,7 @@ class SearchScreen extends StatelessWidget {
     return Stack(
       children: [
         Positioned(
-          top: 32,
+          top: 16,
           left: 16,
           right: 16,
           child: Container(

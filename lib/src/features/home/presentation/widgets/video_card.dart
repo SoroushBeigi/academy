@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class VideoCard extends StatelessWidget {
-  const VideoCard({super.key});
+  final bool isSaved;
+  const VideoCard({required this.isSaved,super.key});
 
   @override
   Widget build(BuildContext context) {
