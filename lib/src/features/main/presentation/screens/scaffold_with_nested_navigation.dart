@@ -54,21 +54,35 @@ class _ScaffoldWithNestedNavigationState
             (IconManager.home).iconWidget(color: onSurface),
             activeItem:
             (IconManager.homeFill).iconWidget(color: primary),
-            itemLabel: 'Page 1',
+            itemLabel: 'Home',
           ),
           BottomBarItem(
             inActiveItem:
-            (IconManager.book).iconWidget(color: onSurface),
+            (IconManager.search).iconWidget(color: onSurface),
             activeItem:
-            (IconManager.bookFill).iconWidget(color: primary),
-            itemLabel: 'Page 2',
+            (IconManager.searchFill).iconWidget(color: primary),
+            itemLabel: 'Search',
+          ),
+          BottomBarItem(
+            inActiveItem:
+            (IconManager.add).iconWidget(color: onSurface),
+            activeItem:
+            (IconManager.addFill).iconWidget(color: primary),
+            itemLabel: 'Add',
+          ),
+          BottomBarItem(
+            inActiveItem:
+            (IconManager.saved).iconWidget(color: onSurface),
+            activeItem:
+            (IconManager.savedFill).iconWidget(color: primary),
+            itemLabel: 'Saved',
           ),
           BottomBarItem(
             inActiveItem:
             (IconManager.person).iconWidget(color: onSurface),
             activeItem:
             (IconManager.personFill).iconWidget(color: primary),
-            itemLabel: 'Page 3',
+            itemLabel: 'Profile',
           ),
         ],
         onTap: _goBranch,

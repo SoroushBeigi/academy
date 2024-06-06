@@ -18,7 +18,6 @@ class ScaffoldWithNestedNavigationRail extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // todo set color with theme
     return Scaffold(
         body: Row(
           children: [
@@ -33,11 +32,18 @@ class ScaffoldWithNestedNavigationRail extends StatelessWidget {
                   label: const Text('Home'),
                 ),
                 NavigationRailDestination(
-                  icon: (IconManager.book)
+                  icon: (IconManager.add)
                       .iconWidget(color:const Color(0xFF6b6d70)),
                   selectedIcon:
-                  (IconManager.bookFill).iconWidget(color: Theme.of(context).colorScheme.primary),
-                  label: const Text('Library'),
+                  (IconManager.addFill).iconWidget(color: Theme.of(context).colorScheme.primary),
+                  label: const Text('Add'),
+                ),
+                NavigationRailDestination(
+                  icon: (IconManager.saved)
+                      .iconWidget(color:const Color(0xFF6b6d70)),
+                  selectedIcon:
+                  (IconManager.savedFill).iconWidget(color: Theme.of(context).colorScheme.primary),
+                  label: const Text('Saved'),
                 ),
                 NavigationRailDestination(
                   icon: (IconManager.person)

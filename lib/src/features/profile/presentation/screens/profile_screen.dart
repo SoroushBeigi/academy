@@ -5,8 +5,11 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
 
+      ),
     );
   }
 }

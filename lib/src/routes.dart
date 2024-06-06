@@ -11,10 +11,14 @@ class Routes {
 
   static final homeTabNavigatorKey =
       GlobalKey<NavigatorState>(debugLabel: 'homeTabNavigatorKey');
+  static final searchTabNavigatorKey =
+  GlobalKey<NavigatorState>(debugLabel: 'searchTabNavigatorKey');
+  static final addTabNavigatorKey =
+  GlobalKey<NavigatorState>(debugLabel: 'addTabNavigatorKey');
+  static final savedTabNavigatorKey =
+      GlobalKey<NavigatorState>(debugLabel: 'savedTabNavigatorKey');
   static final profileTabNavigatorKey =
-      GlobalKey<NavigatorState>(debugLabel: 'profileTabNavigatorKey');
-  static final learningTabNavigatorKey =
-      GlobalKey<NavigatorState>(debugLabel: 'learningTabNavigatorKey');
+  GlobalKey<NavigatorState>(debugLabel: 'profileTabNavigatorKey');
 
   static final routes = GoRouter(
     navigatorKey: parentNavigatorKey,
@@ -69,7 +73,35 @@ class Routes {
             ],
           ),
           StatefulShellBranch(
-            navigatorKey: learningTabNavigatorKey,
+            navigatorKey: searchTabNavigatorKey,
+            routes: [
+              GoRoute(
+                path: '/add',
+                pageBuilder: (context, state) {
+                  return getPage(
+                    child: const SearchScreen(),
+                    state: state,
+                  );
+                },
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: addTabNavigatorKey,
+            routes: [
+              GoRoute(
+                path: '/add',
+                pageBuilder: (context, state) {
+                  return getPage(
+                    child: const AddScreen(),
+                    state: state,
+                  );
+                },
+              ),
+            ],
+          ),
+          StatefulShellBranch(
+            navigatorKey: savedTabNavigatorKey,
             routes: [
               GoRoute(
                 path: '/favourite',

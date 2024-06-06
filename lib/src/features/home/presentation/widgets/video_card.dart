@@ -14,7 +14,7 @@ class VideoCard extends StatelessWidget {
           child: GestureDetector(
             onTap: () {
               context.pushNamed('videoDetails');
-            }, //TODO: go to streaming page
+            },
             child: Card(
               child: Column(
                 children: [
