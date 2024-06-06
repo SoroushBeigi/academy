@@ -12,10 +12,9 @@ import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
 import '../core/data/local/shared_pref.dart' as _i3;
-import '../features/lessons/presentation/cubit/lessons_cubit.dart' as _i4;
-import '../features/splash/presentation/bloc/splash_cubit.dart' as _i5;
+import '../features/splash/presentation/bloc/splash_cubit.dart' as _i4;
 import '../features/video_details/presentation/bloc/video_details_cubit.dart'
-    as _i6;
+    as _i5;
 
 // initializes the registration of main-scope dependencies inside of GetIt
 _i1.GetIt $initGetIt(
@@ -29,8 +28,7 @@ _i1.GetIt $initGetIt(
     environmentFilter,
   );
   gh.factory<_i3.Storage>(() => _i3.Storage());
-  gh.factory<_i4.LessonsCubit>(() => _i4.LessonsCubit());
+  gh.factory<_i4.SplashCubit>(() => _i4.SplashCubit());
   gh.factory<_i5.SplashCubit>(() => _i5.SplashCubit());
-  gh.factory<_i6.SplashCubit>(() => _i6.SplashCubit());
   return getIt;
 }

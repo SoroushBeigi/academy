@@ -1,7 +1,7 @@
-import 'package:academy/src/core/domain/entities/course_entity.dart';
 import 'package:academy/src/core/resources/resources.dart';
-import 'package:academy/src/features/lessons/presentation/pages/lessons_screen.dart';
+import 'package:academy/src/features/add/presentation/screens/add_screen.dart';
 import 'package:academy/src/features/onboarding/presentation/onboarding_screen.dart';
+import 'package:academy/src/features/search/presentation/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'features/features.dart';
@@ -76,7 +76,7 @@ class Routes {
             navigatorKey: searchTabNavigatorKey,
             routes: [
               GoRoute(
-                path: '/add',
+                path: '/search',
                 pageBuilder: (context, state) {
                   return getPage(
                     child: const SearchScreen(),
@@ -142,17 +142,17 @@ class Routes {
           );
         },
       ),
-      GoRoute(
-        path: '/lessons/:name',
-        pageBuilder: (context, state) {
-          return getPage(
-            child: LessonsScreen(
-              courseEntity: state.extra as CourseEntity,
-            ),
-            state: state,
-          );
-        },
-      ),
+      // GoRoute(
+      //   path: '/lessons/:name',
+      //   pageBuilder: (context, state) {
+      //     return getPage(
+      //       child: LessonsScreen(
+      //         courseEntity: state.extra as CourseEntity,
+      //       ),
+      //       state: state,
+      //     );
+      //   },
+      // ),
     ],
   );
 

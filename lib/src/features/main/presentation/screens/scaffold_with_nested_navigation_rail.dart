@@ -32,6 +32,13 @@ class ScaffoldWithNestedNavigationRail extends StatelessWidget {
                   label: const Text('Home'),
                 ),
                 NavigationRailDestination(
+                  icon: (IconManager.search)
+                      .iconWidget(color: const Color(0xFF6b6d70)),
+                  selectedIcon:
+                  (IconManager.searchFill).iconWidget(color: Theme.of(context).colorScheme.primary),
+                  label: const Text('Search'),
+                ),
+                NavigationRailDestination(
                   icon: (IconManager.add)
                       .iconWidget(color:const Color(0xFF6b6d70)),
                   selectedIcon:
@@ -51,7 +58,7 @@ class ScaffoldWithNestedNavigationRail extends StatelessWidget {
                   selectedIcon:
                   (IconManager.personFill).iconWidget(color: Theme.of(context).colorScheme.primary),
                   label: const Text('Profile'),
-                )
+                ),
 
               ],
               onDestinationSelected: onDestinationSelected,
