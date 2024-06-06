@@ -1,5 +1,6 @@
 import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/features/add/presentation/screens/add_screen.dart';
+import 'package:academy/src/features/auth/presentation/screens/auth_screen.dart';
 import 'package:academy/src/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:academy/src/features/search/presentation/screens/search_screen.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,10 @@ class Routes {
       GoRoute(
         path: '/onboarding',
         builder: (context, state) => const OnboardingScreen(),
+      ),
+      GoRoute(
+        path: '/auth',
+        builder: (context, state) => const AuthScreen(),
       ),
       GoRoute(
           path: '/video-details',
