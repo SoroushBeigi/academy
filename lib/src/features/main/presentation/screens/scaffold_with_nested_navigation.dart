@@ -39,6 +39,7 @@ class _ScaffoldWithNestedNavigationState
     final onSurface = Theme.of(context).colorScheme.onSurfaceVariant;
     return Scaffold(
       body: widget.navigationShell,
+      resizeToAvoidBottomInset: false,
       extendBody: true,
       bottomNavigationBar: AnimatedBottomBar(
         color: Theme.of(context).colorScheme.surface,
