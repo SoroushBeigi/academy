@@ -53,18 +53,18 @@ class VideoCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           textDirection: TextDirection.rtl,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 16, vertical: 8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Icon(isSaved == true
-                                  ? IconManager.savedFill
-                                  : IconManager.saved)
-                            ],
-                          ),
-                        )
+                        // Padding(
+                        //   padding: const EdgeInsets.symmetric(
+                        //       horizontal: 16, vertical: 8),
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.end,
+                        //     children: [
+                        //       Icon(isSaved == true
+                        //           ? IconManager.savedFill
+                        //           : IconManager.saved)
+                        //     ],
+                        //   ),
+                        // )
                       ],
                     ),
                   ),
