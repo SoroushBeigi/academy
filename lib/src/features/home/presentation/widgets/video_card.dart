@@ -82,23 +82,30 @@ class VideoCard extends StatelessWidget {
                 ? Container(
                     margin: const EdgeInsets.only(left: 8),
                     decoration: BoxDecoration(
-                        color: Colors.red.withOpacity(0.75),
-                        borderRadius: BorderRadius.circular(12)),
+                        color: Colors.red[700]!,
+                        borderRadius: BorderRadius.circular(8)),
                     child: const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 6,vertical: 4),
-                      child: Text(
-                        'Live',
-                        style: TextStyle(color: Colors.white),
+                      padding: EdgeInsets.symmetric(horizontal: 8,vertical: 4),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(Icons.settings_input_antenna,size: 15,color: Colors.white,),
+                          SizedBox(width: 4,),
+                          Text(
+                            'LIVE',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
                       ),
                     ),
                   )
                 : Container(
                     margin: const EdgeInsets.only(left: 8),
                     decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(12)),
+                        color: Colors.black.withOpacity(0.75),
+                        borderRadius: BorderRadius.circular(8)),
                     child: const Padding(
-                      padding: EdgeInsets.all(4),
+                      padding: EdgeInsets.symmetric(horizontal: 8,vertical: 4),
                       child: Text(
                         '45:20',
                         style: TextStyle(color: Colors.white),
