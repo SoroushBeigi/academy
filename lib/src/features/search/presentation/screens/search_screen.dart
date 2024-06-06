@@ -13,7 +13,7 @@ class SearchScreen extends StatelessWidget {
           right: 16,
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: Theme.of(context).colorScheme.surfaceContainerLowest,
               borderRadius: BorderRadius.circular(30.0),
               boxShadow: const [
                 BoxShadow(
