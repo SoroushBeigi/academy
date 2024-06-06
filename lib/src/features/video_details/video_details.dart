@@ -1,1 +1,1 @@
-export 'presentation/video_details_page.dart';
+export 'presentation/pages/video_details_page.dart';

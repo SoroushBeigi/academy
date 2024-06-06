@@ -1,5 +1,6 @@
 import 'package:academy/src/core/resources/app_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class VideoCard extends StatelessWidget {
   const VideoCard({super.key});
@@ -11,7 +12,9 @@ class VideoCard extends StatelessWidget {
         Container(
           margin: const EdgeInsets.symmetric(vertical: 4),
           child: GestureDetector(
-            onTap: () {}, //TODO: go to streaming page
+            onTap: () {
+              context.pushNamed('videoDetails');
+            }, //TODO: go to streaming page
             child: Card(
               child: Column(
                 children: [
