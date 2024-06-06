@@ -1,10 +1,9 @@
 import 'package:academy/src/core/resources/resources.dart';
-import 'package:academy/src/features/add/presentation/screens/add_screen.dart';
-import 'package:academy/src/features/auth/presentation/screens/auth_screen.dart';
 import 'package:academy/src/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:academy/src/features/search/presentation/screens/search_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'features/auth/presentation/screens/auth_screen.dart';
 import 'features/features.dart';
 
 class Routes {
@@ -98,7 +97,7 @@ class Routes {
                 path: '/add',
                 pageBuilder: (context, state) {
                   return getPage(
-                    child: const AddScreen(),
+                    child: const AddPage(),
                     state: state,
                   );
                 },

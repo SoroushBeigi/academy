@@ -5,3 +5,4 @@ export 'profile/profile.dart';
 export 'splash/splash.dart';
 export 'favourite/favourite.dart';
 export 'core/core.dart';
+export 'add/add.dart';
