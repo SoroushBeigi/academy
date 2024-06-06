@@ -29,6 +29,6 @@ _i1.GetIt $initGetIt(
   );
   gh.factory<_i3.Storage>(() => _i3.Storage());
   gh.factory<_i4.SplashCubit>(() => _i4.SplashCubit());
-  gh.factory<_i5.SplashCubit>(() => _i5.SplashCubit());
+  gh.factory<_i5.VideoDetailsCubit>(() => _i5.VideoDetailsCubit());
   return getIt;
 }
