@@ -9,21 +9,24 @@ class HomeScreen extends StatelessWidget {
     final crossCount = (MediaQuery.of(context).size.width ~/ 350).toInt();
     return Scaffold(
       appBar: AppBar(title: const Text('Academy')),
-      body: GridView.count(
-        crossAxisCount: crossCount == 0 ? 1 : crossCount,
-        childAspectRatio: 1.18,
-        children: const [
-          VideoCard(isSaved: false,isLive: true,),
-          VideoCard(isSaved: true),
-          VideoCard(isSaved: true),
-          VideoCard(isSaved: false),
-          VideoCard(isSaved: false),
-          VideoCard(isSaved: false),
-          VideoCard(isSaved: false),
-          VideoCard(isSaved: false),
-          VideoCard(isSaved: false),
-          VideoCard(isSaved: false),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: GridView.count(
+          crossAxisCount: crossCount == 0 ? 1 : crossCount,
+          childAspectRatio: 1.15,
+          children: const [
+            VideoCard(isSaved: false,isLive: true,),
+            VideoCard(isSaved: true),
+            VideoCard(isSaved: true),
+            VideoCard(isSaved: false),
+            VideoCard(isSaved: false),
+            VideoCard(isSaved: false),
+            VideoCard(isSaved: false),
+            VideoCard(isSaved: false),
+            VideoCard(isSaved: false),
+            VideoCard(isSaved: false),
+          ],
+        ),
       ),
     );
   }

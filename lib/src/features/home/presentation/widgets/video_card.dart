@@ -49,7 +49,7 @@ class VideoCard extends StatelessWidget {
                         Text(
                           'توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات توضیحات',
                           maxLines: 2,
-                          style: Theme.of(context).textTheme.bodyLarge,
+                          style: Theme.of(context).textTheme.bodyMedium,
                           overflow: TextOverflow.ellipsis,
                           textDirection: TextDirection.rtl,
                         ),
