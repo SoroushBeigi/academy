@@ -18,15 +18,15 @@ class Storage {
     _sharedPrefs?.setString(AppConstants.tokenKey, value);
   }
 
-  bool getSeenOnboarding() {
-    return _sharedPrefs?.getBool(AppConstants.seenOnboardingKey) ?? false;
+  bool getLoggedIn() {
+    return _sharedPrefs?.getBool(AppConstants.loggedInKey) ?? false;
   }
 
-  Future<void> setSeenOnboarding(bool value) async {
-    _sharedPrefs?.setBool(AppConstants.seenOnboardingKey, value);
+  Future<void> setLoggedIn(bool value) async {
+    _sharedPrefs?.setBool(AppConstants.loggedInKey, value);
   }
 
-  Future<void> remove() async {
+  Future<void> removeToken() async {
     await init();
     _sharedPrefs?.remove(AppConstants.tokenKey);
   }

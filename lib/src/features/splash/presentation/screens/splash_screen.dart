@@ -27,27 +27,39 @@ class _SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<_SplashScreen> {
   @override
   void initState() {
-    Future.delayed(const Duration(seconds: 2), ()async {
-      final cubit = getIt<SplashCubit>();
-      if (cubit.getOnboarded()) {
-        if (cubit.loggedIn) {
+    Future.delayed(
+      const Duration(seconds: 2),
+      () async {
+        final cubit = getIt<SplashCubit>();
+        if (cubit.getLoggedIn()) {
           context.go('/main');
         } else {
-          context.go('/auth');
-        }
-      } else {
-        if(kIsWeb){
-          if (cubit.loggedIn) {
-            context.go('/main');
-          } else {
+          if (kIsWeb) {
             context.go('/auth');
+          } else {
+            context.go('/onboarding');
           }
-        }else {
-          cubit.setOnboarded();
-          context.go('/onboarding');
         }
-      }
-    });
+        // if (cubit.getLoggedIn()) {
+        //   if (cubit.loggedIn) {
+        //     context.go('/main');
+        //   } else {
+        //     context.go('/auth');
+        //   }
+        // } else {
+        //   if(kIsWeb){
+        //     if (cubit.loggedIn) {
+        //       context.go('/main');
+        //     } else {
+        //       context.go('/auth');
+        //     }
+        //   }else {
+        //     cubit.setOnboarded();
+        //     context.go('/onboarding');
+        //   }
+        // }
+      },
+    );
     super.initState();
   }
 

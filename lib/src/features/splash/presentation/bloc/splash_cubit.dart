@@ -10,12 +10,12 @@ part 'splash_cubit.freezed.dart';
 @injectable
 class SplashCubit extends Cubit<SplashState> {
   SplashCubit() : super(const SplashState.initial());
-  bool loggedIn = true; //TODO: get from storage and navigate to login/main page based on this value
+  bool loggedIn = false;
 
-  bool getOnboarded(){
-    return getIt<Storage>().getSeenOnboarding();
+  bool getLoggedIn(){
+    return getIt<Storage>().getLoggedIn();
   }
-  Future<void> setOnboarded()async{
-     getIt<Storage>().setSeenOnboarding(true);
+  Future<void> setLoggedIn()async{
+     getIt<Storage>().setLoggedIn(true);
   }
 }
