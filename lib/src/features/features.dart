@@ -6,3 +6,4 @@ export 'splash/splash.dart';
 export 'favourite/favourite.dart';
 export 'core/core.dart';
 export 'add/add.dart';
+export 'search/search.dart';

@@ -1,19 +1,18 @@
 import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/features/core/core.dart';
-import 'package:academy/src/features/home/presentation/pages/maobile_page/widgets/more_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
-class RelatedVideoContainer extends StatelessWidget {
-  const RelatedVideoContainer(
+class VideoWidget extends StatelessWidget {
+  const VideoWidget(
       {super.key,
-      required this.imageTitle,
-      required this.title,
-      required this.duration,
-      required this.viewsNumber,
-      required this.publisherName,
-      required this.publisherTime,
-      required this.isLive});
+        required this.imageTitle,
+        required this.title,
+        required this.duration,
+        required this.viewsNumber,
+        required this.publisherName,
+        required this.publisherTime,
+        required this.isLive});
 
   final String imageTitle;
   final String title;
@@ -49,7 +48,6 @@ class RelatedVideoContainer extends StatelessWidget {
                       image: DecorationImage(
                         image: imageProvider,
                         fit: BoxFit.cover,
-                        // colorFilter: ColorFilter.mode(Colors.red, BlendMode.colorBurn),
                       ),
                     ),
                   ),
@@ -62,44 +60,44 @@ class RelatedVideoContainer extends StatelessWidget {
                     padding: const EdgeInsets.all(AppPadding.p8),
                     child: isLive == true
                         ? Container(
-                            margin: const EdgeInsets.only(left: 8),
-                            decoration: BoxDecoration(
-                                color: Colors.red[700]!,
-                                borderRadius: BorderRadius.circular(8)),
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 4),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.settings_input_antenna,
-                                    size: 15,
-                                    color: Colors.white,
-                                  ),
-                                  SizedBox(
-                                    width: 4,
-                                  ),
-                                  Text(
-                                    'LIVE',
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ],
-                              ),
+                      margin: const EdgeInsets.only(left: 8),
+                      decoration: BoxDecoration(
+                          color: Colors.red[700]!,
+                          borderRadius: BorderRadius.circular(8)),
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.settings_input_antenna,
+                              size: 15,
+                              color: Colors.white,
                             ),
-                          )
+                            SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              'LIVE',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
                         : Container(
-                            margin: const EdgeInsets.only(left: 8),
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                                color: Colors.black.withOpacity(0.75),
-                                borderRadius: BorderRadius.circular(8)),
-                            child: Text(
-                              duration,
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                          ),
+                      margin: const EdgeInsets.only(left: 8),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.75),
+                          borderRadius: BorderRadius.circular(8)),
+                      child: Text(
+                        duration,
+                        style: const TextStyle(color: Colors.white),
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -116,8 +114,6 @@ class RelatedVideoContainer extends StatelessWidget {
                 Text('$publisherName ---'),
                 Text('$viewsNumber views ---'),
                 Text(publisherTime),
-                const Spacer(),
-                const MoreWidget(),
               ],
             ),
           )

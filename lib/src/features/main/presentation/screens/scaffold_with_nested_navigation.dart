@@ -39,6 +39,7 @@ class _ScaffoldWithNestedNavigationState
     final onSurface = Theme.of(context).colorScheme.onSurfaceVariant;
     return SafeArea(
       child: Scaffold(
+        // key: MainCubit.scaffoldKey,
         body: widget.navigationShell,
         resizeToAvoidBottomInset: false,
         extendBody: true,

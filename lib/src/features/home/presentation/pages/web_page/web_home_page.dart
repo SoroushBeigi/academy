@@ -1,8 +1,8 @@
 import 'package:academy/src/features/home/presentation/widgets/video_card.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class WebHomePage extends StatelessWidget {
+  const WebHomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
