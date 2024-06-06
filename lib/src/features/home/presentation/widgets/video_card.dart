@@ -1,10 +1,13 @@
 import 'package:academy/src/core/resources/app_constants.dart';
+import 'package:academy/src/core/resources/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class VideoCard extends StatelessWidget {
-  final bool isSaved;
-  const VideoCard({required this.isSaved,super.key});
+  final bool? isSaved;
+  final bool? isLive;
+
+  const VideoCard({this.isSaved, this.isLive, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +53,18 @@ class VideoCard extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           textDirection: TextDirection.rtl,
                         ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Icon(isSaved == true
+                                  ? IconManager.savedFill
+                                  : IconManager.saved)
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   ),
@@ -60,15 +75,36 @@ class VideoCard extends StatelessWidget {
         ),
         Column(
           children: [
-            const SizedBox(height: 175,),
-            Container(
-              margin: const EdgeInsets.only(left:8),
-              decoration: BoxDecoration(color: Colors.black.withOpacity(0.5),borderRadius: BorderRadius.circular(12)),
-              child: const Padding(
-                padding: EdgeInsets.all(4),
-                child: Text('45:20',style: TextStyle(color: Colors.white),),
-              ),
+            const SizedBox(
+              height: 175,
             ),
+            isLive == true
+                ? Container(
+                    margin: const EdgeInsets.only(left: 8),
+                    decoration: BoxDecoration(
+                        color: Colors.red.withOpacity(0.75),
+                        borderRadius: BorderRadius.circular(12)),
+                    child: const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 6,vertical: 4),
+                      child: Text(
+                        'Live',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  )
+                : Container(
+                    margin: const EdgeInsets.only(left: 8),
+                    decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.5),
+                        borderRadius: BorderRadius.circular(12)),
+                    child: const Padding(
+                      padding: EdgeInsets.all(4),
+                      child: Text(
+                        '45:20',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ),
           ],
         )
       ],

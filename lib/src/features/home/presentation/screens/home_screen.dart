@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
         crossAxisCount: crossCount == 0 ? 1 : crossCount,
         childAspectRatio: 1.18,
         children: const [
-          VideoCard(isSaved: false),
+          VideoCard(isSaved: false,isLive: true,),
           VideoCard(isSaved: true),
           VideoCard(isSaved: true),
           VideoCard(isSaved: false),
