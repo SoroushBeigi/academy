@@ -1,32 +1,35 @@
+import 'package:academy/src/core/logic/common/date_format.dart';
 import 'package:academy/src/core/resources/resources.dart';
-import 'package:academy/src/features/core/core.dart';
-import 'package:academy/src/features/features.dart';
 import 'package:academy/src/features/home/presentation/pages/mobile_page/widgets/more_widget.dart';
+import 'package:academy/video_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class RelatedVideoContainer extends StatelessWidget {
-  const RelatedVideoContainer(
-      {super.key,
-        // required this.videoModel,
-      required this.imageTitle,
-      required this.title,
-      required this.duration,
-      required this.viewsNumber,
-      required this.publisherName,
-      required this.publisherTime,
-      required this.isLive,
-      });
+import '../../../../../core/ui_kits/ac_loading/ac_loading.dart';
 
-  // final VideoModel videoModel;
-  final String imageTitle;
-  final String title;
-  final String duration;
-  final String viewsNumber;
-  final String publisherName;
-  final String publisherTime;
-  final bool isLive;
+class RelatedVideoContainer extends StatelessWidget {
+  const RelatedVideoContainer({
+    super.key,
+    required this.videoModel,
+    // required this.imageTitle,
+    // required this.title,
+    // required this.duration,
+    // required this.viewsNumber,
+    // required this.publisherName,
+    // required this.publisherTime,
+    // required this.isLive,
+  });
+
+  final VideoModel videoModel;
+
+  // final String imageTitle;
+  // final String title;
+  // final String duration;
+  // final String viewsNumber;
+  // final String publisherName;
+  // final String publisherTime;
+  // final bool isLive;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +38,8 @@ class RelatedVideoContainer extends StatelessWidget {
         context.pushNamed('videoDetails');
       },
       child: Container(
-        margin: const EdgeInsets.symmetric(vertical: AppPadding.p8,horizontal: AppPadding.p8),
+        margin: const EdgeInsets.symmetric(
+            vertical: AppPadding.p8, horizontal: AppPadding.p8),
         width: double.infinity,
         height: MediaQuery.of(context).size.height * 0.3,
         decoration: BoxDecoration(
@@ -56,7 +60,7 @@ class RelatedVideoContainer extends StatelessWidget {
                     child: CachedNetworkImage(
                       fit: BoxFit.contain,
                       imageUrl:
-                      // videoModel.imageUrl ??
+                          // videoModel.imageUrl ??
                           "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
                       imageBuilder: (context, imageProvider) => Container(
                         decoration: BoxDecoration(
@@ -68,14 +72,15 @@ class RelatedVideoContainer extends StatelessWidget {
                         ),
                       ),
                       placeholder: (context, url) => const ACLoading(),
-                      errorWidget: (context, url, error) => const Icon(Icons.error),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
                   ),
                   Align(
                     alignment: Alignment.bottomLeft,
                     child: Padding(
                       padding: const EdgeInsets.all(AppPadding.p8),
-                      child: isLive == true
+                      child: videoModel.isLive == true
                           ? Container(
                               margin: const EdgeInsets.only(left: 8),
                               decoration: BoxDecoration(
@@ -111,7 +116,7 @@ class RelatedVideoContainer extends StatelessWidget {
                                   color: Colors.black.withOpacity(0.75),
                                   borderRadius: BorderRadius.circular(8)),
                               child: Text(
-                                duration,
+                                videoModel.duration ?? '01:30',
                                 style: const TextStyle(color: Colors.white),
                               ),
                             ),
@@ -122,15 +127,17 @@ class RelatedVideoContainer extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.all(AppPadding.p8),
-              child: Text(title, style: Theme.of(context).textTheme.titleMedium),
+              child: Text(videoModel.title ?? 'title',
+                  style: Theme.of(context).textTheme.titleMedium),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8),
               child: Row(
                 children: [
-                  Text('$publisherName ---'),
-                  Text('$viewsNumber views ---'),
-                  Text(publisherTime),
+                  // Text('$publisherName ---'),
+                  Text('${videoModel.viewCount ?? 0} views ---'),
+                  Text(DateFormat.timeAgo(
+                      videoModel.publishTime ?? DateTime.now())),
                   const Spacer(),
                   const MoreWidget(),
                 ],

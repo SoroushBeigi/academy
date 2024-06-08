@@ -1,4 +1,5 @@
 import 'package:academy/src/features/video_details/presentation/pages/widgets/related_video/related_video_container.dart';
+import 'package:academy/video_model.dart';
 import 'package:flutter/material.dart';
 
 class RelatedVideo extends StatelessWidget {
@@ -9,33 +10,36 @@ class RelatedVideo extends StatelessWidget {
     return ListView(
       physics: const BouncingScrollPhysics(),
       shrinkWrap: true,
-      children: const [
+      children:  [
         RelatedVideoContainer(
-          imageTitle: "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
-          title: 'Golang Tutorial',
-          duration: '45:35',
-          viewsNumber: '125',
-          publisherName: 'Amirhossein',
-          publisherTime: '1 month ago',
-          isLive: false,
+          videoModel: VideoModel(
+              title: 'Golang Tutorial',
+              imageUrl:
+              "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
+              viewCount: 24,
+              duration: '45:20',
+              publishTime: DateTime.now().subtract(const Duration(days: 45))
+          ),
         ),
         RelatedVideoContainer(
-          imageTitle: "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
-          title: 'Golang Tutorial',
-          duration: '45:35',
-          viewsNumber: '125',
-          publisherName: 'Amirhossein',
-          publisherTime: '1 month ago',
-          isLive: true,
+          videoModel: VideoModel(
+              title: 'Golang Tutorial',
+              imageUrl:
+              "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
+              viewCount: 24,
+              duration: '45:20',
+              publishTime: DateTime.now().subtract(const Duration(days: 45))
+          ),
         ),
         RelatedVideoContainer(
-          imageTitle: "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
-          title: 'Golang Tutorial',
-          duration: '45:35',
-          viewsNumber: '125',
-          publisherName: 'Amirhossein',
-          publisherTime: '1 month ago',
-          isLive: false,
+          videoModel: VideoModel(
+              title: 'Golang Tutorial',
+              imageUrl:
+              "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
+              viewCount: 24,
+              duration: '45:20',
+              publishTime: DateTime.now().subtract(const Duration(days: 45))
+          ),
         ),
       ],
     );

@@ -14,9 +14,10 @@ import 'package:injectable/injectable.dart' as _i2;
 import '../core/data/local/shared_pref.dart' as _i3;
 import '../features/add/presentation/cubit/add_cubit.dart' as _i4;
 import '../features/auth/presentation/cubit/auth_cubit.dart' as _i5;
-import '../features/splash/presentation/bloc/splash_cubit.dart' as _i6;
+import '../features/home/presentation/bloc/home_cubit.dart' as _i6;
+import '../features/splash/presentation/bloc/splash_cubit.dart' as _i7;
 import '../features/video_details/presentation/bloc/video_details_cubit.dart'
-    as _i7;
+    as _i8;
 
 // initializes the registration of main-scope dependencies inside of GetIt
 _i1.GetIt $initGetIt(
@@ -32,7 +33,8 @@ _i1.GetIt $initGetIt(
   gh.factory<_i3.Storage>(() => _i3.Storage());
   gh.factory<_i4.AddCubit>(() => _i4.AddCubit());
   gh.factory<_i5.AuthCubit>(() => _i5.AuthCubit());
-  gh.factory<_i6.SplashCubit>(() => _i6.SplashCubit());
-  gh.factory<_i7.VideoDetailsCubit>(() => _i7.VideoDetailsCubit());
+  gh.factory<_i6.HomeCubit>(() => _i6.HomeCubit());
+  gh.factory<_i7.SplashCubit>(() => _i7.SplashCubit());
+  gh.factory<_i8.VideoDetailsCubit>(() => _i8.VideoDetailsCubit());
   return getIt;
 }

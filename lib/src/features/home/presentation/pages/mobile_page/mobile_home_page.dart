@@ -1,14 +1,31 @@
-import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/core/resources/resources.dart';
+import 'package:academy/src/di/di_setup.dart';
+import 'package:academy/src/features/home/presentation/bloc/home_state.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/related_video/related_video_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class MobileHomePage extends StatelessWidget {
+import '../../../../core/ui_kits/ac_loading/ac_loading.dart';
+import '../../bloc/home_cubit.dart';
+
+class MobileHomePage extends StatefulWidget {
   const MobileHomePage({super.key});
 
   @override
+  State<MobileHomePage> createState() => _MobileHomePageState();
+}
+
+class _MobileHomePageState extends State<MobileHomePage> {
+  @override
+  void initState() {
+    print('init');
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    print('build');
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).academy),
@@ -16,43 +33,20 @@ class MobileHomePage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(AppPadding.p16),
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
-          child: Column(
-            children: [
-              const RelatedVideoContainer(
-                imageTitle:
-                    "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
-                title: 'Golang Tutorial',
-                duration: '45:35',
-                viewsNumber: '125',
-                publisherName: 'Amirhossein',
-                publisherTime: '1 month ago',
-                isLive: false,
-              ),
-              const RelatedVideoContainer(
-                imageTitle:
-                    "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
-                title: 'Golang Tutorial',
-                duration: '45:35',
-                viewsNumber: '125',
-                publisherName: 'Amirhossein',
-                publisherTime: '1 month ago',
-                isLive: true,
-              ),
-              const RelatedVideoContainer(
-                imageTitle:
-                    "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
-                title: 'Golang Tutorial',
-                duration: '45:35',
-                viewsNumber: '125',
-                publisherName: 'Amirhossein',
-                publisherTime: '1 month ago',
-                isLive: false,
-              ),
-              (AppSize.s60).heightSizeBox(),
-            ],
-          ),
+        child: BlocBuilder<HomeCubit, HomeState>(
+          builder: (context, state) {
+            return state.whenOrNull(
+              initial: ()=>Text('initial'),
+                  loading: () => ACLoading(),
+                  done: () => ListView.builder(
+                    itemCount: context.read<HomeCubit>().videos.length,
+                    itemBuilder: (context, index) => RelatedVideoContainer(
+                      videoModel: context.read<HomeCubit>().videos[index],
+                    ),
+                  ),
+                ) ??
+                SizedBox();
+          },
         ),
       ),
     );

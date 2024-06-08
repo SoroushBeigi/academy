@@ -1,11 +1,13 @@
 import 'package:academy/src/core/resources/app_constants.dart';
+import 'package:academy/video_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
 
-part 'home_state.dart';
-part 'home_cubit.freezed.dart';
+import 'home_state.dart';
 
+
+@injectable
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(const HomeState.initial());
   final _dio = Dio(
@@ -17,45 +19,17 @@ class HomeCubit extends Cubit<HomeState> {
   List<VideoModel> videos = [];
 
   Future<void> getVideos() async{
+    print('reached');
+    emit(const HomeState.loading());
     try{
       final result = await _dio.get('/content');
       final fetchedVideos = (result.data as List).map((json) => VideoModel.fromJson(json)).toList();
       videos.addAll(fetchedVideos);
+      print(videos);
+      emit(const HomeState.done());
     }on DioException catch(e){
       print(e.error);
     }
   }
 }
 
-class VideoModel {
-  int? id;
-  int? categoryId;
-  int? authorId;
-  String? title;
-  String? description;
-  String? authorName;
-  String? url;
-  String? imageUrl;
-
-  VideoModel({
-    this.id,
-    this.categoryId,
-    this.authorId,
-    this.title,
-    this.description,
-    this.authorName,
-    this.url,
-    this.imageUrl,
-  });
-
-  VideoModel.fromJson(dynamic json){
-    id=json['id'];
-    title=json['title'];
-    description=json['description'];
-    url=json['url'];
-    categoryId=json['category_id'];
-    authorId=json['author_id'];
-    authorName=json['author_name'];
-    imageUrl=json['image_url'];
-  }
-}

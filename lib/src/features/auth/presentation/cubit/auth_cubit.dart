@@ -44,15 +44,23 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<String?> login(String email, String password) async {
-    final result = await _dio.get('/users');
-    final List<UserModel> users =(result.data as List).map((userJson) => UserModel.fromJson(userJson)).toList();
-    for (var user in users) {
-      if(user.email==email && user.password==password){
-        setLoggedIn();
-        return null;
-      }
-    }
-    return 'Login Failed';
+   try{
+     final result = await _dio.get('/users');
+     final List<UserModel> users =(result.data as List).map((userJson) => UserModel.fromJson(userJson)).toList();
+     print(users);
+     for (var user in users) {
+       if(user.email==email && user.password==password){
+         print(user.username);
+         setLoggedIn();
+         return null;
+       }
+     }
+     return 'Login Failed';
+   }on DioException catch(e){
+     print(e.error);
+     return 'Login Failed';
+   }
+
   }
 
   Future<void> setLoggedIn() async {
