@@ -1,5 +1,6 @@
 import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/features/onboarding/presentation/onboarding_screen.dart';
+import 'package:academy/video_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'features/auth/presentation/screens/auth_screen.dart';
@@ -40,6 +41,7 @@ class Routes {
           path: '/video-details',
           name: 'videoDetails',
           pageBuilder: (BuildContext context, GoRouterState state) {
+            final videoModel = state.extra as VideoModel;
             return CustomTransitionPage(
               key: state.pageKey,
               transitionDuration: AppTimes().t300,
@@ -55,7 +57,7 @@ class Routes {
                       child: child,
                     );
                   },
-              child: const VideoDetails(),
+              child: VideoDetails(videoModel: videoModel),
             );
           }),
       StatefulShellRoute.indexedStack(

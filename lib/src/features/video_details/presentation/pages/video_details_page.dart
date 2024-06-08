@@ -6,11 +6,14 @@ import 'package:academy/src/features/video_details/presentation/bloc/video_detai
 import 'package:academy/src/features/video_details/presentation/pages/widgets/description_video.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/related_video/related_video.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/video_player_widget/video_player_widget.dart';
+import 'package:academy/video_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class VideoDetails extends StatelessWidget {
-  const VideoDetails({super.key});
+  const VideoDetails({required this.videoModel, super.key});
+
+  final VideoModel videoModel;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +37,7 @@ class VideoDetails extends StatelessWidget {
                 thickness: AppSize.s1,
                 color: Theme.of(context).colorScheme.onSurface,
               ),
-              const DescriptionVideo(),
+              DescriptionVideo(videoModel: videoModel),
               (AppSize.s12).heightSizeBox(),
               Container(
                 padding: const EdgeInsets.all(AppPadding.p8),
@@ -47,18 +50,20 @@ class VideoDetails extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Comment',style: Theme.of(context).textTheme.titleMedium,),
+                    Text(
+                      'Comment',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                     (AppSize.s8).heightSizeBox(),
                     TextFormField(
                       decoration: InputDecoration(
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(AppSize.s12),
-                          borderSide: BorderSide(
-                            color: Theme.of(context).colorScheme.onSurface,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(AppSize.s12),
+                            borderSide: BorderSide(
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
                           ),
-                        ),
-                        hintText: 'Add a comment...'
-                      ),
+                          hintText: 'Add a comment...'),
                     )
                   ],
                 ),

@@ -12,30 +12,15 @@ class RelatedVideoContainer extends StatelessWidget {
   const RelatedVideoContainer({
     super.key,
     required this.videoModel,
-    // required this.imageTitle,
-    // required this.title,
-    // required this.duration,
-    // required this.viewsNumber,
-    // required this.publisherName,
-    // required this.publisherTime,
-    // required this.isLive,
   });
 
   final VideoModel videoModel;
-
-  // final String imageTitle;
-  // final String title;
-  // final String duration;
-  // final String viewsNumber;
-  // final String publisherName;
-  // final String publisherTime;
-  // final bool isLive;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.pushNamed('videoDetails');
+        context.pushNamed('videoDetails',extra: videoModel,);
       },
       child: Container(
         margin: const EdgeInsets.symmetric(
