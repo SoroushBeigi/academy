@@ -1,4 +1,4 @@
-import 'package:academy/src/core/extensions/extensions.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/related_video/related_video_container.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +18,7 @@ class SearchWebPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: TextField(
                 decoration: InputDecoration(
-                  hintText: 'Start searching...',
+                  hintText: AppLocalizations.of(context).startSearching,
                   prefixIcon: const Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: const BorderRadius.all(Radius.circular(AppSize.s12)),

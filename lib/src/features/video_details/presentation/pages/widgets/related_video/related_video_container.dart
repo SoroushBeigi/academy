@@ -1,6 +1,6 @@
 import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/features/core/core.dart';
-import 'package:academy/src/features/home/presentation/pages/maobile_page/widgets/more_widget.dart';
+import 'package:academy/src/features/home/presentation/pages/mobile_page/widgets/more_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

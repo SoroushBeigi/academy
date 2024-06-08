@@ -1,3 +1,9 @@
 {
-    "helloWorld": "سلام"
+    "helloWorld": "سلام",
+    "academy": "آکادمی",
+    "currentLanguage": "FA",
+    "appTheme": "تم نرم\u200Cافزار",
+    "appLanguage": "زبان نرم\u200Cافزار",
+    "profileSettings": "پروفایل و تنظیمات",
+    "startSearching": "جستجو..."
 }

@@ -1,5 +1,6 @@
 import 'package:academy/src/features/video_details/presentation/pages/widgets/related_video/related_video_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class WebHomePage extends StatelessWidget {
   const WebHomePage({super.key});
@@ -8,7 +9,7 @@ class WebHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final crossCount = (MediaQuery.of(context).size.width ~/ 350).toInt();
     return Scaffold(
-      appBar: AppBar(title: const Text('Academy')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context).academy),),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: GridView.count(

@@ -1,5 +1,11 @@
 {
   "helloWorld": "Hello World!",
+  "academy": "Academy",
+  "currentLanguage": "EN",
+  "appTheme": "App Theme",
+  "appLanguage": "App Language",
+  "profileSettings": "Profile & Settings",
+  "startSearching": "Start searching...",
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
   }
