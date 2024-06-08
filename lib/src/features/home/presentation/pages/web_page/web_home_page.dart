@@ -9,59 +9,74 @@ class WebHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final crossCount = (MediaQuery.of(context).size.width ~/ 350).toInt();
     return Scaffold(
-      appBar: AppBar(title: Text(AppLocalizations.of(context).academy),),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context).academy),
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
-        child: GridView.count(
-          crossAxisCount: crossCount == 0 ? 1 : crossCount,
-          childAspectRatio: 1.15,
-          children: const [
-            const RelatedVideoContainer(
-              imageTitle: "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
-              title: 'Golang Tutorial',
-              duration: '45:35',
-              viewsNumber: '125',
-              publisherName: 'Amirhossein',
-              publisherTime: '1 month ago',
-              isLive: false,
-            ),
-            const RelatedVideoContainer(
-              imageTitle: "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
-              title: 'Golang Tutorial',
-              duration: '45:35',
-              viewsNumber: '125',
-              publisherName: 'Amirhossein',
-              publisherTime: '1 month ago',
-              isLive: false,
-            ),
-            const RelatedVideoContainer(
-              imageTitle: "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
-              title: 'Golang Tutorial',
-              duration: '45:35',
-              viewsNumber: '125',
-              publisherName: 'Amirhossein',
-              publisherTime: '1 month ago',
-              isLive: false,
-            ),
-            const RelatedVideoContainer(
-              imageTitle: "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
-              title: 'Golang Tutorial',
-              duration: '45:35',
-              viewsNumber: '125',
-              publisherName: 'Amirhossein',
-              publisherTime: '1 month ago',
-              isLive: true,
-            ),
-            const RelatedVideoContainer(
-              imageTitle: "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
-              title: 'Golang Tutorial',
-              duration: '45:35',
-              viewsNumber: '125',
-              publisherName: 'Amirhossein',
-              publisherTime: '1 month ago',
-              isLive: false,
-            ),
-          ],
+        child: GridView.builder(
+          // crossAxisCount: crossCount == 0 ? 1 : crossCount,
+          // childAspectRatio: 1.25,
+          itemBuilder: (context, index) => RelatedVideoContainer(
+            imageTitle:
+                "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
+            title: 'Golang Tutorial',
+            duration: '45:35',
+            viewsNumber: '125',
+            publisherName: 'Amirhossein',
+            publisherTime: '1 month ago',
+            isLive: false,
+          ),
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              maxCrossAxisExtent:
+                  (MediaQuery.of(context).size.width ~/ 350).toDouble()),
+          // children: const [
+          //   RelatedVideoContainer(
+          //     imageTitle: "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
+          //     title: 'Golang Tutorial',
+          //     duration: '45:35',
+          //     viewsNumber: '125',
+          //     publisherName: 'Amirhossein',
+          //     publisherTime: '1 month ago',
+          //     isLive: false,
+          //   ),
+          //   RelatedVideoContainer(
+          //     imageTitle: "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
+          //     title: 'Golang Tutorial',
+          //     duration: '45:35',
+          //     viewsNumber: '125',
+          //     publisherName: 'Amirhossein',
+          //     publisherTime: '1 month ago',
+          //     isLive: false,
+          //   ),
+          //   RelatedVideoContainer(
+          //     imageTitle: "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
+          //     title: 'Golang Tutorial',
+          //     duration: '45:35',
+          //     viewsNumber: '125',
+          //     publisherName: 'Amirhossein',
+          //     publisherTime: '1 month ago',
+          //     isLive: false,
+          //   ),
+          //   RelatedVideoContainer(
+          //     imageTitle: "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
+          //     title: 'Golang Tutorial',
+          //     duration: '45:35',
+          //     viewsNumber: '125',
+          //     publisherName: 'Amirhossein',
+          //     publisherTime: '1 month ago',
+          //     isLive: true,
+          //   ),
+          //   RelatedVideoContainer(
+          //     imageTitle: "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
+          //     title: 'Golang Tutorial',
+          //     duration: '45:35',
+          //     viewsNumber: '125',
+          //     publisherName: 'Amirhossein',
+          //     publisherTime: '1 month ago',
+          //     isLive: false,
+          //   ),
+          // ],
         ),
       ),
     );

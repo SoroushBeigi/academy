@@ -1,5 +1,6 @@
 import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/features/core/core.dart';
+import 'package:academy/src/features/features.dart';
 import 'package:academy/src/features/home/presentation/pages/mobile_page/widgets/more_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -8,14 +9,17 @@ import 'package:go_router/go_router.dart';
 class RelatedVideoContainer extends StatelessWidget {
   const RelatedVideoContainer(
       {super.key,
+        // required this.videoModel,
       required this.imageTitle,
       required this.title,
       required this.duration,
       required this.viewsNumber,
       required this.publisherName,
       required this.publisherTime,
-      required this.isLive});
+      required this.isLive,
+      });
 
+  // final VideoModel videoModel;
   final String imageTitle;
   final String title;
   final String duration;
@@ -51,7 +55,9 @@ class RelatedVideoContainer extends StatelessWidget {
                         top: Radius.circular(12), bottom: Radius.zero),
                     child: CachedNetworkImage(
                       fit: BoxFit.contain,
-                      imageUrl: imageTitle,
+                      imageUrl:
+                      // videoModel.imageUrl ??
+                          "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
                       imageBuilder: (context, imageProvider) => Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
