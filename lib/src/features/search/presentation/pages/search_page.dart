@@ -10,7 +10,7 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ResponsiveWidget(
-        smallScreen: SearchMobilePage(),
+      smallScreen: SearchMobilePage(),
       largeScreen: SearchWebPage(),
     );
   }

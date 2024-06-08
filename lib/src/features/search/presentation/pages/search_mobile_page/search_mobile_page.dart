@@ -30,6 +30,7 @@ class SearchMobilePage extends StatelessWidget {
                   const EdgeInsets.symmetric(vertical: AppPadding.p8, horizontal: AppPadding.p18),
                 ),
               ),
+              const SizedBox(height: 12),
               const RelatedVideoContainer(
                 imageTitle: "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
                 title: 'Golang Tutorial',
