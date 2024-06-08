@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../core/ui_kits/ac_loading/ac_loading.dart';
+import '../../../bloc/video_details_cubit.dart';
 
 class RelatedVideoContainer extends StatelessWidget {
   const RelatedVideoContainer({
@@ -20,6 +21,8 @@ class RelatedVideoContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
+        VideoDetailsCubit.url = videoModel.url!;
+        print(VideoDetailsCubit.url);
         context.pushNamed('videoDetails',extra: videoModel,);
       },
       child: Container(
