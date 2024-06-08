@@ -17,14 +17,26 @@ class AuthScreen extends StatelessWidget {
         return AddCubit();
       },
       child: FlutterLogin(
+        additionalSignupFields: const [
+          UserFormField(
+            keyName: 'username',
+            icon: Icon(Icons.person),
+          )
+        ],
         onLogin: (p0) {
-          cubit.setLoggedIn();
+          cubit.login();
           context.go('/main');
         },
         onRecoverPassword: (p0) => null,
-        onSignup: (p0) {
-          cubit.setLoggedIn();
-          context.go('/main');
+        onSignup: (p0) async {
+          final result = await cubit.register(p0.name ?? '', p0.password ?? '',
+              p0.additionalSignupData?['username'] ?? '');
+          if (result == null) {
+            context.go('/main');
+            return null;
+          } else {
+            return result;
+          }
         },
       ),
     );
