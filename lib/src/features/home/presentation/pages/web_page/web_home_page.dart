@@ -42,8 +42,10 @@ class _WebHomePageState extends State<WebHomePage> {
                   itemBuilder: (context, index) => RelatedVideoContainer(
                     videoModel: cubit.videos[index],
                   ),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: crossCount==0? 1 :crossCount),
-
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: crossCount == 0 ? 1 : crossCount,
+                    childAspectRatio: 1.2,
+                  ),
                 ),
               ) ??
               const SizedBox();
