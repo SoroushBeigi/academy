@@ -23,9 +23,14 @@ class AuthScreen extends StatelessWidget {
             icon: Icon(Icons.person),
           )
         ],
-        onLogin: (p0) {
-          cubit.login();
-          context.go('/main');
+        onLogin: (p0)async {
+          final result = await cubit.login(p0.name,p0.password);
+          if(result==null){
+            context.go('/main');
+            return null;
+          }else{
+            return result;
+          }
         },
         onRecoverPassword: (p0) => null,
         onSignup: (p0) async {
