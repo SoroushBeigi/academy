@@ -9,7 +9,7 @@ import 'home_state.dart';
 
 @injectable
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit() : super(const HomeState.initial());
+  HomeCubit() : super(const HomeState.loading());
   final _dio = Dio(
     BaseOptions(
       baseUrl: AppConstants.baseUrl,

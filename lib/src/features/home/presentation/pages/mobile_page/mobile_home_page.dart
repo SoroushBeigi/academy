@@ -21,6 +21,7 @@ class _MobileHomePageState extends State<MobileHomePage> {
   void initState() {
     print('init');
     super.initState();
+    getIt<HomeCubit>().getVideos();
   }
 
   @override
@@ -36,8 +37,7 @@ class _MobileHomePageState extends State<MobileHomePage> {
         child: BlocBuilder<HomeCubit, HomeState>(
           builder: (context, state) {
             return state.whenOrNull(
-              initial: ()=>Text('initial'),
-                  loading: () => ACLoading(),
+                  loading: () => const ACLoading(),
                   done: () => ListView.builder(
                     itemCount: context.read<HomeCubit>().videos.length,
                     itemBuilder: (context, index) => RelatedVideoContainer(

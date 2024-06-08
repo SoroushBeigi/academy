@@ -33,7 +33,7 @@ class DescriptionVideo extends StatelessWidget {
                     DateTime.now().subtract(
                       const Duration(days: 5),
                     ),
-              )} ago',
+              )}',
               style: Theme.of(context)
                   .textTheme
                   .bodyMedium
