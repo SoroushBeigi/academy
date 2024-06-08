@@ -26,7 +26,7 @@ class RelatedVideoContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: AppPadding.p12),
+      margin: const EdgeInsets.symmetric(vertical: AppPadding.p12,horizontal: AppPadding.p12),
       width: double.infinity,
       height: MediaQuery.of(context).size.height * 0.3,
       decoration: BoxDecoration(

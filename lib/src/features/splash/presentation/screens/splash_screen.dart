@@ -31,6 +31,7 @@ class _SplashScreenState extends State<_SplashScreen> {
       const Duration(seconds: 2),
       () async {
         final cubit = getIt<SplashCubit>();
+        print(cubit.getLoggedIn());
         if (cubit.getLoggedIn()) {
           context.go('/main');
         } else {

@@ -36,11 +36,11 @@ class OnboardingScreen extends StatelessWidget {
         radius: screenWidth * 0.1,
         // curve: Curves.ease,
         onFinish: (){
-          context.go('/main');
+          context.go('/auth');
         },
         onChange: (page) {
           if(page==AppConstants.onboardingPagesCount){
-            context.go('/main');
+            context.go('/auth');
           }
         },
         nextButtonBuilder: (context) => Padding(
