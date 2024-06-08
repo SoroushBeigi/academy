@@ -1,4 +1,5 @@
 import 'package:academy/src/core/resources/resources.dart';
+import 'package:academy/src/features/video_details/presentation/bloc/video_details_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
@@ -13,7 +14,7 @@ class VideoPlayerWidget extends StatefulWidget {
 }
 
 class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
-  final videoPlayerController = VideoPlayerController.networkUrl(Uri.parse('https://flutter.github.io/assets-for-api-docs/assets/videos/butterfly.mp4'));
+  final videoPlayerController = VideoPlayerController.networkUrl(Uri.parse('http://172.16.251.80/${VideoDetailsCubit.url}'));
   late VideoPlayerController _videoPlayerController1;
   late VideoPlayerController _videoPlayerController2;
   ChewieController? _chewieController;
@@ -34,16 +35,16 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   }
 
   List<String> srcs = [
-    "https://assets.mixkit.co/videos/preview/mixkit-spinning-around-the-earth-29351-large.mp4",
-    "https://assets.mixkit.co/videos/preview/mixkit-daytime-city-traffic-aerial-view-56-large.mp4",
-    "https://assets.mixkit.co/videos/preview/mixkit-a-girl-blowing-a-bubble-gum-at-an-amusement-park-1226-large.mp4"
+    'http://172.16.251.80/${VideoDetailsCubit.url}',
+    'http://172.16.251.80/${VideoDetailsCubit.url}',
+    'http://172.16.251.80/${VideoDetailsCubit.url}'
   ];
 
   Future<void> initializePlayer() async {
     _videoPlayerController1 =
-        VideoPlayerController.networkUrl(Uri.parse(srcs[currPlayIndex]));
+        VideoPlayerController.networkUrl(Uri.parse('http://172.16.251.80/${VideoDetailsCubit.url}'));
     _videoPlayerController2 =
-        VideoPlayerController.networkUrl(Uri.parse(srcs[currPlayIndex]));
+        VideoPlayerController.networkUrl(Uri.parse('http://172.16.251.80/${VideoDetailsCubit.url}'));
     await Future.wait([
       _videoPlayerController1.initialize(),
       _videoPlayerController2.initialize()

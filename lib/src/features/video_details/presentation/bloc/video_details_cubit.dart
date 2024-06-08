@@ -11,6 +11,6 @@ part 'video_details_cubit.freezed.dart';
 class VideoDetailsCubit extends Cubit<VideoDetailsState> {
   VideoDetailsCubit() : super(const VideoDetailsState.initial());
 
-
+  static String url = '';
 
 }

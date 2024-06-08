@@ -13,8 +13,7 @@ class DescriptionVideo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final BehaviorSubject<int> likeSubject = BehaviorSubject<int>.seeded(0);
-    final BehaviorSubject<bool> saveSubject =
-        BehaviorSubject<bool>.seeded(false);
+    final BehaviorSubject<bool> saveSubject = BehaviorSubject<bool>.seeded(false);
     return Column(
       children: [
         Text(
@@ -141,7 +140,7 @@ class DescriptionVideo extends StatelessWidget {
                                 children: [
                                   Icon(
                                     Icons.bookmark_border,
-                                    color: snapshot.data!
+                                    color: snapshot.data ?? false
                                         ? Theme.of(context).colorScheme.primary
                                         : Theme.of(context)
                                             .colorScheme
@@ -154,7 +153,7 @@ class DescriptionVideo extends StatelessWidget {
                                         .textTheme
                                         .bodyMedium
                                         ?.copyWith(
-                                            color: snapshot.data!
+                                            color: snapshot.data ?? false
                                                 ? Theme.of(context)
                                                     .colorScheme
                                                     .primary
