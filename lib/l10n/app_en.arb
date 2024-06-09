@@ -14,6 +14,10 @@
   "saved": "Saved",
   "profile": "Profile",
   "logout": "Logout",
+  "save": "Save",
+  "share": "Share",
+  "comment": "Comment",
+  "addComment": "Add a comment...",
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
   }

@@ -9,6 +9,7 @@ import 'package:academy/src/features/video_details/presentation/pages/widgets/vi
 import 'package:academy/video_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class VideoDetails extends StatelessWidget {
   const VideoDetails({required this.videoModel, super.key});
@@ -52,7 +53,7 @@ class VideoDetails extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Comment',
+                      AppLocalizations.of(context).comment,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     (AppSize.s8).heightSizeBox(),
@@ -64,7 +65,7 @@ class VideoDetails extends StatelessWidget {
                               color: Theme.of(context).colorScheme.onSurface,
                             ),
                           ),
-                          hintText: 'Add a comment...'),
+                          hintText: AppLocalizations.of(context).addComment),
                     )
                   ],
                 ),

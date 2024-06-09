@@ -8,6 +8,7 @@ import 'package:academy/video_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class DescriptionVideo extends StatelessWidget {
   const DescriptionVideo({required this.videoModel, super.key});
@@ -115,7 +116,7 @@ class DescriptionVideo extends StatelessWidget {
                           children: [
                             const Icon(Icons.share),
                             (AppSize.s4).widthSizeBox(),
-                            const Text('Share')
+                            Text(AppLocalizations.of(context).share)
                           ],
                         ),
                       ),
@@ -136,7 +137,9 @@ class DescriptionVideo extends StatelessWidget {
                             return InkWell(
                               onTap: () {
                                 saveSubject.add(!snapshot.data!);
-                                context.read<VideoDetailsCubit>().saveVideo(videoModel.id);
+                                context
+                                    .read<VideoDetailsCubit>()
+                                    .saveVideo(videoModel.id);
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -153,7 +156,7 @@ class DescriptionVideo extends StatelessWidget {
                                   ),
                                   (AppSize.s4).widthSizeBox(),
                                   Text(
-                                    'Save',
+                                    AppLocalizations.of(context).save,
                                     style: Theme.of(context)
                                         .textTheme
                                         .bodyMedium
