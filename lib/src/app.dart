@@ -24,7 +24,7 @@ class App extends StatelessWidget {
               theme: CustomTheme.lightThemeData(),
               darkTheme: CustomTheme.darkThemeData(),
               themeMode: state is DarkThemeState ? ThemeMode.dark : ThemeMode.light,
-              debugShowCheckedModeBanner: kDebugMode,
+              debugShowCheckedModeBanner: false,
               localizationsDelegates: AppLocalizations.localizationsDelegates,
               supportedLocales: AppLocalizations.supportedLocales,
               locale: provider.locale,
