@@ -106,7 +106,7 @@ class ProfileScreen extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      'Logout',
+                                      AppLocalizations.of(context).logout,
                                       style: Theme.of(context)
                                           .textTheme
                                           .bodyLarge!

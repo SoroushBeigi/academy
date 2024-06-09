@@ -8,6 +8,12 @@
   "startSearching": "Start searching...",
   "noItemsFound": "No items found. try with a different phrase!",
   "noSavedItems": "No saved items. try saving some videos!",
+  "home": "Home",
+  "search": "Search",
+  "add": "Add",
+  "saved": "Saved",
+  "profile": "Profile",
+  "logout": "Logout",
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
   }

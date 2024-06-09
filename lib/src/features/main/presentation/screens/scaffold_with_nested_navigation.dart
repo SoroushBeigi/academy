@@ -5,6 +5,7 @@ import 'package:academy/src/features/features.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 
@@ -57,35 +58,35 @@ class _ScaffoldWithNestedNavigationState
               (IconManager.home).iconWidget(color: onSurface),
               activeItem:
               (IconManager.homeFill).iconWidget(color: primary),
-              itemLabel: 'Home',
+              itemLabel: AppLocalizations.of(context).home,
             ),
             BottomBarItem(
               inActiveItem:
               (IconManager.search).iconWidget(color: onSurface),
               activeItem:
               (IconManager.searchFill).iconWidget(color: primary),
-              itemLabel: 'Search',
+              itemLabel: AppLocalizations.of(context).search,
             ),
             BottomBarItem(
               inActiveItem:
               (IconManager.add).iconWidget(color: onSurface),
               activeItem:
               (IconManager.addFill).iconWidget(color: primary),
-              itemLabel: 'Add',
+              itemLabel: AppLocalizations.of(context).add,
             ),
             BottomBarItem(
               inActiveItem:
               (IconManager.saved).iconWidget(color: onSurface),
               activeItem:
               (IconManager.savedFill).iconWidget(color: primary),
-              itemLabel: 'Saved',
+              itemLabel: AppLocalizations.of(context).saved,
             ),
             BottomBarItem(
               inActiveItem:
               (IconManager.person).iconWidget(color: onSurface),
               activeItem:
               (IconManager.personFill).iconWidget(color: primary),
-              itemLabel: 'Profile',
+              itemLabel: AppLocalizations.of(context).profile,
             ),
           ],
           onTap: _goBranch,
