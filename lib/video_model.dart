@@ -39,6 +39,6 @@ class VideoModel {
     publishTime = DateTime.parse(json['CreatedAt']);
     isLive = json['is_live'];
     viewCount=json['view_count'];
-    duration=json['duration'];
+    duration=json['duration'].toString();
   }
 }

@@ -2,7 +2,7 @@ import 'package:academy/src/core/resources/app_constants.dart';
 import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-@injectable
+@singleton
 class Storage {
   static SharedPreferences? _sharedPrefs;
 
@@ -30,4 +30,25 @@ class Storage {
     await init();
     _sharedPrefs?.remove(AppConstants.tokenKey);
   }
+
+  void saveVideo(int id) {
+    final savedVideos = _sharedPrefs!.getStringList(AppConstants.saveKey);
+    late final List<String> newSavedVideos;
+    if (savedVideos?.any(
+          (element) => element == id.toString(),
+        ) ??
+        false) {
+      newSavedVideos = savedVideos ?? [];
+      newSavedVideos.removeWhere(
+        (element) => element == id.toString(),
+      );
+    } else {
+      newSavedVideos = (savedVideos ?? <String>[]) + [id.toString()];
+    }
+
+    _sharedPrefs?.setStringList(AppConstants.saveKey, newSavedVideos);
+  }
+
+  List<String> getSavedVideos() =>
+      _sharedPrefs?.getStringList(AppConstants.saveKey) ?? [];
 }

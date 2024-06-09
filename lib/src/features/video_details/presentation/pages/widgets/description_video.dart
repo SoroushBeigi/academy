@@ -1,8 +1,12 @@
+import 'package:academy/src/core/data/local/shared_pref.dart';
 import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/core/logic/common/date_format.dart';
 import 'package:academy/src/core/resources/resources.dart';
+import 'package:academy/src/di/di_setup.dart';
+import 'package:academy/src/features/video_details/presentation/bloc/video_details_cubit.dart';
 import 'package:academy/video_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
 class DescriptionVideo extends StatelessWidget {
@@ -13,7 +17,12 @@ class DescriptionVideo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final BehaviorSubject<int> likeSubject = BehaviorSubject<int>.seeded(0);
-    final BehaviorSubject<bool> saveSubject = BehaviorSubject<bool>.seeded(false);
+    final savedId = getIt<Storage>().getSavedVideos().firstWhere(
+          (element) => element == videoModel.id.toString(),
+          orElse: () => '',
+        );
+    final BehaviorSubject<bool> saveSubject =
+        BehaviorSubject<bool>.seeded(savedId != '');
     return Column(
       children: [
         Text(
@@ -134,12 +143,15 @@ class DescriptionVideo extends StatelessWidget {
                             return InkWell(
                               onTap: () {
                                 saveSubject.add(!snapshot.data!);
+                                context.read<VideoDetailsCubit>().saveVideo(videoModel.id);
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Icon(
-                                    Icons.bookmark_border,
+                                    snapshot.data ?? false
+                                        ? Icons.bookmark
+                                        : Icons.bookmark_border,
                                     color: snapshot.data ?? false
                                         ? Theme.of(context).colorScheme.primary
                                         : Theme.of(context)
