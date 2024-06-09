@@ -25,13 +25,6 @@ class DescriptionVideo extends StatelessWidget {
         BehaviorSubject<bool>.seeded(savedId != '');
     return Column(
       children: [
-        Text(
-          videoModel.title ?? 'How to learn Golang',
-          style: Theme.of(context)
-              .textTheme
-              .titleMedium
-              ?.copyWith(fontWeight: FontWeight.bold),
-        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [

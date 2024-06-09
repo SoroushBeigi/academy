@@ -20,6 +20,7 @@ class VideoDetails extends StatelessWidget {
     return BlocProvider(
       create: (context) => getIt<VideoDetailsCubit>(),
       child: Scaffold(
+        appBar: AppBar(title: Text(videoModel.title ?? ''),),
         body: Padding(
           padding: const EdgeInsets.all(AppPadding.p16),
           child: ListView(

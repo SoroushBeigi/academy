@@ -21,9 +21,12 @@ class SearchMobilePage extends StatelessWidget {
               child: Stack(
                 children: [
                   state.whenOrNull(
-                        initial: () => Center(
-                          child:
-                              Text(AppLocalizations.of(context).startSearching),
+                        initial: () => SizedBox(
+                          height: MediaQuery.of(context).size.height,
+                          child: Center(
+                            child:
+                                Text(AppLocalizations.of(context).startSearching),
+                          ),
                         ),
                         foundVideos: (videos) => Padding(
                           padding: const EdgeInsets.only(top: 56),

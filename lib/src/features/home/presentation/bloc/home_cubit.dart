@@ -25,6 +25,7 @@ class HomeCubit extends Cubit<HomeState> {
       final result = await _dio.get('/content');
       final fetchedVideos = (result.data as List).map((json) => VideoModel.fromJson(json)).toList();
       videos.addAll(fetchedVideos);
+      videos = videos.reversed.toList();
       print(videos);
       emit(const HomeState.done());
     }on DioException catch(e){

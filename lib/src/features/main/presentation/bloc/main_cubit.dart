@@ -8,6 +8,9 @@ class MainCubit extends Cubit<MainState> {
 
 
   void updateNavigationIndexState(int index) {
+    if(index==3){
+
+    }
     emit(MainState(currentIndex: index));
   }
 
