@@ -8,13 +8,11 @@ class SearchCubit extends Cubit<SearchState> {
   SearchCubit() : super(const SearchState.initial());
 
   void search(String value) {
-    print('value==$value');
     if (value == '' || value == ' ') {
       emit(const SearchState.initial());
       return;
     }
     final videos = HomeCubit.videos;
-    print(videos);
     final foundVideos = videos
         .where((element) => element.title?.contains(value) ?? false)
         .toList();

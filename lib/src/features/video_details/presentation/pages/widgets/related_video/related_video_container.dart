@@ -23,7 +23,10 @@ class RelatedVideoContainer extends StatelessWidget {
       onTap: () {
         VideoDetailsCubit.url = videoModel.url!;
         print(VideoDetailsCubit.url);
-        context.pushNamed('videoDetails',extra: videoModel,);
+        context.pushNamed(
+          'videoDetails',
+          extra: videoModel,
+        );
       },
       child: Container(
         margin: const EdgeInsets.symmetric(
@@ -47,9 +50,9 @@ class RelatedVideoContainer extends StatelessWidget {
                         top: Radius.circular(12), bottom: Radius.zero),
                     child: CachedNetworkImage(
                       fit: BoxFit.contain,
-                      imageUrl:
-                          // videoModel.imageUrl ??
-                          "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
+                      imageUrl: videoModel.imageUrl == null
+                          ? "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg"
+                          : (AppConstants.baseUrl + videoModel.imageUrl!),
                       imageBuilder: (context, imageProvider) => Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(

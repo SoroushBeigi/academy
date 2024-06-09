@@ -31,7 +31,6 @@ class _WebHomePageState extends State<WebHomePage> {
       ),
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
-          print(HomeCubit.videos.length);
           return state.whenOrNull(
                 loading: () => const ACLoading(),
                 done: () => GridView.builder(
