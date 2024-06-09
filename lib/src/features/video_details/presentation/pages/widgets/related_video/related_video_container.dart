@@ -50,9 +50,9 @@ class RelatedVideoContainer extends StatelessWidget {
                         top: Radius.circular(12), bottom: Radius.zero),
                     child: CachedNetworkImage(
                       fit: BoxFit.contain,
-                      imageUrl: videoModel.imageUrl == null
+                      imageUrl: videoModel.image_Url == null
                           ? "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg"
-                          : (AppConstants.baseUrl + videoModel.imageUrl!),
+                          : (AppConstants.baseUrlWithoutPort + videoModel.image_Url!),
                       imageBuilder: (context, imageProvider) => Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(

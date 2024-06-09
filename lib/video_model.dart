@@ -7,7 +7,7 @@ class VideoModel {
   String? description;
   String? authorName;
   String? url;
-  String? imageUrl;
+  String? image_Url;
   String? duration;
   DateTime? publishTime;
   bool? isLive;
@@ -20,7 +20,7 @@ class VideoModel {
     this.description,
     this.authorName,
     this.url,
-    this.imageUrl,
+    this.image_Url,
     this.publishTime,
     this.isLive,
     this.viewCount,
@@ -35,7 +35,7 @@ class VideoModel {
     categoryId=json['category_id'];
     authorId=json['author_id'];
     authorName=json['author_name'];
-    imageUrl=json['image_url'];
+    image_Url=json['image_url'];
     publishTime = DateTime.parse(json['CreatedAt']);
     isLive = json['is_live'];
     viewCount=json['view_count'];

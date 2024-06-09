@@ -14,7 +14,7 @@ class RelatedVideo extends StatelessWidget {
         RelatedVideoContainer(
           videoModel: VideoModel(
               title: 'Golang Tutorial',
-              imageUrl:
+              image_Url:
               "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
               viewCount: 24,
               duration: '45:20',
@@ -24,7 +24,7 @@ class RelatedVideo extends StatelessWidget {
         RelatedVideoContainer(
           videoModel: VideoModel(
               title: 'Golang Tutorial',
-              imageUrl:
+              image_Url:
               "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
               viewCount: 24,
               duration: '45:20',
@@ -34,7 +34,7 @@ class RelatedVideo extends StatelessWidget {
         RelatedVideoContainer(
           videoModel: VideoModel(
               title: 'Golang Tutorial',
-              imageUrl:
+              image_Url:
               "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg",
               viewCount: 24,
               duration: '45:20',

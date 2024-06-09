@@ -6,7 +6,6 @@ import 'package:chewie/chewie.dart';
 import 'package:academy/src/features//features.dart';
 
 
-
 class VideoPlayerWidget extends StatefulWidget {
   const VideoPlayerWidget({super.key});
   @override
