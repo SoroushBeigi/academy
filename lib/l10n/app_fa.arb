@@ -17,5 +17,12 @@
     "save": "ذخیره",
     "share": "اشتراک\u200Cگذاری",
     "comment": "نظر",
-    "addComment": "ارسال نظر..."
+    "addComment": "ارسال نظر...",
+    "playVideo": "پخش ویدئو",
+    "next": "ادامه",
+    "upload": "آپلود",
+    "acceptedFormats": "فرمت\u200Cهای موردقبول: JPG,PNG",
+    "uploadImage": "آپلود عکس",
+    "videoTitle": "عنوان ویدئو",
+    "videoDescription": "توصیحات ویدئو"
 }

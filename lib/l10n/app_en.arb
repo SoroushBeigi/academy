@@ -18,6 +18,13 @@
   "share": "Share",
   "comment": "Comment",
   "addComment": "Add a comment...",
+  "playVideo": "Play Video",
+  "next": "Next",
+  "upload": "Upload",
+  "acceptedFormats": "Accepted Formats: JPG,PNG",
+  "uploadImage": "Upload Image",
+  "videoTitle": "Video Title",
+  "videoDescription": "Video Description",
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
   }

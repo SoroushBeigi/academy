@@ -12,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:video_player/video_player.dart';
 import '../../../../core/core.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CameraWidget extends StatefulWidget {
   const CameraWidget({super.key, required this.cameras});
@@ -288,7 +289,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text('Play Video'),
+          title: Text(AppLocalizations.of(context).playVideo),
           centerTitle: true,
         actions: [
           ElevatedButton(
@@ -296,8 +297,8 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 AddCubit.videoPath = widget.videoPath;
                 context.pushNamed(UploadVideo.uploadVideoPageName);
               },
-              child: const Text(
-                'Next'
+              child:  Text(
+                  AppLocalizations.of(context).next
               ),
           )
         ],

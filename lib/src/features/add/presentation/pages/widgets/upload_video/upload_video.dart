@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../../../../../di/di_setup.dart';
 import '../../../../../core/ui_kits/ac_text_form_field/ac_text_form_field.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 
 class UploadVideo extends StatefulWidget {
@@ -71,8 +72,8 @@ class _UploadVideoState extends State<UploadVideo> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Icon(Icons.cloud_upload_outlined),
-                            Text('Upload Image', style: Theme.of(context).textTheme.titleMedium,),
-                            Text('Accepted formates: JPG, PNG', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),),
+                            Text(AppLocalizations.of(context).uploadImage, style: Theme.of(context).textTheme.titleMedium,),
+                            Text(AppLocalizations.of(context).acceptedFormats, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.secondary),),
                           ],
                         ) : Image.file(
                           _selectedImage!,
@@ -83,7 +84,7 @@ class _UploadVideoState extends State<UploadVideo> {
                     AppSize.s16.heightSizeBox(),
                     ACTextFormField(
                       controller: context.read<AddCubit>().titleController,
-                      hintText: 'Title Video',
+                      hintText: AppLocalizations.of(context).videoTitle,
                       borderColor: Theme.of(context).colorScheme.secondary,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
@@ -91,7 +92,7 @@ class _UploadVideoState extends State<UploadVideo> {
                     ACTextFormField(
                       borderColor: Theme.of(context).colorScheme.secondary,
                       controller: context.read<AddCubit>().descriptionController,
-                      hintText: 'Description Video',
+                      hintText: AppLocalizations.of(context).videoDescription,
                       maxLines: 5,
                       style: Theme.of(context).textTheme.bodyMedium,
                     ),
@@ -117,8 +118,8 @@ class _UploadVideoState extends State<UploadVideo> {
                             File? video = File(AddCubit.videoPath);
                             context.read<AddCubit>().uploadVideo(videoFile: video,selectedImage: _selectedImage);
                           },
-                          child: const Text(
-                              'Upload'
+                          child:  Text(
+                              AppLocalizations.of(context).upload
                           ),
                         );
                       },
