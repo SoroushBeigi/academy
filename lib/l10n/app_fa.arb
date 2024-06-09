@@ -5,5 +5,6 @@
     "appTheme": "تم نرم\u200Cافزار",
     "appLanguage": "زبان نرم\u200Cافزار",
     "profileSettings": "پروفایل و تنظیمات",
-    "startSearching": "جستجو..."
+    "startSearching": "جستجو...",
+    "noItemsFound": "نتیجه\u200Cای یافت نشد، با عبارت دیگری امتحان کنید!"
 }

@@ -6,6 +6,7 @@
   "appLanguage": "App Language",
   "profileSettings": "Profile & Settings",
   "startSearching": "Start searching...",
+  "noItemsFound": "No items found. try with a different phrase!",
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
   }

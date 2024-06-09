@@ -27,13 +27,18 @@ class SearchMobilePage extends StatelessWidget {
                         ),
                         foundVideos: (videos) => Padding(
                           padding: const EdgeInsets.only(top: 56),
-                          child: ListView.builder(
-                            itemCount: videos.length,
-                            itemBuilder: (context, index) =>
-                                RelatedVideoContainer(
-                              videoModel: videos[index],
-                            ),
-                          ),
+                          child: videos.isEmpty
+                              ? Center(
+                                  child: Text(AppLocalizations.of(context)
+                                      .noItemsFound),
+                                )
+                              : ListView.builder(
+                                  itemCount: videos.length,
+                                  itemBuilder: (context, index) =>
+                                      RelatedVideoContainer(
+                                    videoModel: videos[index],
+                                  ),
+                                ),
                         ),
                       ) ??
                       const SizedBox(),
@@ -52,7 +57,7 @@ class SearchMobilePage extends StatelessWidget {
                     ),
                     child: TextField(
                       decoration: InputDecoration(
-                        hintText: 'Search Google or type a URL',
+                        hintText: AppLocalizations.of(context).startSearching,
                         hintStyle: const TextStyle(color: Colors.grey),
                         prefixIcon:
                             const Icon(Icons.search, color: Colors.grey),
