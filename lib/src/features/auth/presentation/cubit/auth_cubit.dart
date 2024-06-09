@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../add/presentation/cubit/add_cubit.dart';
+
 part 'auth_state.dart';
 
 part 'auth_cubit.freezed.dart';
@@ -50,6 +52,8 @@ class AuthCubit extends Cubit<AuthState> {
      print(users);
      for (var user in users) {
        if(user.email==email && user.password==password){
+         AddCubit.id = user.id!;
+         AddCubit.authorName = user.username!;
          print(user.username);
          setLoggedIn();
          return null;

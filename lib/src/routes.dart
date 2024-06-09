@@ -1,4 +1,6 @@
 import 'package:academy/src/core/resources/resources.dart';
+import 'package:academy/src/features/add/presentation/pages/widgets/upload_video/upload_video.dart';
+import 'package:academy/src/features/add/presentation/pages/widgets/video_recorder/video_recorder_widget.dart';
 import 'package:academy/src/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:academy/video_model.dart';
 import 'package:flutter/material.dart';
@@ -26,8 +28,17 @@ class Routes {
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
+        path: UploadVideo.uploadVideoPageName,
+        name: UploadVideo.uploadVideoPageName,
+        builder: (context, state) => const UploadVideo(),
+      ),
+      GoRoute(
         path: '/',
         builder: (context, state) => const SplashScreen(),
+      ),
+      GoRoute(
+        path: '/video-recorder',
+        builder: (context, state) => const VideoRecorderWidget(),
       ),
       GoRoute(
         path: '/onboarding',
