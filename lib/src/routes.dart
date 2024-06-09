@@ -106,9 +106,11 @@ class Routes {
             ],
           ),
           StatefulShellBranch(
+
             navigatorKey: savedTabNavigatorKey,
             routes: [
               GoRoute(
+
                 path: '/favourite',
                 pageBuilder: (context, state) {
                   return getPage(

@@ -7,6 +7,7 @@
   "profileSettings": "Profile & Settings",
   "startSearching": "Start searching...",
   "noItemsFound": "No items found. try with a different phrase!",
+  "noSavedItems": "No saved items. try saving some videos!",
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
   }
