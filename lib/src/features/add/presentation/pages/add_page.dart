@@ -26,8 +26,8 @@ class _AddPageState extends State<AddPage> {
       child: BlocBuilder<AddCubit,AddState>(
         builder: (context, state) {
           return state.whenOrNull(
-            loading: () => const ACLoading(),
-            sucess: () => CameraWidget(cameras: context.read<AddCubit>().cameras)
+            loading: (progress) => const ACLoading(),
+            success: () => CameraWidget(cameras: context.read<AddCubit>().cameras)
           ) ?? const SizedBox.shrink();
         },
       ),
