@@ -18,15 +18,12 @@ class WebHomePage extends StatefulWidget {
 class _WebHomePageState extends State<WebHomePage> {
   @override
   void initState() {
-    print('init');
     getIt<HomeCubit>().getVideos();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print('build');
-    final cubit = context.read<HomeCubit>();
     final crossCount = (MediaQuery.of(context).size.width ~/ 350).toInt();
     return Scaffold(
       appBar: AppBar(
@@ -34,13 +31,13 @@ class _WebHomePageState extends State<WebHomePage> {
       ),
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
-          print(cubit.videos.length);
+          print(HomeCubit.videos.length);
           return state.whenOrNull(
                 loading: () => const ACLoading(),
                 done: () => GridView.builder(
-                  itemCount: cubit.videos.length,
+                  itemCount: HomeCubit.videos.length,
                   itemBuilder: (context, index) => RelatedVideoContainer(
-                    videoModel: cubit.videos[index],
+                    videoModel: HomeCubit.videos[index],
                   ),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: crossCount == 0 ? 1 : crossCount,

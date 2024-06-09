@@ -7,7 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'home_state.dart';
 
 
-@injectable
+@singleton
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(const HomeState.loading());
   final _dio = Dio(
@@ -16,7 +16,7 @@ class HomeCubit extends Cubit<HomeState> {
       headers: {'Content-Type': 'application/json'},
     ),
   );
-  List<VideoModel> videos = [];
+  static List<VideoModel> videos = [];
 
   Future<void> getVideos() async{
     print('reached');

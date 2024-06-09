@@ -38,15 +38,17 @@ class _MobileHomePageState extends State<MobileHomePage> {
           builder: (context, state) {
             return state.whenOrNull(
                   loading: () => const ACLoading(),
-                  done: () {return SizedBox(
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: context.read<HomeCubit>().videos.length,
-                      itemBuilder: (context, index) => RelatedVideoContainer(
-                        videoModel: context.read<HomeCubit>().videos[index],
+                  done: () {
+                    return SizedBox(
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: HomeCubit.videos.length,
+                        itemBuilder: (context, index) => RelatedVideoContainer(
+                          videoModel: HomeCubit.videos[index],
+                        ),
                       ),
-                    ),
-                  );},
+                    );
+                  },
                 ) ??
                 SizedBox();
           },
