@@ -16,6 +16,7 @@ class AuthScreen extends StatelessWidget {
         return AuthCubit();
       },
       child: FlutterLogin(
+        logo: 'assets/icon.png',
         additionalSignupFields: const [
           UserFormField(
             keyName: 'username',
