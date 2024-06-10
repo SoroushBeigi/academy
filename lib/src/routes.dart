@@ -17,28 +17,27 @@ class Routes {
   static final homeTabNavigatorKey =
       GlobalKey<NavigatorState>(debugLabel: 'homeTabNavigatorKey');
   static final searchTabNavigatorKey =
-  GlobalKey<NavigatorState>(debugLabel: 'searchTabNavigatorKey');
+      GlobalKey<NavigatorState>(debugLabel: 'searchTabNavigatorKey');
   static final addTabNavigatorKey =
-  GlobalKey<NavigatorState>(debugLabel: 'addTabNavigatorKey');
+      GlobalKey<NavigatorState>(debugLabel: 'addTabNavigatorKey');
   static final savedTabNavigatorKey =
       GlobalKey<NavigatorState>(debugLabel: 'savedTabNavigatorKey');
   static final profileTabNavigatorKey =
-  GlobalKey<NavigatorState>(debugLabel: 'profileTabNavigatorKey');
+      GlobalKey<NavigatorState>(debugLabel: 'profileTabNavigatorKey');
 
   static final routes = GoRouter(
     navigatorKey: parentNavigatorKey,
-    redirect: (context, state) {
-      if (getLoggedIn()) {
-        return '/main';
-      } else {
-        if (kIsWeb) {
-          return '/auth';
-        } else {
-          return '/';
-        }
-      }
-    } ,
-    initialLocation: '/',
+    // redirect: (context, state) {
+    //   print(state.topRoute?.path);
+    //
+    //   if (!getLoggedIn()) {
+    //     if(kIsWeb) return '/auth';
+    //     print('going to onboard ' + (state.topRoute?.path ?? '').toString());
+    //     return '/';
+    //   }
+    //   return null;
+    // },
+    initialLocation: getLoggedIn()? '/main' : kIsWeb? '/auth' : '/',
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
@@ -72,16 +71,16 @@ class Routes {
               transitionDuration: AppTimes().t300,
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {
-                    const begin = Offset(-1.0, 0.0);
-                    const end = Offset.zero;
-                    final tween = Tween(begin: begin, end: end);
-                    final offsetAnimation = animation.drive(tween);
+                const begin = Offset(-1.0, 0.0);
+                const end = Offset.zero;
+                final tween = Tween(begin: begin, end: end);
+                final offsetAnimation = animation.drive(tween);
 
-                    return SlideTransition(
-                      position: offsetAnimation,
-                      child: child,
-                    );
-                  },
+                return SlideTransition(
+                  position: offsetAnimation,
+                  child: child,
+                );
+              },
               child: VideoDetails(videoModel: videoModel),
             );
           }),
@@ -131,11 +130,9 @@ class Routes {
             ],
           ),
           StatefulShellBranch(
-
             navigatorKey: savedTabNavigatorKey,
             routes: [
               GoRoute(
-
                 path: '/favourite',
                 pageBuilder: (context, state) {
                   return getPage(
