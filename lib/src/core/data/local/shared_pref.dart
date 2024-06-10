@@ -22,7 +22,7 @@ class Storage {
     return _sharedPrefs?.getBool(AppConstants.loggedInKey) ?? false;
   }
 
-  Future<void> setLoggedIn(bool value) async {
+  void setLoggedIn(bool value) {
     _sharedPrefs?.setBool(AppConstants.loggedInKey, value);
   }
 

@@ -1,8 +1,11 @@
+import 'package:academy/src/core/data/local/shared_pref.dart';
 import 'package:academy/src/core/resources/resources.dart';
+import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/add/presentation/pages/widgets/upload_video/upload_video.dart';
 import 'package:academy/src/features/add/presentation/pages/widgets/video_recorder/video_recorder_widget.dart';
 import 'package:academy/src/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:academy/video_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'features/auth/presentation/screens/auth_screen.dart';
@@ -24,6 +27,17 @@ class Routes {
 
   static final routes = GoRouter(
     navigatorKey: parentNavigatorKey,
+    redirect: (context, state) {
+      if (getLoggedIn()) {
+        return '/main';
+      } else {
+        if (kIsWeb) {
+          return '/auth';
+        } else {
+          return '/';
+        }
+      }
+    } ,
     initialLocation: '/',
     debugLogDiagnostics: true,
     routes: [
@@ -32,16 +46,16 @@ class Routes {
         name: UploadVideo.uploadVideoPageName,
         builder: (context, state) => const UploadVideo(),
       ),
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const SplashScreen(),
-      ),
+      // GoRoute(
+      //   path: '/',
+      //   builder: (context, state) => const SplashScreen(),
+      // ),
       GoRoute(
         path: '/video-recorder',
         builder: (context, state) => const VideoRecorderWidget(),
       ),
       GoRoute(
-        path: '/onboarding',
+        path: '/',
         builder: (context, state) => const OnboardingScreen(),
       ),
       GoRoute(
@@ -183,4 +197,12 @@ class Routes {
       child: child,
     );
   }
+}
+
+bool getLoggedIn() {
+  return getIt<Storage>().getLoggedIn();
+}
+
+void setLoggedIn() {
+  getIt<Storage>().setLoggedIn(true);
 }
