@@ -46,9 +46,8 @@ class DescriptionVideo extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(8.0),
-          child:  ReadMoreText(
-            'Flutter is Google’s mobile UI open source framework to build high-quality native (super fast) interfaces for iOS and Android apps with the unified codebase.' ??
-                '',
+          child: ReadMoreText(
+            videoModel.description ?? '',
             trimMode: TrimMode.Line,
             trimLines: 2,
             trimCollapsedText: AppLocalizations.of(context).showMore,
@@ -62,6 +61,7 @@ class DescriptionVideo extends StatelessWidget {
               return Row(
                 children: [
                   Expanded(
+                    flex:1,
                     child: Container(
                       margin:
                           const EdgeInsets.symmetric(horizontal: AppPadding.p4),
@@ -86,6 +86,7 @@ class DescriptionVideo extends StatelessWidget {
                     ),
                   ),
                   Expanded(
+                    flex:1,
                     child: Container(
                       margin:
                           const EdgeInsets.symmetric(horizontal: AppPadding.p4),
@@ -110,6 +111,7 @@ class DescriptionVideo extends StatelessWidget {
                     ),
                   ),
                   Expanded(
+                    flex:2,
                     child: Container(
                       margin:
                           const EdgeInsets.symmetric(horizontal: AppPadding.p4),
@@ -132,6 +134,7 @@ class DescriptionVideo extends StatelessWidget {
                     ),
                   ),
                   Expanded(
+                    flex:2,
                     child: Container(
                       margin:
                           const EdgeInsets.symmetric(horizontal: AppPadding.p4),
