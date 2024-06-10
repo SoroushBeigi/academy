@@ -25,6 +25,8 @@
   "uploadImage": "Upload Image",
   "videoTitle": "Video Title",
   "videoDescription": "Video Description",
+  "showMore": "show more",
+  "showLess": "show less",
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
   }

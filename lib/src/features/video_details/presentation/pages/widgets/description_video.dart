@@ -7,6 +7,7 @@ import 'package:academy/src/features/video_details/presentation/bloc/video_detai
 import 'package:academy/video_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:readmore/readmore.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -41,17 +42,19 @@ class DescriptionVideo extends StatelessWidget {
                   .bodyMedium
                   ?.copyWith(color: Theme.of(context).colorScheme.onSurface),
             ),
-            TextButton(
-              onPressed: () {},
-              child: Text(
-                '...more',
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium
-                    ?.copyWith(color: Theme.of(context).colorScheme.primary),
-              ),
-            )
           ],
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child:  ReadMoreText(
+            'Flutter is Google’s mobile UI open source framework to build high-quality native (super fast) interfaces for iOS and Android apps with the unified codebase.' ??
+                '',
+            trimMode: TrimMode.Line,
+            trimLines: 2,
+            trimCollapsedText: AppLocalizations.of(context).showMore,
+            trimExpandedText: AppLocalizations.of(context).showLess,
+            colorClickableText: Theme.of(context).colorScheme.primary,
+          ),
         ),
         StreamBuilder<int>(
             stream: likeSubject.stream,

@@ -24,5 +24,7 @@
     "acceptedFormats": "فرمت\u200Cهای موردقبول: JPG,PNG",
     "uploadImage": "آپلود عکس",
     "videoTitle": "عنوان ویدئو",
-    "videoDescription": "توصیحات ویدئو"
+    "videoDescription": "توصیحات ویدئو",
+    "showMore": "نمایش بیشتر",
+    "showLess": "نمایش کمتر"
 }
