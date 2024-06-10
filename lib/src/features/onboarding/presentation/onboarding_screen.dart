@@ -5,21 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 final pages = [
-  PageData(
-      title: "Learn anywhere",
+   PageData(
+      title: "Local news\nstories",
       bgColor: Colors.blue[900]!,
       textColor: Colors.white,
       imagePath: 'assets/onboarding1.jpg'),
-  PageData(
-      title: "Learn at your own pace",
+   PageData(
+      title: "Choose your\ninterests",
       textColor: Colors.white,
       bgColor: Colors.blue[500]!,
       imagePath: 'assets/onboarding2.jpg'),
-  PageData(
-      title: "Help others learn and grow",
-      bgColor: Colors.blue[900]!,
-      textColor: Colors.white,
+   PageData(
+      title: "Drag and\ndrop to move",
+      bgColor: Colors.blue[700]!,
+       textColor: Colors.white,
       imagePath: 'assets/onboarding3.jpg'),
+
 ];
 
 class OnboardingScreen extends StatelessWidget {
@@ -45,6 +46,7 @@ class OnboardingScreen extends StatelessWidget {
           padding: const EdgeInsets.only(left: 3), // visual center
           child: Icon(
             Icons.navigate_next,
+            color: Colors.white,
             size: screenWidth * 0.08,
           ),
         ),
@@ -129,6 +131,7 @@ class _Image extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return ClipRRect(
       borderRadius: const BorderRadius.all(Radius.circular(50)),
       child: Image.asset(
