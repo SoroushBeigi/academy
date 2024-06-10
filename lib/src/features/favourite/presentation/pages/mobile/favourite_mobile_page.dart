@@ -1,3 +1,4 @@
+import 'package:academy/src/app.dart';
 import 'package:academy/src/core/resources/value_manager.dart';
 import 'package:academy/src/features/favourite/presentation/cubit/favourite_cubit.dart';
 import 'package:academy/src/features/favourite/presentation/cubit/favourite_state.dart';
@@ -16,6 +17,7 @@ class FavouriteMobilePage extends StatelessWidget {
         child: BlocBuilder<FavouriteCubit, FavouriteState>(
           builder: (context, state) {
             return Scaffold(
+              appBar: AppBar(title: Text(AppLocalizations.of(context).saved),),
               body: Padding(
                 padding: const EdgeInsets.all(AppPadding.p16),
                 child: context.read<FavouriteCubit>().savedListLength() == 0

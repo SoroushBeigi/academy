@@ -17,6 +17,7 @@ class FavouriteWebPage extends StatelessWidget {
         child: BlocBuilder<FavouriteCubit, FavouriteState>(
           builder: (context, state) {
             return Scaffold(
+              appBar: AppBar(title: Text(AppLocalizations.of(context).saved),),
               body: Padding(
                 padding: const EdgeInsets.all(AppPadding.p16),
                 child: context.read<FavouriteCubit>().savedListLength() == 0
