@@ -1,6 +1,8 @@
+import 'package:academy/src/core/data/local/shared_pref.dart';
+import 'package:academy/src/di/di_setup.dart';
 import 'package:flutter/material.dart';
 
-class LocaleProvider extends ChangeNotifier{
+class LocaleProvider extends ChangeNotifier {
   Locale? locale = const Locale('en');
   bool canNotify = true;
 
@@ -21,14 +23,17 @@ class LocaleProvider extends ChangeNotifier{
     super.dispose();
   }
 
-  ///TODO: write method to load locale from share prefs
-  ///if there is not any locale in memory should read device's default locale
-
-  void initialize() {}
+  void initialize() {
+    if (getIt<Storage>().isFa()) {
+      locale = const Locale('fa');
+    }
+  }
 
   void changeLocale(Locale? newLocale) {
     locale = newLocale ?? const Locale('en');
+    getIt<Storage>().setIsFa(newLocale?.languageCode == 'fa');
+    print('set isFa:');
+    print(newLocale?.languageCode == 'fa');
     notifyListeners();
   }
-
 }

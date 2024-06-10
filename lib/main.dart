@@ -8,6 +8,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   configureDependencies();
   await getIt<Storage>().init();
+
   runApp(
     ResponsiveSizer(
       builder: (context, orientation, screenType) => const App(),

@@ -51,4 +51,9 @@ class Storage {
 
   List<String> getSavedVideos() =>
       _sharedPrefs?.getStringList(AppConstants.saveKey) ?? [];
+
+  void setIsFa(bool value) =>
+      _sharedPrefs?.setBool(AppConstants.languageKey, value);
+
+  bool isFa() => _sharedPrefs?.getBool(AppConstants.languageKey) ?? false;
 }
