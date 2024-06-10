@@ -5,23 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 final pages = [
-  const PageData(
-    icon: Icons.bubble_chart,
-    title: "Local news\nstories",
-    bgColor: Color(0xFF0043D0),
-    textColor: Colors.white,
-  ),
-  const PageData(
-    icon: Icons.format_size,
-    title: "Choose your\ninterests",
-    textColor: Colors.white,
-    bgColor: Color(0xFFFDBFDD),
-  ),
-  const PageData(
-    icon: Icons.hdr_weak,
-    title: "Drag and\ndrop to move",
-    bgColor: Color(0xFFFFFFFF),
-  ),
+  PageData(
+      title: "Learn anywhere",
+      bgColor: Colors.blue[900]!,
+      textColor: Colors.white,
+      imagePath: 'assets/onboarding1.jpg'),
+  PageData(
+      title: "Learn at your own pace",
+      textColor: Colors.white,
+      bgColor: Colors.blue[500]!,
+      imagePath: 'assets/onboarding2.jpg'),
+  PageData(
+      title: "Help others learn and grow",
+      bgColor: Colors.blue[900]!,
+      textColor: Colors.white,
+      imagePath: 'assets/onboarding3.jpg'),
 ];
 
 class OnboardingScreen extends StatelessWidget {
@@ -35,11 +33,11 @@ class OnboardingScreen extends StatelessWidget {
         colors: pages.map((p) => p.bgColor).toList(),
         radius: screenWidth * 0.1,
         // curve: Curves.ease,
-        onFinish: (){
+        onFinish: () {
           context.go('/auth');
         },
         onChange: (page) {
-          if(page==AppConstants.onboardingPagesCount){
+          if (page == AppConstants.onboardingPagesCount) {
             context.go('/auth');
           }
         },
@@ -50,14 +48,6 @@ class OnboardingScreen extends StatelessWidget {
             size: screenWidth * 0.08,
           ),
         ),
-        // itemCount: pages.length,
-        // duration: const Duration(milliseconds: 1500),
-        // opacityFactor: 2.0,
-        // scaleFactor: 0.2,
-        // verticalPosition: 0.7,
-        // direction: Axis.vertical,
-        // itemCount: pages.length,
-        // physics: NeverScrollableScrollPhysics(),
         itemBuilder: (index) {
           final page = pages[index % pages.length];
           return SafeArea(
@@ -84,7 +74,7 @@ class _Page extends StatelessWidget {
         _Image(
           page: page,
           size: 190,
-          iconSize: 170,
+          imagePath: page.imagePath ?? '',
         ),
         space(8),
         _Text(
@@ -130,65 +120,22 @@ class _Image extends StatelessWidget {
     Key? key,
     required this.page,
     required this.size,
-    required this.iconSize,
+    required this.imagePath,
   }) : super(key: key);
 
   final PageData page;
   final double size;
-  final double iconSize;
+  final String imagePath;
 
   @override
   Widget build(BuildContext context) {
-    final bgColor = page.bgColor
-        .withBlue(page.bgColor.blue - 40)
-        .withGreen(page.bgColor.green + 20)
-        .withRed(page.bgColor.red - 100)
-        .withAlpha(90);
-
-    final icon1Color =
-        page.bgColor.withBlue(page.bgColor.blue - 10).withGreen(220);
-    final icon2Color = page.bgColor.withGreen(66).withRed(77);
-    final icon3Color = page.bgColor.withRed(111).withGreen(220);
-
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(
-        borderRadius: const BorderRadius.all(Radius.circular(60.0)),
-        color: bgColor,
-      ),
-      child: Stack(
-        clipBehavior: Clip.none,
-        fit: StackFit.expand,
-        children: [
-          Positioned.fill(
-            right: -5,
-            bottom: -5,
-            child: RotatedBox(
-              quarterTurns: 2,
-              child: Icon(
-                page.icon,
-                size: iconSize + 20,
-                color: icon1Color,
-              ),
-            ),
-          ),
-          Positioned.fill(
-            child: RotatedBox(
-              quarterTurns: 5,
-              child: Icon(
-                page.icon,
-                size: iconSize + 20,
-                color: icon2Color,
-              ),
-            ),
-          ),
-          Icon(
-            page.icon,
-            size: iconSize,
-            color: icon3Color,
-          ),
-        ],
+    return ClipRRect(
+      borderRadius: const BorderRadius.all(Radius.circular(50)),
+      child: Image.asset(
+        imagePath,
+        width: size,
+        height: size,
+        fit: BoxFit.fill,
       ),
     );
   }
