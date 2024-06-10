@@ -6,18 +6,18 @@ import 'package:go_router/go_router.dart';
 
 final pages = [
    PageData(
-      title: "Local news\nstories",
+      title: "Learn anywhere",
       bgColor: Colors.blue[900]!,
       textColor: Colors.white,
       imagePath: 'assets/onboarding1.jpg'),
    PageData(
-      title: "Choose your\ninterests",
+      title: "Learn at your own pace",
       textColor: Colors.white,
-      bgColor: Colors.blue[500]!,
+      bgColor: Colors.purple[900]!,
       imagePath: 'assets/onboarding2.jpg'),
    PageData(
-      title: "Drag and\ndrop to move",
-      bgColor: Colors.blue[700]!,
+      title: "Help others learn",
+      bgColor: Colors.cyan[900]!,
        textColor: Colors.white,
       imagePath: 'assets/onboarding3.jpg'),
 

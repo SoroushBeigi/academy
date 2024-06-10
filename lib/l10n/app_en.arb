@@ -27,6 +27,7 @@
   "videoDescription": "Video Description",
   "showMore": "show more",
   "showLess": "show less",
+  "documents": "Attachments",
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
   }

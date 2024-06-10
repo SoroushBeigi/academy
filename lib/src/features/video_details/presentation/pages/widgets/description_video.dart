@@ -26,6 +26,7 @@ class DescriptionVideo extends StatelessWidget {
     final BehaviorSubject<bool> saveSubject =
         BehaviorSubject<bool>.seeded(savedId != '');
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -47,7 +48,8 @@ class DescriptionVideo extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: ReadMoreText(
-            videoModel.description ?? '',
+            '${videoModel.description ?? ''}\n',
+            textAlign: AppConstants.isFa? TextAlign.right : TextAlign.left,
             trimMode: TrimMode.Line,
             trimLines: 2,
             trimCollapsedText: AppLocalizations.of(context).showMore,

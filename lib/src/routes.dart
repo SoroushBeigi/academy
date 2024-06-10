@@ -27,16 +27,6 @@ class Routes {
 
   static final routes = GoRouter(
     navigatorKey: parentNavigatorKey,
-    // redirect: (context, state) {
-    //   print(state.topRoute?.path);
-    //
-    //   if (!getLoggedIn()) {
-    //     if(kIsWeb) return '/auth';
-    //     print('going to onboard ' + (state.topRoute?.path ?? '').toString());
-    //     return '/';
-    //   }
-    //   return null;
-    // },
     initialLocation: getLoggedIn()? '/main' : kIsWeb? '/auth' : '/',
     debugLogDiagnostics: true,
     routes: [

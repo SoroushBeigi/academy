@@ -53,6 +53,34 @@ class VideoDetails extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
+                      AppLocalizations.of(context).documents,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    (AppSize.s8).heightSizeBox(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                      Column(children: [Image.asset('assets/pdf.png',width: 50,height: 50,),(AppSize.s4).heightSizeBox(),const Text('PDF')],),
+                      Column(children: [Image.asset('assets/word.png',width: 50,height: 50,),(AppSize.s4).heightSizeBox(),const Text('DOCX')],),
+                      Column(children: [Image.asset('assets/powerpoint.png',width: 50,height: 50,),(AppSize.s4).heightSizeBox(),const Text('PPTX')],),
+                    ],),
+
+                  ],
+                ),
+              ),
+              (AppSize.s8).heightSizeBox(),
+              Container(
+                padding: const EdgeInsets.all(AppPadding.p8),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(AppSize.s12),
+                  color: Theme.of(context).colorScheme.surfaceContainer,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
                       AppLocalizations.of(context).comment,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),

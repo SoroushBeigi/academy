@@ -1,4 +1,5 @@
 import 'package:academy/src/core/data/local/shared_pref.dart';
+import 'package:academy/src/core/resources/app_constants.dart';
 import 'package:academy/src/di/di_setup.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +27,7 @@ class LocaleProvider extends ChangeNotifier {
   void initialize() {
     if (getIt<Storage>().isFa()) {
       locale = const Locale('fa');
+      AppConstants.isFa = true;
     }
   }
 
