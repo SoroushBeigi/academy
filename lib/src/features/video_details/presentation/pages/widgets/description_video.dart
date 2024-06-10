@@ -67,36 +67,42 @@ class DescriptionVideo extends StatelessWidget {
                         color: Theme.of(context).colorScheme.surfaceContainer,
                         borderRadius: BorderRadius.circular(AppSize.s60),
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              likeSubject.add(1);
-                            },
-                            child: Icon(
-                              Icons.thumb_up_alt_outlined,
-                              color: snapshot.data == 1
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(context).colorScheme.onSurface,
-                            ),
-                          ),
-                          VerticalDivider(
-                            thickness: 2,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              likeSubject.add(-1);
-                            },
-                            child: Icon(
-                              Icons.thumb_down_alt_outlined,
-                              color: snapshot.data == -1
-                                  ? Theme.of(context).colorScheme.primary
-                                  : Theme.of(context).colorScheme.onSurface,
-                            ),
-                          ),
-                        ],
+                      child: InkWell(
+                        onTap: () {
+                          likeSubject.add(1);
+                        },
+                        child: Icon(
+                          snapshot.data == 1
+                              ? Icons.thumb_up_alt
+                              : Icons.thumb_up_alt_outlined,
+                          color: snapshot.data == 1
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      margin:
+                          const EdgeInsets.symmetric(horizontal: AppPadding.p4),
+                      padding: const EdgeInsets.all(AppPadding.p6),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.surfaceContainer,
+                        borderRadius: BorderRadius.circular(AppSize.s60),
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          likeSubject.add(-1);
+                        },
+                        child: Icon(
+                          snapshot.data == -1
+                              ? Icons.thumb_down_alt
+                              : Icons.thumb_down_alt_outlined,
+                          color: snapshot.data == -1
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.onSurface,
+                        ),
                       ),
                     ),
                   ),
