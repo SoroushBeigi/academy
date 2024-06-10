@@ -76,7 +76,7 @@ class ProfileScreen extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16),
                             child: Text(
-                              AppLocalizations.of(context).currentLanguage,
+                              AppLocalizations.of(context).oppositeLanguage,
                               textAlign: TextAlign.center,
                             ),
                           ),
