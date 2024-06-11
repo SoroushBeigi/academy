@@ -63,6 +63,7 @@ class _WebHomePageState extends State<WebHomePage> {
           return state.whenOrNull(
                 loading: () => const ACLoading(),
                 done: () => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,

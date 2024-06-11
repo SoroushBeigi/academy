@@ -1,13 +1,11 @@
-import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/features/video_details/presentation/bloc/video_details_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
-import 'package:academy/src/features//features.dart';
+import 'package:academy/src/features/features.dart';
 
 class VideoPlayerWidget extends StatefulWidget {
-  VideoPlayerWidget({this.isLive, super.key});
-
+  const VideoPlayerWidget({this.isLive, super.key});
   final bool? isLive;
 
   @override
@@ -41,41 +39,36 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
         : 'http://172.16.251.80/${VideoDetailsCubit.url}';
     _videoPlayerController1 = VideoPlayerController.networkUrl(
         Uri.parse(url));
-    await Future.wait([
-      _videoPlayerController1.initialize(),
-    ]);
-    setState(() {});
-  }
-
-  int currPlayIndex = 0;
-
-
-
-  @override
-  Widget build(BuildContext context) {
+    await _videoPlayerController1.initialize().then((_){
+      setState(() {});
+    });
     _chewieController = ChewieController(
       isLive: widget.isLive == true,
       videoPlayerController: _videoPlayerController1,
       autoPlay: true,
       looping: true,
       progressIndicatorDelay:
-      bufferDelay != null ? Duration(milliseconds: bufferDelay!) : null,
+      bufferDelay != null ? Duration(milliseconds: bufferDelay!) : null, );
 
-      subtitleBuilder: (context, dynamic subtitle) =>
-          Container(
-            padding: const EdgeInsets.all(AppPadding.p12),
-            decoration:
-            BoxDecoration(borderRadius: BorderRadius.circular(AppSize.s12)),
-            child: subtitle is InlineSpan
-                ? RichText(
-              text: subtitle,
-            )
-                : Text(
-              subtitle.toString(),
-              style: const TextStyle(color: Colors.black),
-            ),
-          ),
-    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+      // subtitleBuilder: (context, dynamic subtitle) =>
+      //     Container(
+      //       padding: const EdgeInsets.all(AppPadding.p12),
+      //       decoration:
+      //       BoxDecoration(borderRadius: BorderRadius.circular(AppSize.s12)),
+      //       child: subtitle is InlineSpan
+      //           ? RichText(
+      //         text: subtitle,
+      //       )
+      //           : Text(
+      //         subtitle.toString(),
+      //         style: const TextStyle(color: Colors.black),
+      //       ),
+      //     ),
+
     return Column(
       children: <Widget>[
         Expanded(

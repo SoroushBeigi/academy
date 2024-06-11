@@ -1,3 +1,4 @@
+import 'package:academy/src/core/data/local/shared_pref.dart';
 import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/core/widgets/responsive_widget/responsive_widget.dart';
@@ -10,6 +11,9 @@ import 'package:academy/video_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:rxdart/rxdart.dart';
+
+import 'widgets/comment_container.dart';
 
 class VideoDetails extends StatelessWidget {
   const VideoDetails({required this.videoModel, super.key});
@@ -18,9 +22,13 @@ class VideoDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('videoModel.url');
-    print(videoModel.url);
-
+    final BehaviorSubject<int> likeSubject = BehaviorSubject<int>.seeded(0);
+    final savedId = getIt<Storage>().getSavedVideos().firstWhere(
+          (element) => element == videoModel.id.toString(),
+          orElse: () => '',
+        );
+    final BehaviorSubject<bool> saveSubject =
+        BehaviorSubject<bool>.seeded(savedId != '');
     return BlocProvider(
       create: (context) => getIt<VideoDetailsCubit>(),
       child: Scaffold(
@@ -31,6 +39,7 @@ class VideoDetails extends StatelessWidget {
           padding: const EdgeInsets.all(AppPadding.p16),
           child: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
                   width: double.infinity,
@@ -38,7 +47,7 @@ class VideoDetails extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(AppSize.s12),
                   ),
-                  child: VideoPlayerWidget(isLive:videoModel.isLive),
+                  child: VideoPlayerWidget(isLive: videoModel.isLive),
                 ),
                 Divider(
                   thickness: AppSize.s1,
@@ -47,8 +56,8 @@ class VideoDetails extends StatelessWidget {
                 DescriptionVideo(videoModel: videoModel),
                 (AppSize.s12).heightSizeBox(),
                 ResponsiveWidget(
-                  smallScreen: smallCards(context),
-                  largeScreen: largeCards(context),
+                  smallScreen: smallCards(context, likeSubject, saveSubject),
+                  largeScreen: largeCards(context, likeSubject, saveSubject),
                 ),
                 AppSize.s8.heightSizeBox(),
                 Divider(
@@ -58,11 +67,15 @@ class VideoDetails extends StatelessWidget {
                 ),
                 AppSize.s4.heightSizeBox(),
                 Text(
-                  AppLocalizations.of(context).similarVideos,
+                  AppLocalizations.of(context).comments,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
                 AppSize.s8.heightSizeBox(),
-                similarVideos(context),
+                ResponsiveWidget(
+                  smallScreen: commentCard(context,true),
+                  mediumScreen: commentCard(context,false),
+                  largeScreen: commentCard(context,false),
+                )
               ],
             ),
           ),
@@ -71,19 +84,23 @@ class VideoDetails extends StatelessWidget {
     );
   }
 
-  smallCards(BuildContext context) => Column(
+  smallCards(BuildContext context, likeSubject, saveSubject) => Column(
         children: [
-          docCard(context),
+          docCard(context, likeSubject, saveSubject),
           (AppSize.s8).heightSizeBox(),
-          commentCard(context,180),
+          // commentCard(context, 180),
+          similarVideos(context),
         ],
       );
 
-  largeCards(BuildContext context) => Row(
+  largeCards(BuildContext context, likeSubject, saveSubject) => Row(
         children: [
-          Expanded(child: docCard(context)),
+          Expanded(child: docCard(context, likeSubject, saveSubject)),
           AppSize.s8.widthSizeBox(),
-          Expanded(child: commentCard(context,150))
+          // Expanded(child: commentCard(context, 150))
+          Expanded(
+            child: similarVideos(context),
+          )
         ],
       );
 
@@ -105,92 +122,120 @@ class VideoDetails extends StatelessWidget {
             child: RelatedVideoContainer(videoModel: videoModel, margin: 8)),
       ],
     );
-    return ResponsiveWidget(
-      largeScreen: large,
-      mediumScreen: large,
-      smallScreen: Column(
-        children: [
-          SizedBox(
-              width: MediaQuery.of(context).size.width >= 650
-                  ? 400
-                  : double.infinity,
-              child: RelatedVideoContainer(
-                videoModel: videoModel,
-                margin: 8,
-              )),
-          SizedBox(
-              width: MediaQuery.of(context).size.width >= 650
-                  ? 400
-                  : double.infinity,
-              child: RelatedVideoContainer(videoModel: videoModel, margin: 8)),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          AppLocalizations.of(context).similarVideos,
+          style: Theme.of(context).textTheme.titleLarge,
+          textAlign: TextAlign.start,
+        ),
+        AppSize.s8.heightSizeBox(),
+        ResponsiveWidget(
+          largeScreen: large,
+          mediumScreen: large,
+          smallScreen: Column(
+            children: [
+              SizedBox(
+                  width: MediaQuery.of(context).size.width >= 650
+                      ? 400
+                      : double.infinity,
+                  child: RelatedVideoContainer(
+                    videoModel: videoModel,
+                    margin: 8,
+                  )),
+              SizedBox(
+                  width: MediaQuery.of(context).size.width >= 650
+                      ? 400
+                      : double.infinity,
+                  child:
+                      RelatedVideoContainer(videoModel: videoModel, margin: 8)),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
-  docCard(context) => Container(
-        padding: const EdgeInsets.all(AppPadding.p8),
-        width: double.infinity,
-        height: 150,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppSize.s12),
-          color: Theme.of(context).colorScheme.surfaceContainer,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              AppLocalizations.of(context).documents,
-              style: Theme.of(context).textTheme.titleMedium,
+  docCard(context, likeSubject, saveSubject) => Column(
+        children: [
+          StreamBuilder<int>(
+              stream: likeSubject.stream,
+              builder: (context, snapshot) {
+                return ResponsiveWidget(
+                  smallScreen: rowWidget(context, snapshot, likeSubject,
+                      saveSubject, MediaQuery.of(context).size.width),
+                  largeScreen: rowWidget(context, snapshot, likeSubject,
+                      saveSubject, MediaQuery.of(context).size.width / 2),
+                );
+              }),
+          AppSize.s24.heightSizeBox(),
+          Container(
+            padding: const EdgeInsets.all(AppPadding.p8),
+            width: double.infinity,
+            height: 150,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(AppSize.s12),
+              color: Theme.of(context).colorScheme.surfaceContainer,
             ),
-            (AppSize.s12).heightSizeBox(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  children: [
-                    Image.asset(
-                      'assets/pdf.png',
-                      width: 50,
-                      height: 50,
-                    ),
-                    (AppSize.s4).heightSizeBox(),
-                    const Text('PDF')
-                  ],
+                Text(
+                  AppLocalizations.of(context).documents,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
-                Column(
+                (AppSize.s12).heightSizeBox(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Image.asset(
-                      'assets/word.png',
-                      width: 50,
-                      height: 50,
+                    Column(
+                      children: [
+                        Image.asset(
+                          'assets/pdf.png',
+                          width: 50,
+                          height: 50,
+                        ),
+                        (AppSize.s4).heightSizeBox(),
+                        const Text('PDF')
+                      ],
                     ),
-                    (AppSize.s4).heightSizeBox(),
-                    const Text('DOCX')
-                  ],
-                ),
-                Column(
-                  children: [
-                    Image.asset(
-                      'assets/powerpoint.png',
-                      width: 50,
-                      height: 50,
+                    Column(
+                      children: [
+                        Image.asset(
+                          'assets/word.png',
+                          width: 50,
+                          height: 50,
+                        ),
+                        (AppSize.s4).heightSizeBox(),
+                        const Text('DOCX')
+                      ],
                     ),
-                    (AppSize.s4).heightSizeBox(),
-                    const Text('PPTX')
+                    Column(
+                      children: [
+                        Image.asset(
+                          'assets/powerpoint.png',
+                          width: 50,
+                          height: 50,
+                        ),
+                        (AppSize.s4).heightSizeBox(),
+                        const Text('PPTX')
+                      ],
+                    ),
                   ],
                 ),
               ],
             ),
-          ],
-        ),
+          ),
+        ],
       );
 
-  commentCard(BuildContext context,double height) => Container(
+  commentCard(BuildContext context, bool isMobile) => Container(
         padding: const EdgeInsets.all(AppPadding.p8),
-        width: double.infinity,
-        height: height,
+        width: isMobile
+            ? MediaQuery.of(context).size.width
+            : MediaQuery.of(context).size.width / 2,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppSize.s12),
           color: Theme.of(context).colorScheme.surfaceContainer,
@@ -216,12 +261,149 @@ class VideoDetails extends StatelessWidget {
             ),
             AppSize.s16.heightSizeBox(),
             Align(
-              alignment:AppConstants.isFa? Alignment.bottomLeft : Alignment.bottomRight,
+              alignment: AppConstants.isFa
+                  ? Alignment.bottomLeft
+                  : Alignment.bottomRight,
               child: ElevatedButton(
                 onPressed: () {},
                 child: Text(AppLocalizations.of(context).submit),
               ),
             ),
+            const CommentContainer(),
+            const CommentContainer(),
+            const CommentContainer(),
+            const CommentContainer(),
+            const CommentContainer(),
+            const CommentContainer(),
+          ],
+        ),
+      );
+
+  rowWidget(context, snapshot, likeSubject, saveSubject, width) => SizedBox(
+        width: width,
+        child: Row(
+          children: [
+            Expanded(
+              flex: 1,
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
+                padding: const EdgeInsets.all(AppPadding.p6),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainer,
+                  borderRadius: BorderRadius.circular(AppSize.s60),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    likeSubject.add(1);
+                  },
+                  child: Icon(
+                    snapshot.data == 1
+                        ? Icons.thumb_up_alt
+                        : Icons.thumb_up_alt_outlined,
+                    color: snapshot.data == 1
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 1,
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
+                padding: const EdgeInsets.all(AppPadding.p6),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainer,
+                  borderRadius: BorderRadius.circular(AppSize.s60),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    likeSubject.add(-1);
+                  },
+                  child: Icon(
+                    snapshot.data == -1
+                        ? Icons.thumb_down_alt
+                        : Icons.thumb_down_alt_outlined,
+                    color: snapshot.data == -1
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
+                padding: const EdgeInsets.all(AppPadding.p6),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainer,
+                  borderRadius: BorderRadius.circular(AppSize.s60),
+                ),
+                child: InkWell(
+                  onTap: () {},
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.share),
+                      (AppSize.s4).widthSizeBox(),
+                      Text(AppLocalizations.of(context).share)
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 2,
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
+                padding: const EdgeInsets.all(AppPadding.p6),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainer,
+                  borderRadius: BorderRadius.circular(AppSize.s60),
+                ),
+                child: StreamBuilder<bool>(
+                    stream: saveSubject.stream,
+                    builder: (context, snapshot) {
+                      return InkWell(
+                        onTap: () {
+                          saveSubject.add(!snapshot.data!);
+                          context
+                              .read<VideoDetailsCubit>()
+                              .saveVideo(videoModel.id);
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              snapshot.data ?? false
+                                  ? Icons.bookmark
+                                  : Icons.bookmark_border,
+                              color: snapshot.data ?? false
+                                  ? Theme.of(context).colorScheme.primary
+                                  : Theme.of(context).colorScheme.onSurface,
+                            ),
+                            (AppSize.s4).widthSizeBox(),
+                            Text(
+                              AppLocalizations.of(context).save,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
+                                      color: snapshot.data ?? false
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .primary
+                                          : Theme.of(context)
+                                              .colorScheme
+                                              .onSurface),
+                            )
+                          ],
+                        ),
+                      );
+                    }),
+              ),
+            )
           ],
         ),
       );
