@@ -6,15 +6,17 @@ import 'package:chewie/chewie.dart';
 import 'package:academy/src/features//features.dart';
 
 class VideoPlayerWidget extends StatefulWidget {
-  const VideoPlayerWidget({super.key});
+  VideoPlayerWidget({this.isLive, super.key});
+
+  final bool? isLive;
 
   @override
   State<VideoPlayerWidget> createState() => _VideoPlayerWidgetState();
 }
 
 class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
-  final videoPlayerController = VideoPlayerController.networkUrl(
-      Uri.parse('http://172.16.251.80/${VideoDetailsCubit.url}'));
+
+  late final videoPlayerController;
   late VideoPlayerController _videoPlayerController1;
   late VideoPlayerController _videoPlayerController2;
   ChewieController? _chewieController;
@@ -22,6 +24,13 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
   @override
   void initState() {
+    final url = widget.isLive == true
+        ? VideoDetailsCubit.url
+        : 'http://172.16.251.80/${VideoDetailsCubit.url}';
+    videoPlayerController = VideoPlayerController.networkUrl(
+        Uri.parse(url));
+    print('URLURL');
+    print(url);
     super.initState();
     initializePlayer();
   }
@@ -71,7 +80,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       autoPlay: true,
       looping: true,
       progressIndicatorDelay:
-          bufferDelay != null ? Duration(milliseconds: bufferDelay!) : null,
+      bufferDelay != null ? Duration(milliseconds: bufferDelay!) : null,
       additionalOptions: (context) {
         return <OptionItem>[
           OptionItem(
@@ -81,29 +90,30 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
           ),
         ];
       },
-      subtitleBuilder: (context, dynamic subtitle) => Container(
-        padding: const EdgeInsets.all(AppPadding.p12),
-        decoration:
+      subtitleBuilder: (context, dynamic subtitle) =>
+          Container(
+            padding: const EdgeInsets.all(AppPadding.p12),
+            decoration:
             BoxDecoration(borderRadius: BorderRadius.circular(AppSize.s12)),
-        child: subtitle is InlineSpan
-            ? RichText(
-                text: subtitle,
-              )
-            : Text(
-                subtitle.toString(),
-                style: const TextStyle(color: Colors.black),
-              ),
-      ),
+            child: subtitle is InlineSpan
+                ? RichText(
+              text: subtitle,
+            )
+                : Text(
+              subtitle.toString(),
+              style: const TextStyle(color: Colors.black),
+            ),
+          ),
     );
     return Column(
       children: <Widget>[
         Expanded(
           child: Center(
             child: _chewieController != null &&
-                    _chewieController!.videoPlayerController.value.isInitialized
+                _chewieController!.videoPlayerController.value.isInitialized
                 ? Chewie(
-                    controller: _chewieController!,
-                  )
+              controller: _chewieController!,
+            )
                 : const ACLoading(),
           ),
         ),

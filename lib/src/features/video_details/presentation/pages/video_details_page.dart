@@ -1,6 +1,5 @@
 import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/core/resources/resources.dart';
-import 'package:academy/src/core/resources/value_manager.dart';
 import 'package:academy/src/core/widgets/responsive_widget/responsive_widget.dart';
 import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/video_details/presentation/bloc/video_details_cubit.dart';
@@ -19,6 +18,9 @@ class VideoDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('videoModel.url');
+    print(videoModel.url);
+
     return BlocProvider(
       create: (context) => getIt<VideoDetailsCubit>(),
       child: Scaffold(
@@ -36,7 +38,7 @@ class VideoDetails extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(AppSize.s12),
                   ),
-                  child: const VideoPlayerWidget(),
+                  child: VideoPlayerWidget(isLive:videoModel.isLive),
                 ),
                 Divider(
                   thickness: AppSize.s1,
@@ -73,7 +75,7 @@ class VideoDetails extends StatelessWidget {
         children: [
           docCard(context),
           (AppSize.s8).heightSizeBox(),
-          commentCard(context),
+          commentCard(context,180),
         ],
       );
 
@@ -81,7 +83,7 @@ class VideoDetails extends StatelessWidget {
         children: [
           Expanded(child: docCard(context)),
           AppSize.s8.widthSizeBox(),
-          Expanded(child: commentCard(context))
+          Expanded(child: commentCard(context,150))
         ],
       );
 
@@ -185,10 +187,10 @@ class VideoDetails extends StatelessWidget {
         ),
       );
 
-  commentCard(BuildContext context) => Container(
+  commentCard(BuildContext context,double height) => Container(
         padding: const EdgeInsets.all(AppPadding.p8),
         width: double.infinity,
-        height: 150,
+        height: height,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(AppSize.s12),
           color: Theme.of(context).colorScheme.surfaceContainer,

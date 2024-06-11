@@ -23,7 +23,6 @@ class RelatedVideoContainer extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         VideoDetailsCubit.url = videoModel.url!;
-        print(VideoDetailsCubit.url);
         context.pushNamed(
           'videoDetails',
           extra: videoModel,
@@ -31,7 +30,6 @@ class RelatedVideoContainer extends StatelessWidget {
       },
       child: Container(
         margin:margin==null? EdgeInsets.zero:EdgeInsets.all(margin!),
-        width: double.infinity,
         height: MediaQuery.of(context).size.height * 0.3,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surfaceContainer,

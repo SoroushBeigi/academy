@@ -24,7 +24,7 @@ class _WebHomePageState extends State<WebHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final crossCount = (MediaQuery.of(context).size.width ~/ 350).toInt();
+    final crossCount = (MediaQuery.of(context).size.width ~/ 280).toInt();
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context).academy),
@@ -41,7 +41,7 @@ class _WebHomePageState extends State<WebHomePage> {
                   ),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: crossCount == 0 ? 1 : crossCount,
-                    childAspectRatio: 1.2,
+                    childAspectRatio: 1,
                   ),
                 ),
               ) ??
