@@ -22,8 +22,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
   @override
   void initState() {
-    print('URL==');
-    print(VideoDetailsCubit.url);
     super.initState();
     initializePlayer();
   }
