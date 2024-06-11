@@ -12,15 +12,16 @@ import 'package:get_it/get_it.dart' as _i1;
 import 'package:injectable/injectable.dart' as _i2;
 
 import '../core/data/local/shared_pref.dart' as _i7;
+import '../core/locale_provdier.dart' as _i8;
 import '../core/resources/theme/theme_bloc.dart' as _i3;
-import '../features/add/data/upload_video/upload_video.dart' as _i11;
-import '../features/add/domain/repository/upload_video_repository.dart' as _i12;
-import '../features/add/presentation/cubit/add_cubit.dart' as _i13;
+import '../features/add/data/upload_video/upload_video.dart' as _i12;
+import '../features/add/domain/repository/upload_video_repository.dart' as _i13;
+import '../features/add/presentation/cubit/add_cubit.dart' as _i14;
 import '../features/auth/presentation/cubit/auth_cubit.dart' as _i4;
-import '../features/favourite/presentation/cubit/favourite_cubit.dart' as _i8;
-import '../features/home/presentation/bloc/home_cubit.dart' as _i9;
+import '../features/favourite/presentation/cubit/favourite_cubit.dart' as _i9;
+import '../features/home/presentation/bloc/home_cubit.dart' as _i10;
 import '../features/profile/presentation/cubit/profile_cubit.dart' as _i5;
-import '../features/search/presentation/cubit/search_cubit.dart' as _i10;
+import '../features/search/presentation/cubit/search_cubit.dart' as _i11;
 import '../features/video_details/presentation/bloc/video_details_cubit.dart'
     as _i6;
 
@@ -40,12 +41,13 @@ _i1.GetIt $initGetIt(
   gh.factory<_i5.ProfileCubit>(() => _i5.ProfileCubit());
   gh.factory<_i6.VideoDetailsCubit>(() => _i6.VideoDetailsCubit());
   gh.singleton<_i7.Storage>(() => _i7.Storage());
-  gh.singleton<_i8.FavouriteCubit>(() => _i8.FavouriteCubit());
-  gh.singleton<_i9.HomeCubit>(() => _i9.HomeCubit());
-  gh.singleton<_i10.SearchCubit>(() => _i10.SearchCubit());
-  gh.lazySingleton<_i11.UploadDataSource>(() => _i11.UploadDataSource());
-  gh.lazySingleton<_i12.UploadRepository>(() =>
-      _i12.UploadRepository(uploadDataSource: gh<_i11.UploadDataSource>()));
-  gh.factory<_i13.AddCubit>(() => _i13.AddCubit(gh<_i12.UploadRepository>()));
+  gh.singleton<_i8.LocaleProvider>(() => _i8.LocaleProvider());
+  gh.singleton<_i9.FavouriteCubit>(() => _i9.FavouriteCubit());
+  gh.singleton<_i10.HomeCubit>(() => _i10.HomeCubit());
+  gh.singleton<_i11.SearchCubit>(() => _i11.SearchCubit());
+  gh.lazySingleton<_i12.UploadDataSource>(() => _i12.UploadDataSource());
+  gh.lazySingleton<_i13.UploadRepository>(() =>
+      _i13.UploadRepository(uploadDataSource: gh<_i12.UploadDataSource>()));
+  gh.factory<_i14.AddCubit>(() => _i14.AddCubit(gh<_i13.UploadRepository>()));
   return getIt;
 }

@@ -1,9 +1,11 @@
+import 'package:academy/src/core/resources/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class CustomTheme {
   static ThemeData lightThemeData() {
     return ThemeData(
       useMaterial3: true,
+      fontFamily: AppConstants.isFa? 'Vazir' : 'Poppins',
       colorSchemeSeed: Colors.blue,
       // appBarTheme: const AppBarTheme(color: Colors.green, shadowColor: Colors.red,
       //     elevation: 5, foregroundColor: Colors.white),
@@ -12,6 +14,7 @@ class CustomTheme {
 
   static ThemeData darkThemeData() {
     return ThemeData(
+      fontFamily: AppConstants.isFa? 'Vazir' : 'Poppins',
       useMaterial3: true,
       colorSchemeSeed: Colors.blue,
       brightness: Brightness.dark,

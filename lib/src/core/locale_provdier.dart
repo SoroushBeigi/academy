@@ -2,7 +2,9 @@ import 'package:academy/src/core/data/local/shared_pref.dart';
 import 'package:academy/src/core/resources/app_constants.dart';
 import 'package:academy/src/di/di_setup.dart';
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
 
+@singleton
 class LocaleProvider extends ChangeNotifier {
   Locale? locale = const Locale('en');
   bool canNotify = true;
@@ -34,8 +36,7 @@ class LocaleProvider extends ChangeNotifier {
   void changeLocale(Locale? newLocale) {
     locale = newLocale ?? const Locale('en');
     getIt<Storage>().setIsFa(newLocale?.languageCode == 'fa');
-    print('set isFa:');
-    print(newLocale?.languageCode == 'fa');
+    AppConstants.isFa = newLocale?.languageCode == 'fa';
     notifyListeners();
   }
 }
