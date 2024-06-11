@@ -16,21 +16,12 @@ class VideoPlayerWidget extends StatefulWidget {
 
 class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
-  late final videoPlayerController;
   late VideoPlayerController _videoPlayerController1;
-  late VideoPlayerController _videoPlayerController2;
   ChewieController? _chewieController;
   int? bufferDelay;
 
   @override
   void initState() {
-    final url = widget.isLive == true
-        ? VideoDetailsCubit.url
-        : 'http://172.16.251.80/${VideoDetailsCubit.url}';
-    videoPlayerController = VideoPlayerController.networkUrl(
-        Uri.parse(url));
-    print('URLURL');
-    print(url);
     super.initState();
     initializePlayer();
   }
@@ -38,58 +29,38 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   @override
   void dispose() {
     _videoPlayerController1.dispose();
-    _videoPlayerController2.dispose();
     _chewieController?.dispose();
-    videoPlayerController.dispose();
     super.dispose();
   }
 
-  List<String> srcs = [
-    'http://172.16.251.80/${VideoDetailsCubit.url}',
-    'http://172.16.251.80/${VideoDetailsCubit.url}',
-    'http://172.16.251.80/${VideoDetailsCubit.url}'
-  ];
+
 
   Future<void> initializePlayer() async {
+    final url = widget.isLive == true
+        ? VideoDetailsCubit.url
+        : 'http://172.16.251.80/${VideoDetailsCubit.url}';
     _videoPlayerController1 = VideoPlayerController.networkUrl(
-        Uri.parse('http://172.16.251.80/${VideoDetailsCubit.url}'));
-    _videoPlayerController2 = VideoPlayerController.networkUrl(
-        Uri.parse('http://172.16.251.80/${VideoDetailsCubit.url}'));
+        Uri.parse(url));
     await Future.wait([
       _videoPlayerController1.initialize(),
-      _videoPlayerController2.initialize()
     ]);
     setState(() {});
   }
 
   int currPlayIndex = 0;
 
-  Future<void> toggleVideo() async {
-    await _videoPlayerController1.pause();
-    currPlayIndex += 1;
-    if (currPlayIndex >= srcs.length) {
-      currPlayIndex = 0;
-    }
-    await initializePlayer();
-  }
+
 
   @override
   Widget build(BuildContext context) {
     _chewieController = ChewieController(
+      isLive: widget.isLive == true,
       videoPlayerController: _videoPlayerController1,
       autoPlay: true,
       looping: true,
       progressIndicatorDelay:
       bufferDelay != null ? Duration(milliseconds: bufferDelay!) : null,
-      additionalOptions: (context) {
-        return <OptionItem>[
-          OptionItem(
-            onTap: toggleVideo,
-            iconData: Icons.live_tv_sharp,
-            title: 'Toggle Video Src',
-          ),
-        ];
-      },
+
       subtitleBuilder: (context, dynamic subtitle) =>
           Container(
             padding: const EdgeInsets.all(AppPadding.p12),

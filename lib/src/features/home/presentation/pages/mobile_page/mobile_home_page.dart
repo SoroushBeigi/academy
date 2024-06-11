@@ -2,6 +2,7 @@ import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/home/presentation/bloc/home_state.dart';
+import 'package:academy/src/features/video_details/presentation/bloc/video_details_cubit.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/related_video/related_video_container.dart';
 import 'package:academy/video_model.dart';
 import 'package:flutter/material.dart';
@@ -74,8 +75,12 @@ class _MobileHomePageState extends State<MobileHomePage> {
                             children: List.generate(
                               7,
                               (index) => GestureDetector(
-                                onTap: () => context.pushNamed('videoDetails',
-                                    extra: videoModels[index]),
+                                onTap: () {
+                                  VideoDetailsCubit.url =
+                                      videoModels[index].url!;
+                                  context.pushNamed('videoDetails',
+                                      extra: videoModels[index]);
+                                },
                                 child: Container(
                                     padding: const EdgeInsets.all(12),
                                     margin: const EdgeInsets.symmetric(
