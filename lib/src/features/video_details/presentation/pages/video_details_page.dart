@@ -21,7 +21,9 @@ class VideoDetails extends StatelessWidget {
     return BlocProvider(
       create: (context) => getIt<VideoDetailsCubit>(),
       child: Scaffold(
-        appBar: AppBar(title: Text(videoModel.title ?? ''),),
+        appBar: AppBar(
+          title: Text(videoModel.title ?? ''),
+        ),
         body: Padding(
           padding: const EdgeInsets.all(AppPadding.p16),
           child: ListView(
@@ -60,11 +62,41 @@ class VideoDetails extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
-                      Column(children: [Image.asset('assets/pdf.png',width: 50,height: 50,),(AppSize.s4).heightSizeBox(),const Text('PDF')],),
-                      Column(children: [Image.asset('assets/word.png',width: 50,height: 50,),(AppSize.s4).heightSizeBox(),const Text('DOCX')],),
-                      Column(children: [Image.asset('assets/powerpoint.png',width: 50,height: 50,),(AppSize.s4).heightSizeBox(),const Text('PPTX')],),
-                    ],),
-
+                        Column(
+                          children: [
+                            Image.asset(
+                              'assets/pdf.png',
+                              width: 50,
+                              height: 50,
+                            ),
+                            (AppSize.s4).heightSizeBox(),
+                            const Text('PDF')
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Image.asset(
+                              'assets/word.png',
+                              width: 50,
+                              height: 50,
+                            ),
+                            (AppSize.s4).heightSizeBox(),
+                            const Text('DOCX')
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Image.asset(
+                              'assets/powerpoint.png',
+                              width: 50,
+                              height: 50,
+                            ),
+                            (AppSize.s4).heightSizeBox(),
+                            const Text('PPTX')
+                          ],
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
