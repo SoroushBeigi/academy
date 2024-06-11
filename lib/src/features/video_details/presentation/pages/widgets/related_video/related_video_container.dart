@@ -29,8 +29,6 @@ class RelatedVideoContainer extends StatelessWidget {
         );
       },
       child: Container(
-        margin: const EdgeInsets.symmetric(
-            vertical: AppPadding.p8, horizontal: AppPadding.p8),
         width: double.infinity,
         height: MediaQuery.of(context).size.height * 0.3,
         decoration: BoxDecoration(

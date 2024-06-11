@@ -4,7 +4,7 @@ import 'package:academy/src/core/resources/value_manager.dart';
 import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/video_details/presentation/bloc/video_details_cubit.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/description_video.dart';
-import 'package:academy/src/features/video_details/presentation/pages/widgets/related_video/related_video.dart';
+import 'package:academy/src/features/video_details/presentation/pages/widgets/related_video/related_video_container.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/video_player_widget/video_player_widget.dart';
 import 'package:academy/video_model.dart';
 import 'package:flutter/material.dart';
@@ -116,7 +116,7 @@ class VideoDetails extends StatelessWidget {
                       AppLocalizations.of(context).comment,
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
-                    (AppSize.s8).heightSizeBox(),
+                    AppSize.s8.heightSizeBox(),
                     TextFormField(
                       decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -130,7 +130,15 @@ class VideoDetails extends StatelessWidget {
                   ],
                 ),
               ),
-              const RelatedVideo(),
+              AppSize.s8.heightSizeBox(),
+              Divider(color: Colors.grey[400],indent: 32,endIndent: 32,),
+              AppSize.s4.heightSizeBox(),
+              Text(
+                AppLocalizations.of(context).similarVideos,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              AppSize.s8.heightSizeBox(),
+              RelatedVideoContainer(videoModel: videoModel),
             ],
           ),
         ),

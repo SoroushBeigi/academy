@@ -28,6 +28,7 @@
   "showMore": "show more",
   "showLess": "show less",
   "documents": "Attachments",
+  "similarVideos": "Similar videos",
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
   }
