@@ -1,5 +1,4 @@
 import 'package:academy/src/core/resources/resources.dart';
-import 'package:academy/src/features/features.dart';
 import 'package:flutter/material.dart';
 
 class MoreWidget extends StatefulWidget {

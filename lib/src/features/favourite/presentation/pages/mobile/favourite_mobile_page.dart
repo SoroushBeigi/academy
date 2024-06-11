@@ -1,4 +1,3 @@
-import 'package:academy/src/app.dart';
 import 'package:academy/src/core/resources/value_manager.dart';
 import 'package:academy/src/features/favourite/presentation/cubit/favourite_cubit.dart';
 import 'package:academy/src/features/favourite/presentation/cubit/favourite_state.dart';

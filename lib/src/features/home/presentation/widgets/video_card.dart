@@ -1,5 +1,4 @@
 import 'package:academy/src/core/resources/app_constants.dart';
-import 'package:academy/src/core/resources/assets_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

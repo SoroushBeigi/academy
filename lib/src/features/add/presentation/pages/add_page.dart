@@ -1,9 +1,7 @@
-import 'package:academy/src/core/resources/value_manager.dart';
 import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/add/presentation/cubit/add_cubit.dart';
 import 'package:academy/src/features/add/presentation/pages/widgets/camera_widget.dart';
 import 'package:academy/src/features/core/core.dart';
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 class AddPage extends StatefulWidget {

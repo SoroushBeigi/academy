@@ -2,7 +2,6 @@ import 'package:academy/src/core/locale_provdier.dart';
 import 'package:academy/src/core/resources/theme/custom_theme.dart';
 import 'package:academy/src/core/resources/theme/theme_bloc.dart';
 import 'package:academy/src/routes.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
