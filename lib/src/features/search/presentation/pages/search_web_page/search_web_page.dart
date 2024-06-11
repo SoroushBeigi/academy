@@ -40,6 +40,7 @@ class SearchWebPage extends StatelessWidget {
                         itemCount: videos.length,
                         itemBuilder: (context, index) =>
                             RelatedVideoContainer(
+                              margin: 8,
                               videoModel: videos[index],
                             ),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

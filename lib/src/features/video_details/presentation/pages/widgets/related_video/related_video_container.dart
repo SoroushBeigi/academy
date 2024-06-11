@@ -12,11 +12,12 @@ import '../../../bloc/video_details_cubit.dart';
 class RelatedVideoContainer extends StatelessWidget {
   const RelatedVideoContainer({
     super.key,
+    this.margin,
     required this.videoModel,
   });
 
   final VideoModel videoModel;
-
+  final double? margin;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -29,6 +30,7 @@ class RelatedVideoContainer extends StatelessWidget {
         );
       },
       child: Container(
+        margin:margin==null? EdgeInsets.zero:EdgeInsets.all(margin!),
         width: double.infinity,
         height: MediaQuery.of(context).size.height * 0.3,
         decoration: BoxDecoration(

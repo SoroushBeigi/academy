@@ -44,13 +44,14 @@ class _MobileHomePageState extends State<MobileHomePage> {
                         shrinkWrap: true,
                         itemCount: HomeCubit.videos.length,
                         itemBuilder: (context, index) => RelatedVideoContainer(
+                          margin: 8,
                           videoModel: HomeCubit.videos[index],
                         ),
                       ),
                     );
                   },
                 ) ??
-                SizedBox();
+                const SizedBox();
           },
         ),
       ),

@@ -36,6 +36,7 @@ class _WebHomePageState extends State<WebHomePage> {
                 done: () => GridView.builder(
                   itemCount: HomeCubit.videos.length,
                   itemBuilder: (context, index) => RelatedVideoContainer(
+                    margin: 8,
                     videoModel: HomeCubit.videos[index],
                   ),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

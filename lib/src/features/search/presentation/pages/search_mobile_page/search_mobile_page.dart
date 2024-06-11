@@ -24,8 +24,8 @@ class SearchMobilePage extends StatelessWidget {
                         initial: () => SizedBox(
                           height: MediaQuery.of(context).size.height,
                           child: Center(
-                            child:
-                                Text(AppLocalizations.of(context).startSearching),
+                            child: Text(
+                                AppLocalizations.of(context).startSearching),
                           ),
                         ),
                         foundVideos: (videos) => Padding(
@@ -39,6 +39,7 @@ class SearchMobilePage extends StatelessWidget {
                                   itemCount: videos.length,
                                   itemBuilder: (context, index) =>
                                       RelatedVideoContainer(
+                                    margin: 8,
                                     videoModel: videos[index],
                                   ),
                                 ),

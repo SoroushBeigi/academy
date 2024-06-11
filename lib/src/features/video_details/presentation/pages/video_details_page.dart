@@ -16,6 +16,7 @@ class VideoDetails extends StatelessWidget {
 
   final VideoModel videoModel;
 
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(

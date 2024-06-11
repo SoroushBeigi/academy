@@ -35,6 +35,7 @@ class FavouriteWebPage extends StatelessWidget {
                       return const SizedBox();
                     } else {
                       return RelatedVideoContainer(
+                        margin: 8,
                         videoModel: videoModel,
                       );
                     }
