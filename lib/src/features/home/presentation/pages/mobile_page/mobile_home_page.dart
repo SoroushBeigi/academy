@@ -1,8 +1,8 @@
 import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/di/di_setup.dart';
-import 'package:academy/src/features/features.dart';
 import 'package:academy/src/features/home/presentation/bloc/home_state.dart';
+import 'package:academy/src/features/main/presentation/bloc/main_cubit.dart';
 import 'package:academy/src/features/search/presentation/widgets/search_field.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/related_video/related_video_container.dart';
 import 'package:academy/video_model.dart';

@@ -1,7 +1,7 @@
 import 'package:academy/src/bottom_navigation/bottom_navigation.dart';
 import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/core/resources/resources.dart';
-import 'package:academy/src/features/features.dart';
+import 'package:academy/src/features/main/presentation/bloc/main_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

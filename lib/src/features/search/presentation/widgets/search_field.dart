@@ -18,7 +18,7 @@ class SearchField extends StatelessWidget {
         prefixIcon:
         const Icon(Icons.search, color: Colors.grey),
         filled: true,
-        fillColor: Colors.white,
+        fillColor: Theme.of(context).colorScheme.surfaceBright,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20.0),
           borderSide: BorderSide.none,

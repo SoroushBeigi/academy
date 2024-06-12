@@ -1,15 +1,22 @@
 import 'package:academy/src/core/data/local/shared_pref.dart';
 import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/di/di_setup.dart';
+import 'package:academy/src/features/add/presentation/pages/add_page.dart';
+import 'package:academy/src/features/add/presentation/pages/add_video_page.dart';
 import 'package:academy/src/features/add/presentation/pages/widgets/upload_video/upload_video.dart';
 import 'package:academy/src/features/add/presentation/pages/widgets/video_recorder/video_recorder_widget.dart';
+import 'package:academy/src/features/favourite/presentation/favourite_page.dart';
 import 'package:academy/src/features/onboarding/presentation/onboarding_screen.dart';
+import 'package:academy/src/features/profile/presentation/screens/profile_screen.dart';
 import 'package:academy/video_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'features/auth/presentation/screens/auth_screen.dart';
-import 'features/features.dart';
+import 'features/home/presentation/pages/home_page.dart';
+import 'features/main/presentation/screens/main_screen.dart';
+import 'features/search/presentation/pages/search_page.dart';
+import 'features/video_details/presentation/pages/video_details_page.dart';
 
 class Routes {
   static final parentNavigatorKey = GlobalKey<NavigatorState>();
@@ -27,7 +34,11 @@ class Routes {
 
   static final routes = GoRouter(
     navigatorKey: parentNavigatorKey,
-    initialLocation: getLoggedIn()? '/main' : kIsWeb? '/auth' : '/',
+    initialLocation: getLoggedIn()
+        ? '/main'
+        : kIsWeb
+            ? '/auth'
+            : '/',
     debugLogDiagnostics: true,
     routes: [
       GoRoute(
@@ -84,7 +95,7 @@ class Routes {
                 path: '/main',
                 pageBuilder: (context, state) {
                   return getPage(
-                    child:  const HomePage(),
+                    child: const HomePage(),
                     state: state,
                   );
                 },
@@ -98,7 +109,7 @@ class Routes {
                 path: '/search',
                 pageBuilder: (context, state) {
                   return getPage(
-                    child: SearchScreen(isFromHome:state.extra as bool? ),
+                    child: SearchScreen(isFromHome: state.extra as bool?),
                     state: state,
                   );
                 },
@@ -116,6 +127,17 @@ class Routes {
                     state: state,
                   );
                 },
+                routes: [
+                  GoRoute(
+                    path: 'addVideo',
+                    pageBuilder: (context, state) {
+                      return getPage(
+                        child: const AddVideoPage(),
+                        state: state,
+                      );
+                    },
+                  )
+                ],
               ),
             ],
           ),

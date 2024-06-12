@@ -2,7 +2,8 @@ import 'package:academy/src/features/video_details/presentation/bloc/video_detai
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
-import 'package:academy/src/features/features.dart';
+
+import '../../../../../core/ui_kits/ac_loading/ac_loading.dart';
 
 class VideoPlayerWidget extends StatefulWidget {
   const VideoPlayerWidget({this.isLive, super.key});
