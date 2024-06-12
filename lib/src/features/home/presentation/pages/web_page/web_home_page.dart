@@ -177,7 +177,7 @@ class _WebHomePageState extends State<WebHomePage> {
                         SizedBox(width: 350,child: RelatedVideoContainer(videoModel: e)),
                         AppSize.s8.widthSizeBox(),
                       ],
-                    ))
+                    ),)
                     .toList(),
               ),
             ),

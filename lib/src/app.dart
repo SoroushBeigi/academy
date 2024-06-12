@@ -1,3 +1,4 @@
+import 'package:academy/src/core/custom_scroll.dart';
 import 'package:academy/src/core/locale_provdier.dart';
 import 'package:academy/src/core/resources/theme/custom_theme.dart';
 import 'package:academy/src/core/resources/theme/theme_bloc.dart';
@@ -28,6 +29,7 @@ class App extends StatelessWidget {
               supportedLocales: AppLocalizations.supportedLocales,
               locale: provider.locale,
               routerConfig: Routes.routes,
+              scrollBehavior: CustomScrollBehavior(),
             );
           },
         ),
