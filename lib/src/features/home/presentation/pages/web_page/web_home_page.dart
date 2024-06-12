@@ -139,6 +139,7 @@ class _WebHomePageState extends State<WebHomePage> {
                         //     childAspectRatio: 1,
                         //   ),
                         // ),
+                      categorySection(context,'Live',HomeCubit.videos.sublist(1,5)),
                       categorySection(context,'Education',HomeCubit.videos.sublist(0,5)),
                       categorySection(context,'Entertainment',HomeCubit.videos.sublist(2,4)),
                       categorySection(context,'Music',HomeCubit.videos.sublist(1,4)),

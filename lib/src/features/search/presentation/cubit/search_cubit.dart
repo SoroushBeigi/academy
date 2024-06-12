@@ -8,7 +8,7 @@ import '../../../home/presentation/bloc/home_cubit.dart';
 class SearchCubit extends Cubit<SearchState> {
   SearchCubit() : super(const SearchState.initial());
 
-  Map<String,bool> chips={'Education':false,'Entertainment':false,'Music':false,'Nature':false,};
+  Map<String,bool> chips={'Live':false,'Education':false,'Entertainment':false,'Music':false,'Nature':false,};
 
   void search(String value) {
     if (value == '' || value == ' ') {

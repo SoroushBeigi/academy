@@ -131,16 +131,27 @@ class _MobileHomePageState extends State<MobileHomePage> {
                       Flexible(
                         child: Padding(
                           padding: const EdgeInsets.only(left: 8, right: 8),
-                          child: ListView.builder(
-                            padding: const EdgeInsets.only(bottom: 100),
-                            shrinkWrap: true,
-                            itemCount: HomeCubit.videos.length,
-                            itemBuilder: (context, index) =>
-                                RelatedVideoContainer(
-                              margin: 8,
-                              videoModel: HomeCubit.videos[index],
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                categorySection(context,'Live',HomeCubit.videos.sublist(1,5)),
+                                categorySection(context,'Education',HomeCubit.videos.sublist(0,5)),
+                                categorySection(context,'Entertainment',HomeCubit.videos.sublist(2,4)),
+                                categorySection(context,'Music',HomeCubit.videos.sublist(1,4)),
+                                categorySection(context,'Nature',HomeCubit.videos.sublist(2,5)),
+                              ],
                             ),
                           ),
+                          // child: ListView.builder(
+                          //   padding: const EdgeInsets.only(bottom: 100),
+                          //   shrinkWrap: true,
+                          //   itemCount: HomeCubit.videos.length,
+                          //   itemBuilder: (context, index) =>
+                          //       RelatedVideoContainer(
+                          //     margin: 8,
+                          //     videoModel: HomeCubit.videos[index],
+                          //   ),
+                          // ),
                         ),
                       ),
                     ],
@@ -152,4 +163,24 @@ class _MobileHomePageState extends State<MobileHomePage> {
       ),
     );
   }
+  categorySection(
+      BuildContext context, String title, List<VideoModel> models) =>
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            AppSize.s8.heightSizeBox(),
+            Column(
+              children: models
+                  .map((e) => Container(padding: EdgeInsets.symmetric(vertical: 4),width: 350,child: RelatedVideoContainer(videoModel: e)),)
+                  .toList(),
+            ),
+          ],
+        ),
+      );
 }
