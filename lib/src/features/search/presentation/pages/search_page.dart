@@ -5,13 +5,14 @@ import 'package:flutter/material.dart';
 import 'search_web_page/search_web_page.dart';
 
 class SearchScreen extends StatelessWidget {
-  const SearchScreen({super.key});
+  const SearchScreen({required this.isFromHome,super.key});
+  final bool isFromHome;
 
   @override
   Widget build(BuildContext context) {
     return ResponsiveWidget(
-      smallScreen: SearchMobilePage(),
-      largeScreen: SearchWebPage(),
+      smallScreen: SearchMobilePage(isFromHome:isFromHome),
+      largeScreen: SearchWebPage(isFromHome:isFromHome),
     );
   }
 }

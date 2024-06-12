@@ -7,8 +7,8 @@ import 'package:academy/src/features/video_details/presentation/pages/widgets/re
 import 'package:flutter/material.dart';
 
 class SearchWebPage extends StatelessWidget {
-  const SearchWebPage({super.key});
-
+  const SearchWebPage({required this.isFromHome,super.key});
+  final bool isFromHome;
   @override
   Widget build(BuildContext context) {
     final crossCount = (MediaQuery.of(context).size.width ~/ 350).toInt();

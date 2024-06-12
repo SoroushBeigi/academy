@@ -22,10 +22,9 @@ class ScaffoldWithNestedNavigation extends StatefulWidget {
 
 class _ScaffoldWithNestedNavigationState
     extends State<ScaffoldWithNestedNavigation> {
-  final _controller = BottomController(index: 0);
 
   void _goBranch(int index) {
-    setState(() {});
+    // setState(() {});
     context.read<MainCubit>().updateNavigationIndexState(index);
     widget.navigationShell.goBranch(
       index,
@@ -47,7 +46,7 @@ class _ScaffoldWithNestedNavigationState
         bottomNavigationBar: AnimatedBottomBar(
           color: Theme.of(context).colorScheme.surface,
           notchColor: Theme.of(context).colorScheme.surface,
-          bottomController: _controller,
+          bottomController: context.read<MainCubit>().controller,
           showLabel: false,
           removeMargins: false,
           bottomBarWidth: 500,

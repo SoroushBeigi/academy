@@ -9,6 +9,7 @@ class LocaleProvider extends ChangeNotifier {
   Locale? locale = const Locale('en');
   bool canNotify = true;
 
+
   LocaleProvider() {
     initialize();
   }
