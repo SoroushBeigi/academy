@@ -9,7 +9,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchMobilePage extends StatelessWidget {
   const SearchMobilePage({required this.isFromHome,super.key});
-  final bool isFromHome;
+  final bool? isFromHome;
 
   @override
   Widget build(BuildContext context) {

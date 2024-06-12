@@ -100,7 +100,7 @@ class Routes {
                 path: '/search',
                 pageBuilder: (context, state) {
                   return getPage(
-                    child: SearchScreen(isFromHome:state.extra as bool),
+                    child: SearchScreen(isFromHome:state.extra as bool? ),
                     state: state,
                   );
                 },

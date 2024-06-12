@@ -1,5 +1,6 @@
 import 'package:academy/src/features/search/presentation/cubit/search_cubit.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_state.dart';
+import 'package:academy/src/features/search/presentation/widgets/search_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:academy/src/core/resources/resources.dart';
@@ -8,7 +9,7 @@ import 'package:flutter/material.dart';
 
 class SearchWebPage extends StatelessWidget {
   const SearchWebPage({required this.isFromHome,super.key});
-  final bool isFromHome;
+  final bool? isFromHome;
   @override
   Widget build(BuildContext context) {
     final crossCount = (MediaQuery.of(context).size.width ~/ 350).toInt();
@@ -64,24 +65,7 @@ class SearchWebPage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    child: TextField(
-                      decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context).startSearching,
-                        hintStyle: const TextStyle(color: Colors.grey),
-                        prefixIcon:
-                        const Icon(Icons.search, color: Colors.grey),
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                          borderSide: BorderSide.none,
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 15.0, horizontal: 20.0),
-                      ),
-                      onChanged: (value) =>
-                          context.read<SearchCubit>().search(value),
-                    ),
+                     child: SearchField(enabled: true,autoFocus:isFromHome),
                   )
                 ],
               ),

@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'search_web_page/search_web_page.dart';
 
 class SearchScreen extends StatelessWidget {
-  const SearchScreen({required this.isFromHome,super.key});
-  final bool isFromHome;
+  const SearchScreen({this.isFromHome = false,super.key});
+  final bool? isFromHome;
 
   @override
   Widget build(BuildContext context) {

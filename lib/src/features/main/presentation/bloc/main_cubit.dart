@@ -9,7 +9,6 @@ class MainCubit extends Cubit<MainState> {
 
   final controller = BottomController(index: 0);
 
-
   void updateNavigationIndexState(int index) {
     controller.jumpTo(index);
     emit(MainState(currentIndex: index));

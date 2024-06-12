@@ -30,7 +30,8 @@ class RelatedVideoContainer extends StatelessWidget {
       },
       child: Container(
         margin:margin==null? EdgeInsets.zero:EdgeInsets.all(margin!),
-        height: MediaQuery.of(context).size.height * 0.3,
+        padding: EdgeInsets.only(bottom: 8),
+        // height: MediaQuery.of(context).size.height * 0.3,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surfaceContainer,
           borderRadius: BorderRadius.circular(AppSize.s12),
@@ -40,7 +41,7 @@ class RelatedVideoContainer extends StatelessWidget {
           children: [
             SizedBox(
               width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.2,
+              height: 200,
               child: Stack(
                 children: [
                   ClipRRect(
