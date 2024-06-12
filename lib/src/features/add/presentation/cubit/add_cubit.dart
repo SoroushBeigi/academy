@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:dio/dio.dart%20';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -61,6 +62,16 @@ class AddCubit extends Cubit<AddState> {
           emit(AddState.error(errorMessage: error ?? ''));
         },
       );
+    }
+  }
+
+  Future<void> openFilePicker() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles();
+
+    if (result != null) {
+      File file = File(result.files.single.path!);
+    } else {
+      // User canceled the picker
     }
   }
 

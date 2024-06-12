@@ -1,143 +1,168 @@
 import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/core/widgets/responsive_widget/responsive_widget.dart';
+import 'package:academy/src/di/di_setup.dart';
+import 'package:academy/src/features/add/presentation/cubit/add_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class AddPage extends StatelessWidget {
   const AddPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlocProvider(
+  create: (context) {
+    var bloc = getIt<AddCubit>();
+    return bloc;
+  },
+  child: Scaffold(
       body: ResponsiveWidget(
         smallScreen: smallScreen(context ),
         mediumScreen: largeScreen(context),
         largeScreen: largeScreen(context),
       ),
-    );
+    ),
+);
   }
 
-  smallScreen(context) {
+  smallScreen(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Expanded(
-          flex: 1,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Container(
-                  margin: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                      borderRadius:
-                      const BorderRadius.only(topLeft: Radius.circular(30)),
-                      color: colorScheme.primary),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.video_camera_back_rounded,
-                        color: colorScheme.onPrimary,
-                        size: 80,
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Expanded(
+            flex: 1,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () => context.push('/add/addVideo'),
+                    child: Container(
+                      margin: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          borderRadius:
+                          const BorderRadius.only(topLeft: Radius.circular(30)),
+                          color: colorScheme.primary),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.video_camera_back_rounded,
+                            color: colorScheme.onPrimary,
+                            size: 80,
+                          ),
+                          AppSize.s16.heightSizeBox(),
+                          Text(
+                            'Add video content (.mp4)',
+                            textAlign: TextAlign.center,
+                            style: styleHandler(true, context),
+                          ),
+                        ],
                       ),
-                      AppSize.s16.heightSizeBox(),
-                      Text(
-                        'Add video content (.mp4)',
-                        textAlign: TextAlign.center,
-                        style: styleHandler(true, context),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: Container(
-                  margin: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(30)),
-                      color: colorScheme.primary),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.draw,
-                        color: colorScheme.onPrimary,
-                        size: 80,
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () => getIt<AddCubit>().openFilePicker(),
+                    child: Container(
+                      margin: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                              topRight: Radius.circular(30)),
+                          color: colorScheme.primary),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.draw,
+                            color: colorScheme.onPrimary,
+                            size: 80,
+                          ),
+                          AppSize.s16.heightSizeBox(),
+                          Text(
+                            'Add doc content (.docx)',
+                            textAlign: TextAlign.center,
+                            style: styleHandler(true, context),
+                          ),
+                        ],
                       ),
-                      AppSize.s16.heightSizeBox(),
-                      Text(
-                        'Add doc content (.docx)',
-                        textAlign: TextAlign.center,
-                        style: styleHandler(true, context),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Container(
-                  margin: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(30)),
-                      color: colorScheme.primary),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.book,
-                        color: colorScheme.onPrimary,
-                        size: 80,
+          Expanded(
+            flex: 1,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () => getIt<AddCubit>().openFilePicker(),
+                    child: Container(
+                      margin: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(30)),
+                          color: colorScheme.primary),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.book,
+                            color: colorScheme.onPrimary,
+                            size: 80,
+                          ),
+                          AppSize.s16.heightSizeBox(),
+                          Text(
+                            'Add doc content (.pdf)',
+                            textAlign: TextAlign.center,
+                            style: styleHandler(true, context),
+                          ),
+                        ],
                       ),
-                      AppSize.s16.heightSizeBox(),
-                      Text(
-                        'Add doc content (.pdf)',
-                        textAlign: TextAlign.center,
-                        style: styleHandler(true, context),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: Container(
-                  margin: const EdgeInsets.all(16),
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                          bottomRight: Radius.circular(30)),
-                      color: colorScheme.primary),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.slideshow,
-                        color: colorScheme.onPrimary,
-                        size: 80,
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () => getIt<AddCubit>().openFilePicker(),
+                    child: Container(
+                      margin: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                          borderRadius: const BorderRadius.only(
+                              bottomRight: Radius.circular(30)),
+                          color: colorScheme.primary),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.slideshow,
+                            color: colorScheme.onPrimary,
+                            size: 80,
+                          ),
+                          AppSize.s16.heightSizeBox(),
+                          Text('Add slide content (.pptx)',
+                              textAlign: TextAlign.center,
+                              style: styleHandler(true, context)),
+                        ],
                       ),
-                      AppSize.s16.heightSizeBox(),
-                      Text('Add slide content (.pptx)',
-                          textAlign: TextAlign.center,
-                          style: styleHandler(true, context)),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-        AppSize.s80.heightSizeBox()
-      ],
+          AppSize.s80.heightSizeBox()
+        ],
+      ),
     );
   }
 
@@ -154,52 +179,58 @@ class AddPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  margin: const EdgeInsets.all(16),
-                  height: height / 4,
-                  width: width / 4,
-                  decoration: BoxDecoration(
-                      borderRadius:
-                          const BorderRadius.only(topLeft: Radius.circular(30)),
-                      color: colorScheme.primary),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.video_camera_back_rounded,
-                        color: colorScheme.onPrimary,
-                        size: 80,
-                      ),
-                      AppSize.s16.heightSizeBox(),
-                      Text(
-                        'Add video content (.mp4)',
-                        style: styleHandler(false, context),
-                      ),
-                    ],
+                GestureDetector(
+                  onTap: () => context.push('/add/addVideo'),
+                  child: Container(
+                    margin: const EdgeInsets.all(16),
+                    height: height / 4,
+                    width: width / 4,
+                    decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.only(topLeft: Radius.circular(30)),
+                        color: colorScheme.primary),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.video_camera_back_rounded,
+                          color: colorScheme.onPrimary,
+                          size: 80,
+                        ),
+                        AppSize.s16.heightSizeBox(),
+                        Text(
+                          'Add video content (.mp4)',
+                          style: styleHandler(false, context),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.all(16),
-                  height: height / 4,
-                  width: width / 4,
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                          topRight: Radius.circular(30)),
-                      color: colorScheme.primary),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.draw,
-                        color: colorScheme.onPrimary,
-                        size: 80,
-                      ),
-                      AppSize.s16.heightSizeBox(),
-                      Text(
-                        'Add doc content (.docx)',
-                        style: styleHandler(false, context),
-                      ),
-                    ],
+                GestureDetector(
+                  onTap: () => getIt<AddCubit>().openFilePicker(),
+                  child: Container(
+                    margin: const EdgeInsets.all(16),
+                    height: height / 4,
+                    width: width / 4,
+                    decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                            topRight: Radius.circular(30)),
+                        color: colorScheme.primary),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.draw,
+                          color: colorScheme.onPrimary,
+                          size: 80,
+                        ),
+                        AppSize.s16.heightSizeBox(),
+                        Text(
+                          'Add doc content (.docx)',
+                          style: styleHandler(false, context),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],
@@ -207,50 +238,56 @@ class AddPage extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  margin: const EdgeInsets.all(16),
-                  height: height / 4,
-                  width: width / 4,
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                          bottomLeft: Radius.circular(30)),
-                      color: colorScheme.primary),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.book,
-                        color: colorScheme.onPrimary,
-                        size: 80,
-                      ),
-                      AppSize.s16.heightSizeBox(),
-                      Text(
-                        'Add doc content (.pdf)',
-                        style: styleHandler(false, context),
-                      ),
-                    ],
+                GestureDetector(
+                  onTap: () => getIt<AddCubit>().openFilePicker(),
+                  child: Container(
+                    margin: const EdgeInsets.all(16),
+                    height: height / 4,
+                    width: width / 4,
+                    decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                            bottomLeft: Radius.circular(30)),
+                        color: colorScheme.primary),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.book,
+                          color: colorScheme.onPrimary,
+                          size: 80,
+                        ),
+                        AppSize.s16.heightSizeBox(),
+                        Text(
+                          'Add doc content (.pdf)',
+                          style: styleHandler(false, context),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.all(16),
-                  height: height / 4,
-                  width: width / 4,
-                  decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.only(
-                          bottomRight: Radius.circular(30)),
-                      color: colorScheme.primary),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.slideshow,
-                        color: colorScheme.onPrimary,
-                        size: 80,
-                      ),
-                      AppSize.s16.heightSizeBox(),
-                      Text('Add slide content (.pptx)',
-                          style: styleHandler(false, context)),
-                    ],
+                GestureDetector(
+                  onTap: () => getIt<AddCubit>().openFilePicker(),
+                  child: Container(
+                    margin: const EdgeInsets.all(16),
+                    height: height / 4,
+                    width: width / 4,
+                    decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                            bottomRight: Radius.circular(30)),
+                        color: colorScheme.primary),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.slideshow,
+                          color: colorScheme.onPrimary,
+                          size: 80,
+                        ),
+                        AppSize.s16.heightSizeBox(),
+                        Text('Add slide content (.pptx)',
+                            style: styleHandler(false, context)),
+                      ],
+                    ),
                   ),
                 ),
               ],

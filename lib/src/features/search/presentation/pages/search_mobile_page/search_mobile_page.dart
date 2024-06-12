@@ -1,3 +1,4 @@
+import 'package:academy/src/core/extensions/widget_extensions.dart';
 import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_cubit.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_state.dart';
@@ -50,21 +51,43 @@ class SearchMobilePage extends StatelessWidget {
                         ),
                       ) ??
                       const SizedBox(),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                      // Reduced border radius
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          spreadRadius: 1,
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
+                  Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0),
+                          // Reduced border radius
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              spreadRadius: 1,
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: SearchField(enabled: true,autoFocus:isFromHome),
-                  )
+                        child: SearchField(enabled: true,autoFocus:isFromHome),
+                      ),
+                      AppSize.s8.heightSizeBox(),
+                      state.whenOrNull(
+                        foundVideos: (_) => idleChips(context),
+                        initial: () => idleChips(context),
+                        chipsChanged: (chips) => Wrap(
+                            children: chips.entries
+                                .map(
+                                  (e) => FilterChip(
+                                    label: Text(e.key),
+                                    onSelected: (value) => context
+                                        .read<SearchCubit>()
+                                        .switchChips(e.key, value),
+                                    selected: chips[e.key] ?? false,
+                                  ),
+                            )
+                                .toList()),
+                      ) ??
+                          const SizedBox(),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -73,4 +96,19 @@ class SearchMobilePage extends StatelessWidget {
       ),
     );
   }
+
+  idleChips(BuildContext context) => Wrap(
+      children: context
+          .read<SearchCubit>()
+          .chips
+          .entries
+          .map(
+            (e) => FilterChip(
+              label: Text(e.key),
+              onSelected: (value) =>
+                  context.read<SearchCubit>().switchChips(e.key,value),
+              selected: false,
+            ),
+      )
+          .toList());
 }
