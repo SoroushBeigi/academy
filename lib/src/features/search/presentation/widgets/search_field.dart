@@ -9,25 +9,40 @@ class SearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      autofocus: true,
-      enabled: enabled,
-      decoration: InputDecoration(
-        hintText: AppLocalizations.of(context).startSearching,
-        hintStyle: const TextStyle(color: Colors.grey),
-        prefixIcon:
-        const Icon(Icons.search, color: Colors.grey),
-        filled: true,
-        fillColor: Theme.of(context).colorScheme.surfaceBright,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20.0),
-          borderSide: BorderSide.none,
-        ),
-        contentPadding: const EdgeInsets.symmetric(
-            vertical: 15.0, horizontal: 20.0),
+    return  Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20.0),
+        // Reduced border radius
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            spreadRadius: 1,
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
-      onChanged: (value) =>
-          context.read<SearchCubit>().search(value),
+      child: TextField(
+        autofocus: true,
+        enabled: enabled,
+        decoration: InputDecoration(
+          hintText: AppLocalizations.of(context).startSearching,
+          hintStyle: const TextStyle(color: Colors.grey),
+          prefixIcon:
+          const Icon(Icons.search, color: Colors.grey),
+          filled: true,
+          fillColor: Theme.of(context).colorScheme.surfaceBright,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(20.0),
+            borderSide: BorderSide.none,
+          ),
+          contentPadding: const EdgeInsets.symmetric(
+              vertical: 15.0, horizontal: 20.0),
+        ),
+        onChanged: (value) =>
+            context.read<SearchCubit>().search(value),
+      ),
     );
+
   }
 }

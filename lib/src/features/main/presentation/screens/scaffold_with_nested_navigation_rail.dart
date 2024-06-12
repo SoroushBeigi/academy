@@ -1,6 +1,8 @@
 import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/core/resources/resources.dart';
+import 'package:academy/src/features/main/main.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -22,6 +24,7 @@ class ScaffoldWithNestedNavigationRail extends StatelessWidget {
         body: Row(
       children: [
         NavigationRail(
+          extended: context.read<MainCubit>().isExtended,
           selectedIndex: selectedIndex,
           destinations: <NavigationRailDestination>[
             NavigationRailDestination(
@@ -61,7 +64,7 @@ class ScaffoldWithNestedNavigationRail extends StatelessWidget {
             ),
           ],
           onDestinationSelected: onDestinationSelected,
-          labelType: NavigationRailLabelType.all,
+          labelType:context.read<MainCubit>().isExtended? NavigationRailLabelType.none : NavigationRailLabelType.all,
         ),
         const VerticalDivider(
           thickness: AppSize.s1,

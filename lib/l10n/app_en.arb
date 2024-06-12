@@ -31,6 +31,10 @@
   "documents": "Attachments",
   "similarVideos": "Related videos",
   "submit": "Submit",
+  "addVideo": "Add Video Content (.mp4)",
+  "addWord": "Add doc Content (.docx)",
+  "addPdf": "Add doc Content (.pdf)",
+  "addSlide": "Add slide Content (.pptx)",
   "@helloWorld": {
     "description": "The conventional newborn programmer greeting"
   }

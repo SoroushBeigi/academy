@@ -6,6 +6,7 @@ import 'package:academy/src/features/add/presentation/cubit/add_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddPage extends StatelessWidget {
   const AddPage({super.key});
@@ -58,7 +59,7 @@ class AddPage extends StatelessWidget {
                           ),
                           AppSize.s16.heightSizeBox(),
                           Text(
-                            'Add video content (.mp4)',
+                            AppLocalizations.of(context).addVideo,
                             textAlign: TextAlign.center,
                             style: styleHandler(true, context),
                           ),
@@ -86,7 +87,7 @@ class AddPage extends StatelessWidget {
                           ),
                           AppSize.s16.heightSizeBox(),
                           Text(
-                            'Add doc content (.docx)',
+                            AppLocalizations.of(context).addWord,
                             textAlign: TextAlign.center,
                             style: styleHandler(true, context),
                           ),
@@ -122,7 +123,7 @@ class AddPage extends StatelessWidget {
                           ),
                           AppSize.s16.heightSizeBox(),
                           Text(
-                            'Add doc content (.pdf)',
+                            AppLocalizations.of(context).addPdf,
                             textAlign: TextAlign.center,
                             style: styleHandler(true, context),
                           ),
@@ -149,7 +150,7 @@ class AddPage extends StatelessWidget {
                             size: 80,
                           ),
                           AppSize.s16.heightSizeBox(),
-                          Text('Add slide content (.pptx)',
+                          Text(AppLocalizations.of(context).addSlide,
                               textAlign: TextAlign.center,
                               style: styleHandler(true, context)),
                         ],
@@ -180,7 +181,7 @@ class AddPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
-                  onTap: () => context.push('/add/addVideo'),
+                  onTap: () => getIt<AddCubit>().openFilePicker(),
                   child: Container(
                     margin: const EdgeInsets.all(16),
                     height: height / 4,
@@ -199,7 +200,7 @@ class AddPage extends StatelessWidget {
                         ),
                         AppSize.s16.heightSizeBox(),
                         Text(
-                          'Add video content (.mp4)',
+                          AppLocalizations.of(context).addVideo,
                           style: styleHandler(false, context),
                         ),
                       ],
@@ -226,7 +227,7 @@ class AddPage extends StatelessWidget {
                         ),
                         AppSize.s16.heightSizeBox(),
                         Text(
-                          'Add doc content (.docx)',
+                          AppLocalizations.of(context).addWord,
                           style: styleHandler(false, context),
                         ),
                       ],
@@ -258,7 +259,7 @@ class AddPage extends StatelessWidget {
                         ),
                         AppSize.s16.heightSizeBox(),
                         Text(
-                          'Add doc content (.pdf)',
+                          AppLocalizations.of(context).addPdf,
                           style: styleHandler(false, context),
                         ),
                       ],
@@ -284,7 +285,7 @@ class AddPage extends StatelessWidget {
                           size: 80,
                         ),
                         AppSize.s16.heightSizeBox(),
-                        Text('Add slide content (.pptx)',
+                        Text(AppLocalizations.of(context).addSlide,
                             style: styleHandler(false, context)),
                       ],
                     ),

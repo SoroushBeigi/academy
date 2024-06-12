@@ -9,7 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchMobilePage extends StatelessWidget {
-  const SearchMobilePage({required this.isFromHome,super.key});
+  const SearchMobilePage({required this.isFromHome, super.key});
+
   final bool? isFromHome;
 
   @override
@@ -39,7 +40,7 @@ class SearchMobilePage extends StatelessWidget {
                                       .noItemsFound),
                                 )
                               : ListView.builder(
-                            padding: const EdgeInsets.only(bottom: 100),
+                                  padding: const EdgeInsets.only(bottom: 100),
                                   shrinkWrap: true,
                                   itemCount: videos.length,
                                   itemBuilder: (context, index) =>
@@ -53,38 +54,27 @@ class SearchMobilePage extends StatelessWidget {
                       const SizedBox(),
                   Column(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0),
-                          // Reduced border radius
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              spreadRadius: 1,
-                              blurRadius: 8,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child: SearchField(enabled: true,autoFocus:isFromHome),
-                      ),
+                      SearchField(enabled: true, autoFocus: isFromHome),
                       AppSize.s8.heightSizeBox(),
                       state.whenOrNull(
-                        foundVideos: (_) => idleChips(context),
-                        initial: () => idleChips(context),
-                        chipsChanged: (chips) => Wrap(
-                            children: chips.entries
-                                .map(
-                                  (e) => FilterChip(
-                                    label: Text(e.key),
-                                    onSelected: (value) => context
-                                        .read<SearchCubit>()
-                                        .switchChips(e.key, value),
-                                    selected: chips[e.key] ?? false,
-                                  ),
-                            )
-                                .toList()),
-                      ) ??
+                            foundVideos: (_) => const SizedBox(),
+                            initial: () => idleChips(context),
+                            chipsChanged: (chips) => Wrap(
+                                children: chips.entries
+                                    .map(
+                                      (e) => Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                        child: FilterChip(
+                                          label: Text(e.key),
+                                          onSelected: (value) => context
+                                              .read<SearchCubit>()
+                                              .switchChips(e.key, value),
+                                          selected: chips[e.key] ?? false,
+                                        ),
+                                      ),
+                                    )
+                                    .toList()),
+                          ) ??
                           const SizedBox(),
                     ],
                   ),
@@ -103,12 +93,15 @@ class SearchMobilePage extends StatelessWidget {
           .chips
           .entries
           .map(
-            (e) => FilterChip(
-              label: Text(e.key),
-              onSelected: (value) =>
-                  context.read<SearchCubit>().switchChips(e.key,value),
-              selected: false,
+            (e) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: FilterChip(
+                label: Text(e.key),
+                onSelected: (value) =>
+                    context.read<SearchCubit>().switchChips(e.key, value),
+                selected: false,
+              ),
             ),
-      )
+          )
           .toList());
 }

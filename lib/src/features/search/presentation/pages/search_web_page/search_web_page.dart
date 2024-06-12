@@ -59,22 +59,7 @@ class SearchWebPage extends StatelessWidget {
                       const SizedBox(),
                   Column(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20.0),
-                          // Reduced border radius
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.1),
-                              spreadRadius: 1,
-                              blurRadius: 8,
-                              offset: const Offset(0, 2),
-                            ),
-                          ],
-                        ),
-                        child:
-                            SearchField(enabled: true, autoFocus: isFromHome),
-                      ),
+                      SearchField(enabled: true, autoFocus: isFromHome),
                       AppSize.s8.heightSizeBox(),
                       state.whenOrNull(
                             foundVideos: (_) => idleChips(context),
@@ -82,17 +67,15 @@ class SearchWebPage extends StatelessWidget {
                             chipsChanged: (chips) => Row(
                                 children: chips.entries
                                     .map(
-                                      (e) => Row(
-                                        children: [
-                                          FilterChip(
-                                            label: Text(e.key),
-                                            onSelected: (value) => context
-                                                .read<SearchCubit>()
-                                                .switchChips(e.key, value),
-                                            selected: chips[e.key] ?? false,
-                                          ),
-                                          AppSize.s8.widthSizeBox(),
-                                        ],
+                                      (e) => Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                        child: FilterChip(
+                                          label: Text(e.key),
+                                          onSelected: (value) => context
+                                              .read<SearchCubit>()
+                                              .switchChips(e.key, value),
+                                          selected: chips[e.key] ?? false,
+                                        ),
                                       ),
                                     )
                                     .toList()),
@@ -115,16 +98,14 @@ class SearchWebPage extends StatelessWidget {
           .chips
           .entries
           .map(
-            (e) => Row(
-              children: [
-                FilterChip(
-                  label: Text(e.key),
-                  onSelected: (value) =>
-                      context.read<SearchCubit>().switchChips(e.key, value),
-                  selected: false,
-                ),
-                AppSize.s8.widthSizeBox(),
-              ],
+            (e) => Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: FilterChip(
+                label: Text(e.key),
+                onSelected: (value) =>
+                    context.read<SearchCubit>().switchChips(e.key, value),
+                selected: false,
+              ),
             ),
           )
           .toList());

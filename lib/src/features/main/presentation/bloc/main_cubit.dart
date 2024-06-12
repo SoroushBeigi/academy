@@ -8,8 +8,11 @@ class MainCubit extends Cubit<MainState> {
   MainCubit() : super(const MainState(currentIndex: 0));
 
   final controller = BottomController(index: 0);
+  final bool isExtended = false;
+  int selectedIndex = 0;
 
   void updateNavigationIndexState(int index) {
+    selectedIndex=index;
     controller.jumpTo(index);
     emit(MainState(currentIndex: index));
   }
