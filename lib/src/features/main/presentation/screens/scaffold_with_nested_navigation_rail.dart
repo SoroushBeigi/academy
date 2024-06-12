@@ -26,6 +26,8 @@ class ScaffoldWithNestedNavigationRail extends StatelessWidget {
         NavigationRail(
           extended: context.read<MainCubit>().isExtended,
           selectedIndex: selectedIndex,
+          leading: IconButton(onPressed: ()=>context.read<MainCubit>().switchExtended(),icon: const Icon(Icons.menu),),
+          // minExtendedWidth: 150,
           destinations: <NavigationRailDestination>[
             NavigationRailDestination(
               icon:
