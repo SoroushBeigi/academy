@@ -7,6 +7,8 @@ import 'package:injectable/injectable.dart';
 class SearchCubit extends Cubit<SearchState> {
   SearchCubit() : super(const SearchState.initial());
 
+  Map<String,bool> chips={'Education':false,'Entertainment':false,'Music':false,'Nature':false,};
+
   void search(String value) {
     if (value == '' || value == ' ') {
       emit(const SearchState.initial());
@@ -18,5 +20,11 @@ class SearchCubit extends Cubit<SearchState> {
         .toList();
 
     emit(SearchState.foundVideos(foundVideos));
+  }
+
+  void switchChips(String key, bool value) {
+    chips[key] = value;
+    emit(const SearchState.initial());
+    emit(SearchState.chipsChanged(chips));
   }
 }

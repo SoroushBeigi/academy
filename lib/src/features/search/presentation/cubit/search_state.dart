@@ -7,4 +7,5 @@ part 'search_state.freezed.dart';
 class SearchState with _$SearchState {
   const factory SearchState.initial() = _Initial;
   const factory SearchState.foundVideos(List<VideoModel> videos) = _Found;
+  const factory SearchState.chipsChanged(Map<String,bool> chips) = _Chips;
 }

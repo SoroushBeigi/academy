@@ -1,3 +1,4 @@
+import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_cubit.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_state.dart';
 import 'package:academy/src/features/search/presentation/widgets/search_field.dart';
@@ -8,8 +9,10 @@ import 'package:academy/src/features/video_details/presentation/pages/widgets/re
 import 'package:flutter/material.dart';
 
 class SearchWebPage extends StatelessWidget {
-  const SearchWebPage({required this.isFromHome,super.key});
+  const SearchWebPage({required this.isFromHome, super.key});
+
   final bool? isFromHome;
+
   @override
   Widget build(BuildContext context) {
     final crossCount = (MediaQuery.of(context).size.width ~/ 350).toInt();
@@ -23,49 +26,79 @@ class SearchWebPage extends StatelessWidget {
               child: Stack(
                 children: [
                   state.whenOrNull(
-                    initial: () => SizedBox(
-                      height: MediaQuery.of(context).size.height,
-                      child: Center(
-                        child:
-                        Text(AppLocalizations.of(context).startSearching),
-                      ),
-                    ),
-                    foundVideos: (videos) => Padding(
-                      padding: const EdgeInsets.only(top: 56),
-                      child: videos.isEmpty
-                          ? Center(
-                        child: Text(AppLocalizations.of(context)
-                            .noItemsFound),
-                      )
-                          : GridView.builder(
-                        itemCount: videos.length,
-                        itemBuilder: (context, index) =>
-                            RelatedVideoContainer(
-                              margin: 8,
-                              videoModel: videos[index],
-                            ),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: crossCount == 0 ? 1 : crossCount,
-                          childAspectRatio: 1.2,
+                        initial: () => SizedBox(
+                          height: MediaQuery.of(context).size.height,
+                          child: Center(
+                            child: Text(
+                                AppLocalizations.of(context).startSearching),
+                          ),
                         ),
-                      ),
-                    ),
-                  ) ??
+                        foundVideos: (videos) => Padding(
+                          padding: const EdgeInsets.only(top: 56),
+                          child: videos.isEmpty
+                              ? Center(
+                                  child: Text(AppLocalizations.of(context)
+                                      .noItemsFound),
+                                )
+                              : GridView.builder(
+                                  itemCount: videos.length,
+                                  itemBuilder: (context, index) =>
+                                      RelatedVideoContainer(
+                                    margin: 8,
+                                    videoModel: videos[index],
+                                  ),
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount:
+                                        crossCount == 0 ? 1 : crossCount,
+                                    childAspectRatio: 1.2,
+                                  ),
+                                ),
+                        ),
+                      ) ??
                       const SizedBox(),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20.0),
-                      // Reduced border radius
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          spreadRadius: 1,
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
+                  Column(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20.0),
+                          // Reduced border radius
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.1),
+                              spreadRadius: 1,
+                              blurRadius: 8,
+                              offset: const Offset(0, 2),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                     child: SearchField(enabled: true,autoFocus:isFromHome),
+                        child:
+                            SearchField(enabled: true, autoFocus: isFromHome),
+                      ),
+                      AppSize.s8.heightSizeBox(),
+                      state.whenOrNull(
+                            foundVideos: (_) => idleChips(context),
+                            initial: () => idleChips(context),
+                        chipsChanged: (chips) => Row(
+                            children: chips.entries
+                                .map(
+                                  (e) => Row(
+                                    children: [
+                                      FilterChip(
+                                                                      label: Text(e.key),
+                                                                      onSelected: (value) =>
+                                        context.read<SearchCubit>().switchChips(e.key,value),
+                                                                      selected: chips[e.key] ?? false,
+                                                                    ),
+                                      AppSize.s8.widthSizeBox(),
+                                    ],
+                                  ),
+                            )
+                                .toList()),
+
+                          ) ??
+                          const SizedBox(),
+                    ],
                   )
                 ],
               ),
@@ -75,4 +108,24 @@ class SearchWebPage extends StatelessWidget {
       ),
     );
   }
+
+  idleChips(BuildContext context) => Row(
+      children: context
+          .read<SearchCubit>()
+          .chips
+          .entries
+          .map(
+            (e) => Row(
+              children: [
+                FilterChip(
+                  label: Text(e.key),
+                  onSelected: (value) =>
+                      context.read<SearchCubit>().switchChips(e.key,value),
+                  selected: false,
+                ),
+                AppSize.s8.widthSizeBox(),
+              ],
+            ),
+          )
+          .toList());
 }

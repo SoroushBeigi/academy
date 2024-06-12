@@ -20,18 +20,21 @@ mixin _$SearchState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(List<VideoModel> videos) foundVideos,
+    required TResult Function(Map<String, bool> chips) chipsChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function(List<VideoModel> videos)? foundVideos,
+    TResult? Function(Map<String, bool> chips)? chipsChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function(List<VideoModel> videos)? foundVideos,
+    TResult Function(Map<String, bool> chips)? chipsChanged,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -39,18 +42,21 @@ mixin _$SearchState {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Found value) foundVideos,
+    required TResult Function(_Chips value) chipsChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Found value)? foundVideos,
+    TResult? Function(_Chips value)? chipsChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Found value)? foundVideos,
+    TResult Function(_Chips value)? chipsChanged,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -114,6 +120,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(List<VideoModel> videos) foundVideos,
+    required TResult Function(Map<String, bool> chips) chipsChanged,
   }) {
     return initial();
   }
@@ -123,6 +130,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function(List<VideoModel> videos)? foundVideos,
+    TResult? Function(Map<String, bool> chips)? chipsChanged,
   }) {
     return initial?.call();
   }
@@ -132,6 +140,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function(List<VideoModel> videos)? foundVideos,
+    TResult Function(Map<String, bool> chips)? chipsChanged,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -145,6 +154,7 @@ class _$InitialImpl implements _Initial {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Found value) foundVideos,
+    required TResult Function(_Chips value) chipsChanged,
   }) {
     return initial(this);
   }
@@ -154,6 +164,7 @@ class _$InitialImpl implements _Initial {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Found value)? foundVideos,
+    TResult? Function(_Chips value)? chipsChanged,
   }) {
     return initial?.call(this);
   }
@@ -163,6 +174,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Found value)? foundVideos,
+    TResult Function(_Chips value)? chipsChanged,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -248,6 +260,7 @@ class _$FoundImpl implements _Found {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function(List<VideoModel> videos) foundVideos,
+    required TResult Function(Map<String, bool> chips) chipsChanged,
   }) {
     return foundVideos(videos);
   }
@@ -257,6 +270,7 @@ class _$FoundImpl implements _Found {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function(List<VideoModel> videos)? foundVideos,
+    TResult? Function(Map<String, bool> chips)? chipsChanged,
   }) {
     return foundVideos?.call(videos);
   }
@@ -266,6 +280,7 @@ class _$FoundImpl implements _Found {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function(List<VideoModel> videos)? foundVideos,
+    TResult Function(Map<String, bool> chips)? chipsChanged,
     required TResult orElse(),
   }) {
     if (foundVideos != null) {
@@ -279,6 +294,7 @@ class _$FoundImpl implements _Found {
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
     required TResult Function(_Found value) foundVideos,
+    required TResult Function(_Chips value) chipsChanged,
   }) {
     return foundVideos(this);
   }
@@ -288,6 +304,7 @@ class _$FoundImpl implements _Found {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Found value)? foundVideos,
+    TResult? Function(_Chips value)? chipsChanged,
   }) {
     return foundVideos?.call(this);
   }
@@ -297,6 +314,7 @@ class _$FoundImpl implements _Found {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
     TResult Function(_Found value)? foundVideos,
+    TResult Function(_Chips value)? chipsChanged,
     required TResult orElse(),
   }) {
     if (foundVideos != null) {
@@ -312,5 +330,150 @@ abstract class _Found implements SearchState {
   List<VideoModel> get videos;
   @JsonKey(ignore: true)
   _$$FoundImplCopyWith<_$FoundImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ChipsImplCopyWith<$Res> {
+  factory _$$ChipsImplCopyWith(
+          _$ChipsImpl value, $Res Function(_$ChipsImpl) then) =
+      __$$ChipsImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({Map<String, bool> chips});
+}
+
+/// @nodoc
+class __$$ChipsImplCopyWithImpl<$Res>
+    extends _$SearchStateCopyWithImpl<$Res, _$ChipsImpl>
+    implements _$$ChipsImplCopyWith<$Res> {
+  __$$ChipsImplCopyWithImpl(
+      _$ChipsImpl _value, $Res Function(_$ChipsImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? chips = null,
+  }) {
+    return _then(_$ChipsImpl(
+      null == chips
+          ? _value._chips
+          : chips // ignore: cast_nullable_to_non_nullable
+              as Map<String, bool>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$ChipsImpl implements _Chips {
+  const _$ChipsImpl(final Map<String, bool> chips) : _chips = chips;
+
+  final Map<String, bool> _chips;
+  @override
+  Map<String, bool> get chips {
+    if (_chips is EqualUnmodifiableMapView) return _chips;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_chips);
+  }
+
+  @override
+  String toString() {
+    return 'SearchState.chipsChanged(chips: $chips)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChipsImpl &&
+            const DeepCollectionEquality().equals(other._chips, _chips));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_chips));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ChipsImplCopyWith<_$ChipsImpl> get copyWith =>
+      __$$ChipsImplCopyWithImpl<_$ChipsImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function(List<VideoModel> videos) foundVideos,
+    required TResult Function(Map<String, bool> chips) chipsChanged,
+  }) {
+    return chipsChanged(chips);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function(List<VideoModel> videos)? foundVideos,
+    TResult? Function(Map<String, bool> chips)? chipsChanged,
+  }) {
+    return chipsChanged?.call(chips);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function(List<VideoModel> videos)? foundVideos,
+    TResult Function(Map<String, bool> chips)? chipsChanged,
+    required TResult orElse(),
+  }) {
+    if (chipsChanged != null) {
+      return chipsChanged(chips);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Found value) foundVideos,
+    required TResult Function(_Chips value) chipsChanged,
+  }) {
+    return chipsChanged(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Found value)? foundVideos,
+    TResult? Function(_Chips value)? chipsChanged,
+  }) {
+    return chipsChanged?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Found value)? foundVideos,
+    TResult Function(_Chips value)? chipsChanged,
+    required TResult orElse(),
+  }) {
+    if (chipsChanged != null) {
+      return chipsChanged(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Chips implements SearchState {
+  const factory _Chips(final Map<String, bool> chips) = _$ChipsImpl;
+
+  Map<String, bool> get chips;
+  @JsonKey(ignore: true)
+  _$$ChipsImplCopyWith<_$ChipsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
