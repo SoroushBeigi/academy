@@ -15,7 +15,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class DescriptionVideo extends StatelessWidget {
   const DescriptionVideo({required this.videoModel, super.key});
 
-  final VideoModel videoModel;
+  final ContentEntity videoModel;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class DescriptionVideo extends StatelessWidget {
           children: [
             Text(
               '${videoModel.viewCount ?? 24} views ${DateFormat.timeAgo(
-                videoModel.publishTime ??
+                videoModel.createdAt ??
                     DateTime.now().subtract(
                       const Duration(days: 5),
                     ),

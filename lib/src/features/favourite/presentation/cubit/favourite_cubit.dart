@@ -12,11 +12,11 @@ class FavouriteCubit extends Cubit<FavouriteState> {
   final _storage = getIt<Storage>();
 
   //returns videoModel with id == -1 if could not find the proper model
-  VideoModel getSavedVideos(int index) {
+  ContentEntity getSavedVideos(int index) {
     final id = _storage.getSavedVideos()[index];
     final videoModel = HomeCubit.videos.firstWhere(
       (element) => element.id.toString() == id,
-      orElse: () => VideoModel(id: -1),
+      orElse: () => ContentEntity(id: -1),
     );
 
     return videoModel;

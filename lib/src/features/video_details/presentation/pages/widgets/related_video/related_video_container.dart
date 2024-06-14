@@ -16,7 +16,7 @@ class RelatedVideoContainer extends StatelessWidget {
     required this.videoModel,
   });
 
-  final VideoModel videoModel;
+  final ContentEntity videoModel;
   final double? margin;
   @override
   Widget build(BuildContext context) {
@@ -49,9 +49,9 @@ class RelatedVideoContainer extends StatelessWidget {
                         top: Radius.circular(12), bottom: Radius.zero),
                     child: CachedNetworkImage(
                       fit: BoxFit.contain,
-                      imageUrl: videoModel.image_Url == null
+                      imageUrl: videoModel.imageUrl == null
                           ? "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg"
-                          : (AppConstants.baseUrlWithoutPort + videoModel.image_Url!),
+                          : (AppConstants.baseUrlWithoutPort + videoModel.imageUrl!),
                       imageBuilder: (context, imageProvider) => Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
@@ -127,7 +127,7 @@ class RelatedVideoContainer extends StatelessWidget {
                   // Text('$publisherName ---'),
                   Text('${videoModel.viewCount ?? 0} views ---'),
                   Text(DateFormat.timeAgo(
-                      videoModel.publishTime ?? DateTime.now())),
+                      videoModel.createdAt ?? DateTime.now())),
                   const Spacer(),
                   const MoreWidget(),
                 ],

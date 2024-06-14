@@ -18,7 +18,7 @@ import 'widgets/comment_container.dart';
 class VideoDetails extends StatelessWidget {
   const VideoDetails({required this.videoModel, super.key});
 
-  final VideoModel videoModel;
+  final ContentEntity videoModel;
 
   @override
   Widget build(BuildContext context) {

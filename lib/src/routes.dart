@@ -66,7 +66,7 @@ class Routes {
           path: '/video-details',
           name: 'videoDetails',
           pageBuilder: (BuildContext context, GoRouterState state) {
-            final videoModel = state.extra as VideoModel;
+            final videoModel = state.extra as ContentEntity;
             return CustomTransitionPage(
               key: state.pageKey,
               transitionDuration: AppTimes().t300,

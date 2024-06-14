@@ -17,13 +17,13 @@ class HomeCubit extends Cubit<HomeState> {
       headers: {'Content-Type': 'application/json'},
     ),
   );
-  static List<VideoModel> videos = [];
+  static List<ContentEntity> videos = [];
 
   Future<void> getVideos() async{
     emit(const HomeState.loading());
     try{
       final result = await _dio.get('/content');
-      final fetchedVideos = (result.data as List).map((json) => VideoModel.fromJson(json)).toList();
+      final fetchedVideos = (result.data as List).map((json) => ContentEntity.fromJson(json)).toList();
       videos.addAll(fetchedVideos);
       videos = videos.reversed.toList();
 

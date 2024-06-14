@@ -19,19 +19,19 @@ mixin _$FavouriteState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(List<VideoModel> videos) updated,
+    required TResult Function(List<ContentEntity> videos) updated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(List<VideoModel> videos)? updated,
+    TResult? Function(List<ContentEntity> videos)? updated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(List<VideoModel> videos)? updated,
+    TResult Function(List<ContentEntity> videos)? updated,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -113,7 +113,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(List<VideoModel> videos) updated,
+    required TResult Function(List<ContentEntity> videos) updated,
   }) {
     return initial();
   }
@@ -122,7 +122,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(List<VideoModel> videos)? updated,
+    TResult? Function(List<ContentEntity> videos)? updated,
   }) {
     return initial?.call();
   }
@@ -131,7 +131,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(List<VideoModel> videos)? updated,
+    TResult Function(List<ContentEntity> videos)? updated,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -182,7 +182,7 @@ abstract class _$$UpdatedImplCopyWith<$Res> {
           _$UpdatedImpl value, $Res Function(_$UpdatedImpl) then) =
       __$$UpdatedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<VideoModel> videos});
+  $Res call({List<ContentEntity> videos});
 }
 
 /// @nodoc
@@ -202,7 +202,7 @@ class __$$UpdatedImplCopyWithImpl<$Res>
       null == videos
           ? _value._videos
           : videos // ignore: cast_nullable_to_non_nullable
-              as List<VideoModel>,
+              as List<ContentEntity>,
     ));
   }
 }
@@ -210,11 +210,11 @@ class __$$UpdatedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$UpdatedImpl implements _Updated {
-  const _$UpdatedImpl(final List<VideoModel> videos) : _videos = videos;
+  const _$UpdatedImpl(final List<ContentEntity> videos) : _videos = videos;
 
-  final List<VideoModel> _videos;
+  final List<ContentEntity> _videos;
   @override
-  List<VideoModel> get videos {
+  List<ContentEntity> get videos {
     if (_videos is EqualUnmodifiableListView) return _videos;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_videos);
@@ -247,7 +247,7 @@ class _$UpdatedImpl implements _Updated {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(List<VideoModel> videos) updated,
+    required TResult Function(List<ContentEntity> videos) updated,
   }) {
     return updated(videos);
   }
@@ -256,7 +256,7 @@ class _$UpdatedImpl implements _Updated {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(List<VideoModel> videos)? updated,
+    TResult? Function(List<ContentEntity> videos)? updated,
   }) {
     return updated?.call(videos);
   }
@@ -265,7 +265,7 @@ class _$UpdatedImpl implements _Updated {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(List<VideoModel> videos)? updated,
+    TResult Function(List<ContentEntity> videos)? updated,
     required TResult orElse(),
   }) {
     if (updated != null) {
@@ -307,9 +307,9 @@ class _$UpdatedImpl implements _Updated {
 }
 
 abstract class _Updated implements FavouriteState {
-  const factory _Updated(final List<VideoModel> videos) = _$UpdatedImpl;
+  const factory _Updated(final List<ContentEntity> videos) = _$UpdatedImpl;
 
-  List<VideoModel> get videos;
+  List<ContentEntity> get videos;
   @JsonKey(ignore: true)
   _$$UpdatedImplCopyWith<_$UpdatedImpl> get copyWith =>
       throw _privateConstructorUsedError;
