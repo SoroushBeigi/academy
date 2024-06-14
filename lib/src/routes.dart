@@ -8,7 +8,7 @@ import 'package:academy/src/features/add/presentation/pages/widgets/video_record
 import 'package:academy/src/features/favourite/presentation/favourite_page.dart';
 import 'package:academy/src/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:academy/src/features/profile/presentation/screens/profile_screen.dart';
-import 'package:academy/video_model.dart';
+import 'package:academy/content_entity.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';

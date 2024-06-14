@@ -5,7 +5,7 @@ import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/core/widgets/responsive_widget/responsive_widget.dart';
 import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/video_details/presentation/bloc/video_details_cubit.dart';
-import 'package:academy/video_model.dart';
+import 'package:academy/content_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:readmore/readmore.dart';

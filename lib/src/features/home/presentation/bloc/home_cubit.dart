@@ -1,5 +1,5 @@
 import 'package:academy/src/core/resources/app_constants.dart';
-import 'package:academy/video_model.dart';
+import 'package:academy/content_entity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

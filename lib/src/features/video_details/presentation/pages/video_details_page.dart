@@ -7,7 +7,7 @@ import 'package:academy/src/features/video_details/presentation/bloc/video_detai
 import 'package:academy/src/features/video_details/presentation/pages/widgets/description_video.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/related_video/related_video_container.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/video_player_widget/video_player_widget.dart';
-import 'package:academy/video_model.dart';
+import 'package:academy/content_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';

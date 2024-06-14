@@ -2,7 +2,7 @@ import 'package:academy/src/core/data/local/shared_pref.dart';
 import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/favourite/presentation/cubit/favourite_state.dart';
 import 'package:academy/src/features/home/presentation/bloc/home_cubit.dart';
-import 'package:academy/video_model.dart';
+import 'package:academy/content_entity.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 

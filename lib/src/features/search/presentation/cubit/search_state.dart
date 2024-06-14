@@ -1,4 +1,4 @@
-import 'package:academy/video_model.dart';
+import 'package:academy/content_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'search_state.freezed.dart';
