@@ -1,11 +1,11 @@
+import 'dart:convert';
+
 import 'package:academy/src/core/data/local/shared_pref.dart';
 import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/core/logic/common/date_format.dart';
 import 'package:academy/src/core/resources/resources.dart';
-import 'package:academy/src/core/widgets/responsive_widget/responsive_widget.dart';
 import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/video_details/presentation/bloc/video_details_cubit.dart';
-import 'package:academy/src/features/video_details/presentation/pages/widgets/description_video.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/related_video/related_video_container.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/video_player_widget/video_player_widget.dart';
 import 'package:academy/content_entity.dart';
@@ -15,6 +15,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+import 'package:http/http.dart' as http;
 
 import 'widgets/comment_container.dart';
 
@@ -34,6 +35,8 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
   bool? like;
   bool? save;
 
+
+  TextEditingController commentTextFieldController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -164,6 +167,11 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
 
 
   commentsWidget(BuildContext context) {
+    List<Widget> list = [];
+    for (Comment comment in widget.entity.comments??[]){
+      list.add(commentItemBuilder(context,comment));
+    }
+
     return Container(
       padding: const EdgeInsets.all(AppPadding.p8),
       // width: MediaQuery.of(context).size.width / 2,
@@ -190,6 +198,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
           ),
           AppSize.s12.heightSizeBox(),
           TextFormField(
+            controller: commentTextFieldController,
             decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(AppSize.s12),
@@ -212,6 +221,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
             child: ElevatedButton(
               onPressed: () {
 
+                addComment(contentId: widget.entity.id!,text: commentTextFieldController.text, userId: 1 );
 
               },
               child: Text(AppLocalizations
@@ -219,12 +229,9 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                   .submit),
             ),
           ),
-          const CommentContainer(),
-          const CommentContainer(),
-          const CommentContainer(),
-          const CommentContainer(),
-          const CommentContainer(),
-          const CommentContainer(),
+          Column(
+            children: list,
+          )
         ],
       ),
     );
@@ -544,6 +551,109 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
         ),
       ),
     );
+  }
+
+  commentItemBuilder(BuildContext context, Comment comment){
+    return Column(
+      children: [
+        AppSize.s16.heightSizeBox(),
+        Row(
+          children: [
+            Container(
+              width: AppSize.s28,
+              height: AppSize.s28,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Theme.of(context).colorScheme.onSecondary),
+              child: const Center(child: Icon(Icons.person)),
+            ),
+            AppSize.s4.widthSizeBox(),
+            Text(
+              '@guest - ${comment.userId}',
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+            const Spacer(),
+            Text(
+              '${DateFormat.timeAgo(comment.createdAt ?? DateTime.now().subtract(const Duration(days: 5),),)}',
+              style: Theme.of(context).textTheme.bodyMedium,
+            )
+          ],
+        ),
+        AppSize.s8.heightSizeBox(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8),
+          child: Row(
+            children: [
+              Text(
+                comment.text ?? '-',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              const Spacer(),
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.reply,
+                    color: Theme.of(context).colorScheme.secondary,
+                    size: AppSize.s28,
+                  )),
+            ],
+          ),
+        )
+      ],
+    );
+  }
+
+
+  Future<void> addComment({required int contentId, required int userId, required String text}) async {
+    final url = '${AppConstants.baseUrl}/contents/$contentId/comments';
+    final headers = {'Content-Type': 'application/json'};
+    final body = jsonEncode({
+      'content_id': contentId,
+      'user_id': userId,
+      'text': text,
+    });
+
+    try {
+      final response = await http.post(Uri.parse(url), headers: headers, body: body);
+      if (response.statusCode == 201) {
+        print('Comment added successfully');
+        getComments(contentId: contentId);
+        // Optionally, handle success (e.g., update UI, notify user, etc.)
+      } else {
+        print('Failed to add comment: ${response.statusCode}');
+        // Optionally, handle the error (e.g., show a message to the user)
+      }
+    } catch (e) {
+      print('Error adding comment: $e');
+      // Optionally, handle network or other errors
+    }
+  }
+
+  getComments({required int contentId}) async{
+    final url = '${AppConstants.baseUrl}/contents/$contentId/comments';
+    final headers = {'Content-Type': 'application/json'};
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      if (response.statusCode == 200) {
+        print('Comment added successfully');
+        final List<dynamic> responseData = jsonDecode(response.body);
+        final List<Comment> newComments = responseData.map((data) => Comment.fromJson(data)).toList();
+
+        widget.entity.comments = newComments;
+
+        setState(() {
+
+        });
+        // Optionally, handle success (e.g., update UI, notify user, etc.)
+      } else {
+        print('Failed to add comment: ${response.statusCode}');
+        // Optionally, handle the error (e.g., show a message to the user)
+      }
+    } catch (e) {
+      print('Error adding comment: $e');
+      // Optionally, handle network or other errors
+    }
   }
 
 }

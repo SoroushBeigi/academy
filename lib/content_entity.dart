@@ -16,7 +16,7 @@ class ContentEntity {
   final List<int>? categoryIds;
   final List<Category>? categories;
   final List<Attachment>? attachments;
-  final List<Comment>? comments;
+  List<Comment>? comments;
   final List<String>? tags;
 
   bool? is_approved;
