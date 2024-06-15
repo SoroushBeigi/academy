@@ -11,7 +11,7 @@ class SearchField extends StatelessWidget {
   Widget build(BuildContext context) {
     return  Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20.0),
+        borderRadius: BorderRadius.circular(30.0),
         // Reduced border radius
         boxShadow: [
           BoxShadow(
