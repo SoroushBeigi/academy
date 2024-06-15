@@ -479,11 +479,13 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
           .textTheme
           .titleSmall,
         textAlign: TextAlign.start,),
-      Text(description ?? '-', style: Theme
-          .of(context)
-          .textTheme
-          .titleSmall,
-        textAlign: TextAlign.start,),
+      Flexible(
+        child: Text(description ?? '-', style: Theme
+            .of(context)
+            .textTheme
+            .titleSmall,
+          textAlign: TextAlign.start,),
+      ),
     ],);
   }
 
