@@ -82,7 +82,7 @@ class Routes {
                   child: child,
                 );
               },
-              child: VideoDetails(videoModel: videoModel),
+              child: VideoDetails(entity: videoModel),
             );
           }),
       StatefulShellRoute.indexedStack(

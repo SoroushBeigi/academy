@@ -1,3 +1,5 @@
+import 'package:academy/content_entity.dart';
+import 'package:academy/src/core/resources/app_constants.dart';
 import 'package:academy/src/features/video_details/presentation/bloc/video_details_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
@@ -6,8 +8,9 @@ import 'package:chewie/chewie.dart';
 import '../../../../../core/ui_kits/ac_loading/ac_loading.dart';
 
 class VideoPlayerWidget extends StatefulWidget {
-  const VideoPlayerWidget({this.isLive, super.key});
-  final bool? isLive;
+  const VideoPlayerWidget({required this.entity, super.key});
+
+  final ContentEntity entity;
 
   @override
   State<VideoPlayerWidget> createState() => _VideoPlayerWidgetState();
@@ -35,16 +38,16 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
 
   Future<void> initializePlayer() async {
-    final url = widget.isLive == true
+    final url = widget.entity.isLive == true
         ? VideoDetailsCubit.url
-        : 'http://172.16.251.80/${VideoDetailsCubit.url}';
+        : '${AppConstants.baseUrlWithoutPort}/${widget.entity.url}';
     _videoPlayerController1 = VideoPlayerController.networkUrl(
         Uri.parse(url));
     await _videoPlayerController1.initialize().then((_){
       setState(() {});
     });
     _chewieController = ChewieController(
-      isLive: widget.isLive == true,
+      isLive: widget.entity.isLive == true,
       videoPlayerController: _videoPlayerController1,
       autoPlay: true,
       looping: true,
