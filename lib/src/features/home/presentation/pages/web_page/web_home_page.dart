@@ -120,50 +120,58 @@ class _WebHomePageState extends State<WebHomePage> {
 
 
                     ///user
-                    IntrinsicHeight(
-                      child: Row(
-                        children: [
-                          Stack(
-                            children: [
-                              Icon(Icons.notifications, size: AppSize.s28,),
-                              Container(
-                                width: AppSize.s16,
-                                height: AppSize.s16,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(AppSize.s60),
-                                    color: Colors.red
-                                ),
-                                child: Center(child: Text('2', style: TextStyle(color: Colors.white, fontSize: 8))),
-                              )
-                            ],
-                          ),
-                          AppSize.s8.widthSizeBox(),
-                          VerticalDivider(
-                            thickness: AppSize.s1,
-                            width: AppSize.s1,
-                            color: Theme.of(context).colorScheme.tertiary,
-                          ),
-                          AppSize.s8.widthSizeBox(),
-                          Container(
-                            width: AppSize.s42,
-                            height: AppSize.s42,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(AppSize.s60),
-                                color: Theme.of(context).colorScheme.secondaryContainer
+                    InkWell(
+                      onTap: (){
+                        context.go('/profile', extra: true);
+                        context
+                            .read<MainCubit>()
+                            .updateNavigationIndexState(4);
+                      },
+                      child: IntrinsicHeight(
+                        child: Row(
+                          children: [
+                            Stack(
+                              children: [
+                                Icon(Icons.notifications, size: AppSize.s28,),
+                                Container(
+                                  width: AppSize.s16,
+                                  height: AppSize.s16,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(AppSize.s60),
+                                      color: Colors.red
+                                  ),
+                                  child: Center(child: Text('2', style: TextStyle(color: Colors.white, fontSize: 8))),
+                                )
+                              ],
                             ),
-                            child: const Center(
-                              child: Icon(
-                                  Icons.person,
+                            AppSize.s8.widthSizeBox(),
+                            VerticalDivider(
+                              thickness: AppSize.s1,
+                              width: AppSize.s1,
+                              color: Theme.of(context).colorScheme.tertiary,
+                            ),
+                            AppSize.s8.widthSizeBox(),
+                            Container(
+                              width: AppSize.s42,
+                              height: AppSize.s42,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(AppSize.s60),
+                                  color: Theme.of(context).colorScheme.secondaryContainer
+                              ),
+                              child: const Center(
+                                child: Icon(
+                                    Icons.person,
 
+                                ),
                               ),
                             ),
-                          ),
-                          AppSize.s8.widthSizeBox(),
-                          Text(username, style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold, fontSize: 10),),
+                            AppSize.s8.widthSizeBox(),
+                            Text(username, style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold, fontSize: 10),),
 
-                          AppSize.s16.widthSizeBox(),
+                            AppSize.s16.widthSizeBox(),
 
-                        ],
+                          ],
+                        ),
                       ),
                     )
                   ],

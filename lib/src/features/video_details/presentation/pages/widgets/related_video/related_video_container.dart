@@ -125,7 +125,7 @@ class RelatedVideoContainer extends StatelessWidget {
               child: Row(
                 children: [
                   // Text('$publisherName ---'),
-                  Text('${videoModel.viewCount ?? 0} views ---'),
+                  Text('${videoModel.viewCount ?? 0} views • '),
                   Text(DateFormat.timeAgo(
                       videoModel.createdAt ?? DateTime.now())),
                   const Spacer(),
