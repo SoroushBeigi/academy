@@ -14,6 +14,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:http/http.dart' as http;
 
@@ -35,8 +36,16 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
   bool? like;
   bool? save;
 
+  late String username;
+  late int userId;
 
   TextEditingController commentTextFieldController = TextEditingController();
+
+  loadUserInfo() async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    username = pref.getString('username') ?? '-';
+    userId = pref.getInt('id') ?? -1;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -221,7 +230,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
             child: ElevatedButton(
               onPressed: () {
 
-                addComment(contentId: widget.entity.id!,text: commentTextFieldController.text, userId: 1 );
+                addComment(contentId: widget.entity.id!,text: commentTextFieldController.text, userId: userId );
 
               },
               child: Text(AppLocalizations
@@ -571,7 +580,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
             ),
             AppSize.s4.widthSizeBox(),
             Text(
-              '@guest - ${comment.userId}',
+              '@$username',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const Spacer(),

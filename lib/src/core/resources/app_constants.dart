@@ -1,3 +1,5 @@
+import 'package:academy/src/features/auth/presentation/cubit/auth_cubit.dart';
+
 class AppConstants {
   static const int onboardingPagesCount = 3;
   static const String tokenKey = 'token';

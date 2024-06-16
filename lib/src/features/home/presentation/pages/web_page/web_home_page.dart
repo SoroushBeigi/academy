@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../../../core/resources/resources.dart';
 import '../../../../main/presentation/bloc/main_cubit.dart';
@@ -48,10 +49,23 @@ class _WebHomePageState extends State<WebHomePage> {
         url: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', isLive: true),
   ];
 
+
+  late String username;
+  late int userId;
+
+
+  loadUserInfo() async{
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    username = pref.getString('username') ?? '-';
+    userId = pref.getInt('id') ?? -1;
+  }
+
   @override
   void initState() {
     getIt<HomeCubit>().getVideos();
     super.initState();
+    loadUserInfo();
+
   }
 
   @override
@@ -145,7 +159,7 @@ class _WebHomePageState extends State<WebHomePage> {
                             ),
                           ),
                           AppSize.s8.widthSizeBox(),
-                          Text('Guest', style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold, fontSize: 10),),
+                          Text(username, style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold, fontSize: 10),),
 
                           AppSize.s16.widthSizeBox(),
 
