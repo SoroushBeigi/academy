@@ -67,4 +67,9 @@ class Storage {
   String getUsername() => _sharedPrefs?.getString('username') ?? '-';
 
   int getId() => _sharedPrefs?.getInt('id') ?? -1;
+
+  void setUserData(String? username, int? id){
+    _sharedPrefs?.setString('username', username ?? '-');
+    _sharedPrefs?.setInt('id', id ?? -1);
+  }
 }
