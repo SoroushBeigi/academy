@@ -22,9 +22,9 @@ class HomeCubit extends Cubit<HomeState> {
   static List<Category> categories = [];
 
   Future<void> initial () async {
+    print('reached');
     emit(const HomeState.loading());
     await getVideos();
-
     await getCategories();
 
     emit(const HomeState.done());
@@ -42,7 +42,7 @@ class HomeCubit extends Cubit<HomeState> {
 
       // return;
     }on DioException catch(e){
-      debugPrint(e.error.toString());
+      debugPrint(e.toString());
     }
   }
 
@@ -57,7 +57,6 @@ class HomeCubit extends Cubit<HomeState> {
       categories.addAll(fetchedCategories);
       categories = categories.reversed.toList();
 
-      _dio.close();
       // return;
 
 

@@ -76,6 +76,7 @@ class _MobileHomePageState extends State<MobileHomePage> {
         builder: (context, state) {
           return state.whenOrNull(
                 loading: () => const ACLoading(),
+                initial: () => const ACLoading(),
                 done: () {
                   return Column(
                     children: [
@@ -131,15 +132,18 @@ class _MobileHomePageState extends State<MobileHomePage> {
                       Flexible(
                         child: Padding(
                           padding: const EdgeInsets.only(left: 8, right: 8),
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                categorySection(context,'Live',HomeCubit.videos.sublist(1,5)),
-                                categorySection(context,'Education',HomeCubit.videos.sublist(0,5)),
-                                categorySection(context,'Entertainment',HomeCubit.videos.sublist(2,4)),
-                                categorySection(context,'Music',HomeCubit.videos.sublist(1,4)),
-                                categorySection(context,'Nature',HomeCubit.videos.sublist(2,5)),
-                              ],
+                          child: RefreshIndicator(
+                            onRefresh: () => context.read<HomeCubit>().initial(),
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  categorySection(context,'Live',HomeCubit.videos.sublist(1,5)),
+                                  categorySection(context,'Education',HomeCubit.videos.sublist(0,5)),
+                                  categorySection(context,'Entertainment',HomeCubit.videos.sublist(2,4)),
+                                  categorySection(context,'Music',HomeCubit.videos.sublist(1,4)),
+                                  categorySection(context,'Nature',HomeCubit.videos.sublist(2,5)),
+                                ],
+                              ),
                             ),
                           ),
                           // child: ListView.builder(

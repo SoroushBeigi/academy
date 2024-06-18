@@ -71,173 +71,175 @@ class _WebHomePageState extends State<WebHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final crossCount = (MediaQuery.of(context).size.width ~/ 280).toInt();
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return state.whenOrNull(
-          initial: ()=> ACLoading(),
+          initial: ()=> const ACLoading(),
           loading: () => const ACLoading(),
-          done: () => SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
+          done: () => RefreshIndicator(
+            onRefresh: () => context.read<HomeCubit>().initial(),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
 
-                ///page header
-                Row(
-                  children: [
+                  ///page header
+                  Row(
+                    children: [
 
-                    ///logo
-                    SizedBox(
-                      height: 50,
+                      ///logo
+                      SizedBox(
+                        height: 50,
 
-                      child: Row(
-                        children: [
-                          ClipRRect(
-                              borderRadius: BorderRadius.circular(30),
-                              child: Image.asset('assets/icon.png',)),
-                          // AppSize.s4.widthSizeBox(),
-                          Text(AppLocalizations.of(context).academy, style: TextStyle(fontWeight: FontWeight.bold),),
-                        ],
-                      ),
-                    ),
-
-                    ///search
-                    Flexible(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
-                        child: GestureDetector(
-                          onTap: () {
-                            context.go('/search', extra: true);
-                            context
-                                .read<MainCubit>()
-                                .updateNavigationIndexState(1);
-                          },
-                          child: const SearchField(
-                            enabled: false,
-                            autoFocus: false,
-                          ),
-                        ),
-                      ),
-                    ),
-
-
-                    ///user
-                    InkWell(
-                      onTap: (){
-                        context.go('/profile', extra: true);
-                        context
-                            .read<MainCubit>()
-                            .updateNavigationIndexState(4);
-                      },
-                      child: IntrinsicHeight(
                         child: Row(
                           children: [
-                            Stack(
-                              children: [
-                                Icon(Icons.notifications, size: AppSize.s28,),
-                                Container(
-                                  width: AppSize.s16,
-                                  height: AppSize.s16,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(AppSize.s60),
-                                      color: Colors.red
-                                  ),
-                                  child: Center(child: Text('2', style: TextStyle(color: Colors.white, fontSize: 8))),
-                                )
-                              ],
-                            ),
-                            AppSize.s8.widthSizeBox(),
-                            VerticalDivider(
-                              thickness: AppSize.s1,
-                              width: AppSize.s1,
-                              color: Theme.of(context).colorScheme.tertiary,
-                            ),
-                            AppSize.s8.widthSizeBox(),
-                            Container(
-                              width: AppSize.s42,
-                              height: AppSize.s42,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(AppSize.s60),
-                                  color: Theme.of(context).colorScheme.secondaryContainer
-                              ),
-                              child: const Center(
-                                child: Icon(
-                                    Icons.person,
-
-                                ),
-                              ),
-                            ),
-                            AppSize.s8.widthSizeBox(),
-                            Text(username, style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold, fontSize: 10),),
-
-                            AppSize.s16.widthSizeBox(),
-
+                            ClipRRect(
+                                borderRadius: BorderRadius.circular(30),
+                                child: Image.asset('assets/icon.png',)),
+                            // AppSize.s4.widthSizeBox(),
+                            Text(AppLocalizations.of(context).academy, style: const TextStyle(fontWeight: FontWeight.bold),),
                           ],
                         ),
                       ),
-                    )
-                  ],
-                ),
+
+                      ///search
+                      Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 16),
+                          child: GestureDetector(
+                            onTap: () {
+                              context.go('/search', extra: true);
+                              context
+                                  .read<MainCubit>()
+                                  .updateNavigationIndexState(1);
+                            },
+                            child: const SearchField(
+                              enabled: false,
+                              autoFocus: false,
+                            ),
+                          ),
+                        ),
+                      ),
+
+
+                      ///user
+                      InkWell(
+                        onTap: (){
+                          context.go('/profile', extra: true);
+                          context
+                              .read<MainCubit>()
+                              .updateNavigationIndexState(4);
+                        },
+                        child: IntrinsicHeight(
+                          child: Row(
+                            children: [
+                              Stack(
+                                children: [
+                                  const Icon(Icons.notifications, size: AppSize.s28,),
+                                  Container(
+                                    width: AppSize.s16,
+                                    height: AppSize.s16,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(AppSize.s60),
+                                        color: Colors.red
+                                    ),
+                                    child: const Center(child: Text('2', style: TextStyle(color: Colors.white, fontSize: 8))),
+                                  )
+                                ],
+                              ),
+                              AppSize.s8.widthSizeBox(),
+                              VerticalDivider(
+                                thickness: AppSize.s1,
+                                width: AppSize.s1,
+                                color: Theme.of(context).colorScheme.tertiary,
+                              ),
+                              AppSize.s8.widthSizeBox(),
+                              Container(
+                                width: AppSize.s42,
+                                height: AppSize.s42,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(AppSize.s60),
+                                    color: Theme.of(context).colorScheme.secondaryContainer
+                                ),
+                                child: const Center(
+                                  child: Icon(
+                                      Icons.person,
+
+                                  ),
+                                ),
+                              ),
+                              AppSize.s8.widthSizeBox(),
+                              Text(username, style: Theme.of(context).textTheme.bodySmall?.copyWith(fontWeight: FontWeight.bold, fontSize: 10),),
+
+                              AppSize.s16.widthSizeBox(),
+
+                            ],
+                          ),
+                        ),
+                      )
+                    ],
+                  ),
 
 
 
-                ///categories
+                  ///categories
 
 
 
-                // SingleChildScrollView(
-                //   scrollDirection: Axis.horizontal,
-                //   child: Row(
-                //     children: List.generate(
-                //       7,
-                //       (index) => GestureDetector(
-                //         onTap: () {
-                //           VideoDetailsCubit.url = videoModels[index].url!;
-                //           context.pushNamed('videoDetails',
-                //               extra: videoModels[index]);
-                //         },
-                //         child: Container(
-                //             padding: const EdgeInsets.all(12),
-                //             margin:
-                //                 const EdgeInsets.symmetric(horizontal: 8),
-                //             decoration: BoxDecoration(
-                //                 border: Border.all(
-                //                     color: Colors.grey[800]!, width: 2),
-                //                 borderRadius: BorderRadius.circular(30),
-                //                 color: index % 2 == 0
-                //                     ? Colors.red[500]
-                //                     : Colors.red[800]),
-                //             child: const Icon(
-                //               Icons.live_tv,
-                //               size: 35,
-                //               color: Colors.white,
-                //             )),
-                //       ),
-                //     ),
-                //   ),
-                // ),
+                  // SingleChildScrollView(
+                  //   scrollDirection: Axis.horizontal,
+                  //   child: Row(
+                  //     children: List.generate(
+                  //       7,
+                  //       (index) => GestureDetector(
+                  //         onTap: () {
+                  //           VideoDetailsCubit.url = videoModels[index].url!;
+                  //           context.pushNamed('videoDetails',
+                  //               extra: videoModels[index]);
+                  //         },
+                  //         child: Container(
+                  //             padding: const EdgeInsets.all(12),
+                  //             margin:
+                  //                 const EdgeInsets.symmetric(horizontal: 8),
+                  //             decoration: BoxDecoration(
+                  //                 border: Border.all(
+                  //                     color: Colors.grey[800]!, width: 2),
+                  //                 borderRadius: BorderRadius.circular(30),
+                  //                 color: index % 2 == 0
+                  //                     ? Colors.red[500]
+                  //                     : Colors.red[800]),
+                  //             child: const Icon(
+                  //               Icons.live_tv,
+                  //               size: 35,
+                  //               color: Colors.white,
+                  //             )),
+                  //       ),
+                  //     ),
+                  //   ),
+                  // ),
 
-                // child: GridView.builder(
-                //   itemCount: HomeCubit.videos.length,
-                //   itemBuilder: (context, index) => RelatedVideoContainer(
-                //     margin: 8,
-                //     videoModel: HomeCubit.videos[index],
-                //   ),
-                //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                //     crossAxisCount: crossCount == 0 ? 1 : crossCount,
-                //     childAspectRatio: 1,
-                //   ),
-                // ),
-
-
-                categorySection(context,'Live',HomeCubit.videos.sublist(0)),
-                categorySection(context,'Education',HomeCubit.videos.sublist(0,5)),
-                categorySection(context,'Entertainment',HomeCubit.videos.sublist(2,4)),
-                categorySection(context,'Music',HomeCubit.videos.sublist(1,HomeCubit.videos.length)),
-                categorySection(context,'Nature',HomeCubit.videos.sublist(2,5)),
+                  // child: GridView.builder(
+                  //   itemCount: HomeCubit.videos.length,
+                  //   itemBuilder: (context, index) => RelatedVideoContainer(
+                  //     margin: 8,
+                  //     videoModel: HomeCubit.videos[index],
+                  //   ),
+                  //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  //     crossAxisCount: crossCount == 0 ? 1 : crossCount,
+                  //     childAspectRatio: 1,
+                  //   ),
+                  // ),
 
 
-              ],
+                  categorySection(context,'Live',HomeCubit.videos.sublist(0)),
+                  categorySection(context,'Education',HomeCubit.videos.sublist(0,5)),
+                  categorySection(context,'Entertainment',HomeCubit.videos.sublist(2,4)),
+                  categorySection(context,'Music',HomeCubit.videos.sublist(1,HomeCubit.videos.length)),
+                  categorySection(context,'Nature',HomeCubit.videos.sublist(2,5)),
+
+
+                ],
+              ),
             ),
           ),
         ) ??
