@@ -14,8 +14,8 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context){
-        final cubit = getIt<HomeCubit>();
-        cubit.getVideos();
+        final cubit = HomeCubit();
+        cubit.initial();
         return cubit;
       },
       child:  const ResponsiveWidget(

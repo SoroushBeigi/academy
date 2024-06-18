@@ -23,31 +23,31 @@ class WebHomePage extends StatefulWidget {
 }
 
 class _WebHomePageState extends State<WebHomePage> {
-  final List<ContentEntity> videoModels = [
-    ContentEntity(
-        url:
-            'https://res.cloudinary.com/dannykeane/video/upload/sp_full_hd/q_80:qmax_90,ac_none/v1/dk-memoji-dark.m3u8',
-        isLive: true),
-    ContentEntity(
-        url:
-            'https://diceyk6a7voy4.cloudfront.net/e78752a1-2e83-43fa-85ae-3d508be29366/hls/fitfest-sample-1_Ott_Hls_Ts_Avc_Aac_16x9_1280x720p_30Hz_6.0Mbps_qvbr.m3u8',
-        isLive: true),
-    ContentEntity(
-        url: 'https://test-streams.mux.dev/pts_shift/master.m3u8',
-        isLive: true),
-    ContentEntity(
-        url:
-            'https://test-streams.mux.dev/issue666/playlists/cisq0gim60007xzvi505emlxx.m3u8',
-        isLive: true),
-    ContentEntity(
-        url:
-            'https://test-streams.mux.dev/dai-discontinuity-deltatre/manifest.m3u8',
-        isLive: true),
-    ContentEntity(
-        url: 'https://test-streams.mux.dev/test_001/stream.m3u8', isLive: true),
-    ContentEntity(
-        url: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', isLive: true),
-  ];
+  // final List<ContentEntity> videoModels = [
+  //   ContentEntity(
+  //       url:
+  //           'https://res.cloudinary.com/dannykeane/video/upload/sp_full_hd/q_80:qmax_90,ac_none/v1/dk-memoji-dark.m3u8',
+  //       isLive: true),
+  //   ContentEntity(
+  //       url:
+  //           'https://diceyk6a7voy4.cloudfront.net/e78752a1-2e83-43fa-85ae-3d508be29366/hls/fitfest-sample-1_Ott_Hls_Ts_Avc_Aac_16x9_1280x720p_30Hz_6.0Mbps_qvbr.m3u8',
+  //       isLive: true),
+  //   ContentEntity(
+  //       url: 'https://test-streams.mux.dev/pts_shift/master.m3u8',
+  //       isLive: true),
+  //   ContentEntity(
+  //       url:
+  //           'https://test-streams.mux.dev/issue666/playlists/cisq0gim60007xzvi505emlxx.m3u8',
+  //       isLive: true),
+  //   ContentEntity(
+  //       url:
+  //           'https://test-streams.mux.dev/dai-discontinuity-deltatre/manifest.m3u8',
+  //       isLive: true),
+  //   ContentEntity(
+  //       url: 'https://test-streams.mux.dev/test_001/stream.m3u8', isLive: true),
+  //   ContentEntity(
+  //       url: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8', isLive: true),
+  // ];
 
 
   late String username;
@@ -62,7 +62,8 @@ class _WebHomePageState extends State<WebHomePage> {
 
   @override
   void initState() {
-    getIt<HomeCubit>().getVideos();
+    // getIt<HomeCubit>().initial();
+
     super.initState();
     loadUserInfo();
 
@@ -74,6 +75,7 @@ class _WebHomePageState extends State<WebHomePage> {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return state.whenOrNull(
+          initial: ()=> ACLoading(),
           loading: () => const ACLoading(),
           done: () => SingleChildScrollView(
             child: Column(
@@ -179,6 +181,10 @@ class _WebHomePageState extends State<WebHomePage> {
 
 
 
+                ///categories
+
+
+
                 // SingleChildScrollView(
                 //   scrollDirection: Axis.horizontal,
                 //   child: Row(
@@ -222,11 +228,15 @@ class _WebHomePageState extends State<WebHomePage> {
                 //     childAspectRatio: 1,
                 //   ),
                 // ),
+
+
                 categorySection(context,'Live',HomeCubit.videos.sublist(0)),
                 categorySection(context,'Education',HomeCubit.videos.sublist(0,5)),
                 categorySection(context,'Entertainment',HomeCubit.videos.sublist(2,4)),
                 categorySection(context,'Music',HomeCubit.videos.sublist(1,HomeCubit.videos.length)),
                 categorySection(context,'Nature',HomeCubit.videos.sublist(2,5)),
+
+
               ],
             ),
           ),

@@ -51,7 +51,7 @@ class _MobileHomePageState extends State<MobileHomePage> {
   @override
   void initState() {
     super.initState();
-    getIt<HomeCubit>().getVideos();
+    // getIt<HomeCubit>().initial();
   }
 
   @override
