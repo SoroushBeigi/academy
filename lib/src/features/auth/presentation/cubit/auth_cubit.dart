@@ -5,7 +5,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../add/presentation/cubit/add_cubit.dart';
@@ -57,9 +56,8 @@ class AuthCubit extends Cubit<AuthState> {
          AddCubit.id = user.id!;
          AddCubit.authorName = user.username!;
 
-         SharedPreferences pref = await SharedPreferences.getInstance();
-         pref.setString('username', user.username ?? '-');
-         pref.setInt('id', user.id ?? -1);
+         final pref = getIt<Storage>();
+         pref.setUserData(user.username, user.id);
          print(user.username);
          setLoggedIn();
          return null;
