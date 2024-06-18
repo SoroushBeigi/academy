@@ -14,11 +14,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:share_plus/share_plus.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:http/http.dart' as http;
 
-import 'widgets/comment_container.dart';
 
 
 class WebVideoDetailsPage extends StatefulWidget {
@@ -467,7 +465,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                 rowOfData('Created By: ', widget.entity.authorName ?? '-'),
                 AppSize.s4.heightSizeBox(),
 
-                rowOfData('Created At: ', '${DateFormat.timeAgo(widget.entity.createdAt ?? DateTime.now().subtract(const Duration(days: 5),),)}' ?? '-'),
+                rowOfData('Created At: ', DateFormat.timeAgo(widget.entity.createdAt ?? DateTime.now().subtract(const Duration(days: 5),),) ?? '-'),
                 AppSize.s4.heightSizeBox(),
 
                 rowOfData('Views: ', widget.entity.viewCount.toString()),
@@ -537,7 +535,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
           Row(
             children: list,
           )
-              : SizedBox(child: Text('-'),),
+              : const SizedBox(child: Text('-'),),
         ),
       ],
     );
@@ -546,7 +544,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
 
   attachmentItemBuilder(BuildContext context, Attachment attachment) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 8),
       child: InkWell(
         onTap: () {
           UrlLauncher.launchUrl(Uri.parse('${AppConstants.baseUrlWithoutPort}${attachment.filePath}'));
@@ -591,7 +589,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
             ),
             const Spacer(),
             Text(
-              '${DateFormat.timeAgo(comment.createdAt ?? DateTime.now().subtract(const Duration(days: 5),),)}',
+              DateFormat.timeAgo(comment.createdAt ?? DateTime.now().subtract(const Duration(days: 5),),),
               style: Theme.of(context).textTheme.bodyMedium,
             )
           ],
