@@ -32,6 +32,7 @@ class WebVideoDetailsPage extends StatefulWidget {
 
 class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
 
+
   ///when like is null, no selection. dislike == false, like == true
   bool? like;
   bool? save;
@@ -41,12 +42,17 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
 
   TextEditingController commentTextFieldController = TextEditingController();
 
-  loadUserInfo() async{
-    SharedPreferences pref = await SharedPreferences.getInstance();
-    username = pref.getString('username') ?? '-';
-    userId = pref.getInt('id') ?? -1;
+  loadUserInfo() {
+    final pref = getIt<Storage>();
+    username = pref.getUsername();
+    userId = pref.getId();
   }
 
+  @override
+  void initState() {
+    loadUserInfo();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     final BehaviorSubject<int> likeSubject = BehaviorSubject<int>.seeded(0);
