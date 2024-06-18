@@ -201,6 +201,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
   }
 
   actionButtonsWidget(context) {
+    final likesCount = widget.entity.likesCount;
     return SizedBox(
       child: Row(
         children: [
@@ -219,6 +220,8 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                   InkWell(
                     onTap: () {
                       like = true;
+                      getIt<VideoDetailsCubit>()
+                          .like(true, widget.entity.id ?? 0);
                       setState(() {});
                     },
                     child: Icon(
@@ -230,7 +233,13 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                           : Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
-                  Text('${widget.entity.likesCount ?? 0} likes',style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),)
+                  Text(
+                    '${likesCount == null ? 0 : like == true ? likesCount + 1 : like == false ? likesCount - 1 : likesCount} likes',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(fontWeight: FontWeight.bold),
+                  )
                 ],
               ),
             ),
@@ -247,6 +256,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
               child: InkWell(
                 onTap: () {
                   like = false;
+                  getIt<VideoDetailsCubit>().like(false, widget.entity.id ?? 0);
                   setState(() {});
                 },
                 child: Icon(
@@ -438,7 +448,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
 
   attachmentItemBuilder(BuildContext context, Attachment attachment) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12,vertical:4),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       margin: const EdgeInsets.only(right: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s12),
