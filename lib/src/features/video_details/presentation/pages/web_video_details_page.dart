@@ -193,7 +193,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
             ),
           ),
           Column(
-            children: list,
+            children: list.reversed.toList(),
           )
         ],
       ),
