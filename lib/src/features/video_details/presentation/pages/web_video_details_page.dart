@@ -215,13 +215,15 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                 borderRadius: BorderRadius.circular(AppSize.s60),
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   InkWell(
                     onTap: () {
+                      if(like!=true) {
+                        getIt<VideoDetailsCubit>()
+                            .like(true, widget.entity.id ?? 0);
+                      }
                       like = true;
-                      getIt<VideoDetailsCubit>()
-                          .like(true, widget.entity.id ?? 0);
                       setState(() {});
                     },
                     child: Icon(
@@ -233,6 +235,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                           : Theme.of(context).colorScheme.onSurface,
                     ),
                   ),
+                  AppSize.s8.widthSizeBox(),
                   Text(
                     '${likesCount == null ? 0 : like == true ? likesCount + 1 : like == false ? likesCount - 1 : likesCount} likes',
                     style: Theme.of(context)
@@ -255,8 +258,11 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
               ),
               child: InkWell(
                 onTap: () {
+                  if(like!=false) {
+                    getIt<VideoDetailsCubit>().like(
+                        false, widget.entity.id ?? 0);
+                  }
                   like = false;
-                  getIt<VideoDetailsCubit>().like(false, widget.entity.id ?? 0);
                   setState(() {});
                 },
                 child: Icon(
