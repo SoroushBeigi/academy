@@ -213,19 +213,25 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                 color: Theme.of(context).colorScheme.surfaceContainer,
                 borderRadius: BorderRadius.circular(AppSize.s60),
               ),
-              child: InkWell(
-                onTap: () {
-                  like = true;
-                  setState(() {});
-                },
-                child: Icon(
-                  like == true
-                      ? Icons.thumb_up_alt
-                      : Icons.thumb_up_alt_outlined,
-                  color: like == true
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context).colorScheme.onSurface,
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      like = true;
+                      setState(() {});
+                    },
+                    child: Icon(
+                      like == true
+                          ? Icons.thumb_up_alt
+                          : Icons.thumb_up_alt_outlined,
+                      color: like == true
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.onSurface,
+                    ),
+                  ),
+                  Text('${widget.entity.likesCount ?? 0} likes',style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),)
+                ],
               ),
             ),
           ),
@@ -379,7 +385,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
     );
   }
 
-  Widget rowOfData(String title, String description) {
+  Widget rowOfData(String title, String? description) {
     return Row(
       children: [
         Text(
