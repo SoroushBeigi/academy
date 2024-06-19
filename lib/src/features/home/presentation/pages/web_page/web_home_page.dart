@@ -1,4 +1,5 @@
 import 'package:academy/src/core/extensions/widget_extensions.dart';
+import 'package:academy/src/core/widgets/app_header.dart';
 import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/core/core.dart';
 import 'package:academy/src/features/home/presentation/bloc/home_state.dart';
@@ -55,120 +56,7 @@ class _WebHomePageState extends State<WebHomePage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ///page header
-                      Row(
-                        children: [
-                          ///logo
-                          SizedBox(
-                            height: 50,
-                            child: Row(
-                              children: [
-                                ClipRRect(
-                                    borderRadius: BorderRadius.circular(30),
-                                    child: Image.asset(
-                                      'assets/icon.png',
-                                    )),
-                                // AppSize.s4.widthSizeBox(),
-                                Text(
-                                  AppLocalizations.of(context).academy,
-                                  style: const TextStyle(
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          ///search
-                          Flexible(
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 40, vertical: 16),
-                              child: GestureDetector(
-                                onTap: () {
-                                  context.go('/search',extra: {'isFromHome':true,'selectedChip': null});
-                                  context
-                                      .read<MainCubit>()
-                                      .updateNavigationIndexState(1);
-                                },
-                                child: const SearchField(
-                                  enabled: false,
-                                  autoFocus: false,
-                                ),
-                              ),
-                            ),
-                          ),
-
-                          ///user
-                          InkWell(
-                            onTap: () {
-                              context.go('/profile', extra: true);
-                              context
-                                  .read<MainCubit>()
-                                  .updateNavigationIndexState(4);
-                            },
-                            child: IntrinsicHeight(
-                              child: Row(
-                                children: [
-                                  Stack(
-                                    children: [
-                                      const Icon(
-                                        Icons.notifications,
-                                        size: AppSize.s28,
-                                      ),
-                                      Container(
-                                        width: AppSize.s16,
-                                        height: AppSize.s16,
-                                        decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                                AppSize.s60),
-                                            color: Colors.red),
-                                        child: const Center(
-                                            child: Text('2',
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 8))),
-                                      )
-                                    ],
-                                  ),
-                                  AppSize.s8.widthSizeBox(),
-                                  VerticalDivider(
-                                    thickness: AppSize.s1,
-                                    width: AppSize.s1,
-                                    color:
-                                        Theme.of(context).colorScheme.tertiary,
-                                  ),
-                                  AppSize.s8.widthSizeBox(),
-                                  Container(
-                                    width: AppSize.s42,
-                                    height: AppSize.s42,
-                                    decoration: BoxDecoration(
-                                        borderRadius:
-                                            BorderRadius.circular(AppSize.s60),
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .secondaryContainer),
-                                    child: const Center(
-                                      child: Icon(
-                                        Icons.person,
-                                      ),
-                                    ),
-                                  ),
-                                  AppSize.s8.widthSizeBox(),
-                                  Text(
-                                    username,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodySmall
-                                        ?.copyWith(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 10),
-                                  ),
-                                  AppSize.s16.widthSizeBox(),
-                                ],
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
+                      const AppHeader(textFieldAutoFocus: false,textFieldEnabled: false,),
 
                       ///categories
                       idleChips(context),
@@ -274,6 +162,7 @@ class _WebHomePageState extends State<WebHomePage> {
       );
 
   idleChips(BuildContext context) => Row(
+    mainAxisAlignment: MainAxisAlignment.center,
       children: context
           .read<HomeCubit>()
           .chips
