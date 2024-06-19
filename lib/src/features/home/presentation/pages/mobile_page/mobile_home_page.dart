@@ -132,25 +132,28 @@ class _MobileHomePageState extends State<MobileHomePage> {
         ),
       );
 
-  idleChips(BuildContext context) => Wrap(
-      children: HomeCubit.chips.entries
-          .map(
-            (e) => Container(
-              margin: const EdgeInsets.only(bottom: 2),
-              padding: const EdgeInsets.symmetric(horizontal: 2),
-              child: FilterChip(
-                label: Text(e.key),
-                onSelected: (_) {
-                  getIt<SearchCubit>().selectChip(e.key);
-                  context.go('/search',
-                      extra: {'isFromHome': true, 'selectedChip': e.key});
-                  context
-                      .read<MainCubit>()
-                      .updateNavigationIndexState(1);
-                },
-                selected: false,
+  idleChips(BuildContext context) => SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Row(
+        children: HomeCubit.chips.entries
+            .map(
+              (e) => Container(
+                margin: const EdgeInsets.only(bottom: 2),
+                padding: const EdgeInsets.symmetric(horizontal: 2),
+                child: FilterChip(
+                  label: Text(e.key),
+                  onSelected: (_) {
+                    getIt<SearchCubit>().selectChip(e.key);
+                    context.go('/search',
+                        extra: {'isFromHome': true, 'selectedChip': e.key});
+                    context
+                        .read<MainCubit>()
+                        .updateNavigationIndexState(1);
+                  },
+                  selected: false,
+                ),
               ),
-            ),
-          )
-          .toList());
+            )
+            .toList()),
+  );
 }

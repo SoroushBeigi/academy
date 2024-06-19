@@ -102,6 +102,84 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
     );
   }
 
+  relatedContents(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          AppLocalizations.of(context).relatedContents,
+          style: Theme.of(context).textTheme.titleSmall,
+          textAlign: TextAlign.start,
+        ),
+        AppSize.s8.heightSizeBox(),
+        RelatedVideoContainer(
+          videoModel: widget.entity,
+          margin: 8,
+        ),
+        RelatedVideoContainer(
+          videoModel: widget.entity,
+          margin: 8,
+        )
+      ],
+    );
+  }
+
+  commentsWidget(BuildContext context) {
+    List<Widget> list = [];
+    for (Comment comment in widget.entity.comments ?? []) {
+      list.add(commentItemBuilder(context, comment));
+    }
+
+    return Container(
+      padding: const EdgeInsets.all(AppPadding.p8),
+      // width: MediaQuery.of(context).size.width / 2,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppSize.s12),
+        color: Theme.of(context).colorScheme.surfaceContainer,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            AppLocalizations.of(context).comments,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          AppSize.s12.heightSizeBox(),
+          TextFormField(
+            controller: commentTextFieldController,
+            decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(AppSize.s12),
+                  borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+                hintText: AppLocalizations.of(context).addComment),
+          ),
+          AppSize.s16.heightSizeBox(),
+          Align(
+            alignment: AppConstants.isFa
+                ? Alignment.bottomLeft
+                : Alignment.bottomRight,
+            child: ElevatedButton(
+              onPressed: () {
+                addComment(
+                    contentId: widget.entity.id!,
+                    text: commentTextFieldController.text,
+                    userId: userId);
+              },
+              child: Text(AppLocalizations.of(context).submit),
+            ),
+          ),
+          Column(
+            children: list.reversed.toList(),
+          )
+        ],
+      ),
+    );
+  }
+
   actionButtonsWidget(context) {
     final likesCount = widget.entity.likesCount;
     return SizedBox(
@@ -246,6 +324,7 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
       ),
     );
   }
+
 
   contentInfoWidget() {
     String categories = '';
@@ -496,83 +575,5 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
       print('Error adding comment: $e');
       // Optionally, handle network or other errors
     }
-  }
-
-  relatedContents(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          AppLocalizations.of(context).relatedContents,
-          style: Theme.of(context).textTheme.titleSmall,
-          textAlign: TextAlign.start,
-        ),
-        AppSize.s8.heightSizeBox(),
-        RelatedVideoContainer(
-          videoModel: widget.entity,
-          margin: 8,
-        ),
-        RelatedVideoContainer(
-          videoModel: widget.entity,
-          margin: 8,
-        )
-      ],
-    );
-  }
-
-  commentsWidget(BuildContext context) {
-    List<Widget> list = [];
-    for (Comment comment in widget.entity.comments ?? []) {
-      list.add(commentItemBuilder(context, comment));
-    }
-
-    return Container(
-      padding: const EdgeInsets.all(AppPadding.p8),
-      // width: MediaQuery.of(context).size.width / 2,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(AppSize.s12),
-        color: Theme.of(context).colorScheme.surfaceContainer,
-      ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            AppLocalizations.of(context).comments,
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          AppSize.s12.heightSizeBox(),
-          TextFormField(
-            controller: commentTextFieldController,
-            decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppSize.s12),
-                  borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.onSurface,
-                  ),
-                ),
-                hintText: AppLocalizations.of(context).addComment),
-          ),
-          AppSize.s16.heightSizeBox(),
-          Align(
-            alignment: AppConstants.isFa
-                ? Alignment.bottomLeft
-                : Alignment.bottomRight,
-            child: ElevatedButton(
-              onPressed: () {
-                addComment(
-                    contentId: widget.entity.id!,
-                    text: commentTextFieldController.text,
-                    userId: userId);
-              },
-              child: Text(AppLocalizations.of(context).submit),
-            ),
-          ),
-          Column(
-            children: list.reversed.toList(),
-          )
-        ],
-      ),
-    );
   }
 }

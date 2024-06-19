@@ -75,37 +75,43 @@ class SearchMobilePage extends StatelessWidget {
     );
   }
 
-  idleChips(BuildContext context) => Wrap(
-      children: HomeCubit.chips.entries
-          .map(
-            (e) => Container(
-              margin: const EdgeInsets.only(bottom: 2),
-          padding: const EdgeInsets.symmetric(horizontal: 2),
-          child: FilterChip(
-            label: Text(e.key),
-            onSelected: (value) =>
-                context.read<SearchCubit>().switchChips(e.key, value),
-            selected: false,
+  idleChips(BuildContext context) => SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Row(
+        children: HomeCubit.chips.entries
+            .map(
+              (e) => Container(
+                margin: const EdgeInsets.only(bottom: 2),
+            padding: const EdgeInsets.symmetric(horizontal: 2),
+            child: FilterChip(
+              label: Text(e.key),
+              onSelected: (value) =>
+                  context.read<SearchCubit>().switchChips(e.key, value),
+              selected: false,
+            ),
           ),
-        ),
-      )
-          .toList());
+        )
+            .toList()),
+  );
 
-  activeChips(BuildContext context,Map<String,bool> chips) => Wrap(
-      children: chips.entries
-          .map(
-            (e) => Container(
-              margin: const EdgeInsets.only(bottom: 2),
-          padding: const EdgeInsets.symmetric(
-              horizontal: 2),
-          child: FilterChip(
-            label: Text(e.key),
-            onSelected: (value) => context
-                .read<SearchCubit>()
-                .switchChips(e.key, value),
-            selected: chips[e.key] ?? false,
+  activeChips(BuildContext context,Map<String,bool> chips) => SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Row(
+        children: chips.entries
+            .map(
+              (e) => Container(
+                margin: const EdgeInsets.only(bottom: 2),
+            padding: const EdgeInsets.symmetric(
+                horizontal: 2),
+            child: FilterChip(
+              label: Text(e.key),
+              onSelected: (value) => context
+                  .read<SearchCubit>()
+                  .switchChips(e.key, value),
+              selected: chips[e.key] ?? false,
+            ),
           ),
-        ),
-      )
-          .toList());
+        )
+            .toList()),
+  );
 }

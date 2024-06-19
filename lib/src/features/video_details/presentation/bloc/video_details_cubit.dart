@@ -36,4 +36,5 @@ class VideoDetailsCubit extends Cubit<VideoDetailsState> {
     });
     print(result.data);
   }
+
 }
