@@ -18,7 +18,7 @@ class HomeCubit extends Cubit<HomeState> {
     ),
   );
   static List<ContentEntity> videos = [];
-
+  Map<String,bool> chips={'Live':false,'Education':false,'Entertainment':false,'Music':false,'Nature':false,};
   static List<Category> categories = [];
 
   Future<void> initial () async {

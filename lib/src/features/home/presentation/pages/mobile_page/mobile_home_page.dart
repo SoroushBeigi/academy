@@ -1,6 +1,5 @@
 import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/core/resources/resources.dart';
-import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/home/presentation/bloc/home_state.dart';
 import 'package:academy/src/features/main/presentation/bloc/main_cubit.dart';
 import 'package:academy/src/features/search/presentation/widgets/search_field.dart';
@@ -181,7 +180,7 @@ class _MobileHomePageState extends State<MobileHomePage> {
             AppSize.s8.heightSizeBox(),
             Column(
               children: models
-                  .map((e) => Container(padding: EdgeInsets.symmetric(vertical: 4),width: 350,child: RelatedVideoContainer(videoModel: e)),)
+                  .map((e) => Container(padding: const EdgeInsets.symmetric(vertical: 4),width: 350,child: RelatedVideoContainer(videoModel: e)),)
                   .toList(),
             ),
           ],

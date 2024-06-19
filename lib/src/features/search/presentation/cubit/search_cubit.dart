@@ -24,8 +24,21 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   void switchChips(String key, bool value) {
+    for (var element in chips.entries) {
+      chips[element.key] = false;
+    }
     chips[key] = value;
     emit(const SearchState.initial());
     emit(SearchState.chipsChanged(chips));
+  }
+
+  void selectChip(String chipName){
+    for (var element in chips.entries) {
+      chips[element.key] = false;
+    }
+    final foundChip = chips.entries.firstWhere((element) => element.key==chipName,);
+    chips[foundChip.key] = true;
+    emit(SearchState.chipsChanged(chips));
+
   }
 }

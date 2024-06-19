@@ -11,6 +11,7 @@ import 'package:academy/src/features/profile/presentation/screens/profile_screen
 import 'package:academy/content_entity.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'features/auth/presentation/screens/auth_screen.dart';
 import 'features/home/presentation/pages/home_page.dart';
@@ -109,7 +110,7 @@ class Routes {
                 path: '/search',
                 pageBuilder: (context, state) {
                   return getPage(
-                    child: SearchScreen(isFromHome: state.extra as bool?),
+                    child: SearchScreen(extra: state.extra as Map<String,dynamic>?),
                     state: state,
                   );
                 },
@@ -183,17 +184,6 @@ class Routes {
           );
         },
       ),
-      // GoRoute(
-      //   path: '/lessons/:name',
-      //   pageBuilder: (context, state) {
-      //     return getPage(
-      //       child: LessonsScreen(
-      //         courseEntity: state.extra as CourseEntity,
-      //       ),
-      //       state: state,
-      //     );
-      //   },
-      // ),
     ],
   );
 
