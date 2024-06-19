@@ -13,4 +13,5 @@ class AppConstants {
       'https://fastly.picsum.photos/id/1044/200/200.jpg?hmac=HB3e6tTss6J_9wexZ1v1psMlccdyQIrHrrijUgWXFhg';
   static bool isDark = false;
   static bool isFa = false;
+  static bool showApprovedOnly = true;
 }

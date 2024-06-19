@@ -7,7 +7,6 @@ import 'package:injectable/injectable.dart';
 
 import 'home_state.dart';
 
-
 @singleton
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(const HomeState.initial());
@@ -18,53 +17,56 @@ class HomeCubit extends Cubit<HomeState> {
     ),
   );
   static List<ContentEntity> videos = [];
-  Map<String,bool> chips={'Live':false,'Education':false,'Entertainment':false,'Music':false,'Nature':false,};
+  Map<String, bool> chips = {
+    'Live': false,
+    'Education': false,
+    'Entertainment': false,
+    'Music': false,
+    'Nature': false,
+  };
   static List<Category> categories = [];
 
-  Future<void> initial () async {
-    print('reached');
+  Future<void> initial() async {
     emit(const HomeState.loading());
     await getVideos();
     await getCategories();
 
     emit(const HomeState.done());
-
   }
 
-
-  Future<void> getVideos() async{
-    try{
+  Future<void> getVideos() async {
+    try {
       final result = await _dio.get('/content');
-      final fetchedVideos = (result.data as List).map((json) => ContentEntity.fromJson(json)).toList();
+      final fetchedVideos = (result.data as List)
+          .map((json) => ContentEntity.fromJson(json))
+          .toList()
+          .where(
+            (element) =>
+                AppConstants.showApprovedOnly ? (element.isApproved??false) : true,
+          );
       videos.clear();
       videos.addAll(fetchedVideos);
       videos = videos.reversed.toList();
 
       // return;
-    }on DioException catch(e){
+    } on DioException catch (e) {
       debugPrint(e.toString());
     }
   }
 
-
-  Future<void> getCategories() async{
-    try{
+  Future<void> getCategories() async {
+    try {
       final result = await _dio.get('/categories');
-      print(result.toString());
 
-      final fetchedCategories = (result.data as List).map((json) => Category.fromJson(json)).toList();
+      final fetchedCategories =
+          (result.data as List).map((json) => Category.fromJson(json)).toList();
       categories.clear();
       categories.addAll(fetchedCategories);
       categories = categories.reversed.toList();
 
       // return;
-
-
-    }on DioException catch(e){
+    } on DioException catch (e) {
       debugPrint(e.error.toString());
     }
   }
-
-
 }
-
