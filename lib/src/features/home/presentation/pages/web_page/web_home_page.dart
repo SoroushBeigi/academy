@@ -163,8 +163,7 @@ class _WebHomePageState extends State<WebHomePage> {
 
   idleChips(BuildContext context) => Row(
     mainAxisAlignment: MainAxisAlignment.center,
-      children: context
-          .read<HomeCubit>()
+      children: HomeCubit
           .chips
           .entries
           .map(

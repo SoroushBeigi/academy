@@ -17,13 +17,7 @@ class HomeCubit extends Cubit<HomeState> {
     ),
   );
   static List<ContentEntity> videos = [];
-  Map<String, bool> chips = {
-    'Live': false,
-    'Education': false,
-    'Entertainment': false,
-    'Music': false,
-    'Nature': false,
-  };
+  static Map<String, bool> chips = {};
   static List<Category> categories = [];
 
   Future<void> initial() async {
@@ -41,8 +35,9 @@ class HomeCubit extends Cubit<HomeState> {
           .map((json) => ContentEntity.fromJson(json))
           .toList()
           .where(
-            (element) =>
-                AppConstants.showApprovedOnly ? (element.isApproved??false) : true,
+            (element) => AppConstants.showApprovedOnly
+                ? (element.isApproved ?? false)
+                : true,
           );
       videos.clear();
       videos.addAll(fetchedVideos);
@@ -57,13 +52,12 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> getCategories() async {
     try {
       final result = await _dio.get('/categories');
-
       final fetchedCategories =
           (result.data as List).map((json) => Category.fromJson(json)).toList();
       categories.clear();
       categories.addAll(fetchedCategories);
       categories = categories.reversed.toList();
-
+      chips = {for (var category in categories) category.name ?? '': false};
       // return;
     } on DioException catch (e) {
       debugPrint(e.error.toString());

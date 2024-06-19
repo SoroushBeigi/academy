@@ -1,5 +1,6 @@
 import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/core/widgets/app_header.dart';
+import 'package:academy/src/features/home/home.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_cubit.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_state.dart';
 import 'package:academy/src/features/search/presentation/widgets/search_field.dart';
@@ -95,9 +96,7 @@ class _SearchWebPageState extends State<SearchWebPage> {
 
   idleChips(BuildContext context) => Row(
     mainAxisAlignment: MainAxisAlignment.center,
-      children: context
-          .read<SearchCubit>()
-          .chips
+      children: HomeCubit.chips
           .entries
           .map(
             (e) => Padding(

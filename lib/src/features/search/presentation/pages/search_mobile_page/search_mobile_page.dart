@@ -1,5 +1,6 @@
 import 'package:academy/src/core/extensions/widget_extensions.dart';
 import 'package:academy/src/core/resources/resources.dart';
+import 'package:academy/src/features/home/home.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_cubit.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_state.dart';
 import 'package:academy/src/features/search/presentation/widgets/search_field.dart';
@@ -89,9 +90,7 @@ class SearchMobilePage extends StatelessWidget {
   }
 
   idleChips(BuildContext context) => Wrap(
-      children: context
-          .read<SearchCubit>()
-          .chips
+      children:HomeCubit.chips
           .entries
           .map(
             (e) => Padding(

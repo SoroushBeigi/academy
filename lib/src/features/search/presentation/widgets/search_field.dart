@@ -1,3 +1,4 @@
+import 'package:academy/src/core/widgets/responsive_widget/responsive_widget.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,41 +10,57 @@ class SearchField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Container(
-      width: MediaQuery.of(context).size.width*0.5,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(30.0),
-        // Reduced border radius
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.1),
-            spreadRadius: 1,
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: TextField(
-        autofocus: true,
-        enabled: enabled,
-        decoration: InputDecoration(
-          hintText: AppLocalizations.of(context).startSearching,
-          hintStyle: const TextStyle(color: Colors.grey),
-          prefixIcon:
-          const Icon(Icons.search, color: Colors.grey),
-          filled: true,
-          fillColor: Theme.of(context).colorScheme.surfaceBright,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20.0),
-            borderSide: BorderSide.none,
-          ),
-          contentPadding: const EdgeInsets.symmetric(
-              vertical: 15.0, horizontal: 20.0),
+    return ResponsiveWidget(smallScreen:  Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30.0),
+          // Reduced border radius
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              spreadRadius: 1,
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
         ),
-        onChanged: (value) =>
-            context.read<SearchCubit>().search(value),
-      ),
-    );
+        child: _buildTextField(context)
+    ),
+    largeScreen:  Container(
+        width: MediaQuery.of(context).size.width*0.5,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30.0),
+          // Reduced border radius
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              spreadRadius: 1,
+              blurRadius: 8,
+              offset: const Offset(0, 2),
+            ),
+          ],
+        ),
+        child: _buildTextField(context)
+    ),);
 
   }
+  _buildTextField(BuildContext context)=> TextField(
+    autofocus: true,
+    enabled: enabled,
+    decoration: InputDecoration(
+      hintText: AppLocalizations.of(context).startSearching,
+      hintStyle: const TextStyle(color: Colors.grey),
+      prefixIcon:
+      const Icon(Icons.search, color: Colors.grey),
+      filled: true,
+      fillColor: Theme.of(context).colorScheme.surfaceBright,
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(20.0),
+        borderSide: BorderSide.none,
+      ),
+      contentPadding: const EdgeInsets.symmetric(
+          vertical: 15.0, horizontal: 20.0),
+    ),
+    onChanged: (value) =>
+        context.read<SearchCubit>().search(value),
+  );
 }
