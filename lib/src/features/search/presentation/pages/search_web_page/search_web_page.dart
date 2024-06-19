@@ -11,7 +11,9 @@ import 'package:academy/src/features/video_details/presentation/pages/widgets/re
 import 'package:flutter/material.dart';
 
 class SearchWebPage extends StatefulWidget {
-  const SearchWebPage({required this.isFromHome,required this.selectedChip, super.key});
+  const SearchWebPage(
+      {required this.isFromHome, required this.selectedChip, super.key});
+
   final String? selectedChip;
   final bool? isFromHome;
 
@@ -32,47 +34,49 @@ class _SearchWebPageState extends State<SearchWebPage> {
                     initial: () => SizedBox(
                       height: MediaQuery.of(context).size.height,
                       child: Center(
-                        child: Text(
-                            AppLocalizations.of(context).startSearching),
+                        child:
+                            Text(AppLocalizations.of(context).startSearching),
                       ),
                     ),
                     foundVideos: (videos) => Padding(
-                      padding:  EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.15),
-                      child: videos.isEmpty
-                          ? Center(
-                              child: Text(AppLocalizations.of(context)
-                                  .noItemsFound),
-                            )
-                          : GridView.builder(
-                              itemCount: videos.length,
-                              itemBuilder: (context, index) =>
-                                  RelatedVideoContainer(
-                                margin: 8,
-                                videoModel: videos[index],
-                              ),
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount:
-                                    crossCount == 0 ? 1 : crossCount,
-                                childAspectRatio: 1.2,
-                              ),
-                            ),
-                    ),
+                        padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.15),
+                        child: videos.isEmpty
+                            ? Center(
+                                child: Text(
+                                    AppLocalizations.of(context).noItemsFound),
+                              )
+                            : Wrap(
+                                children: videos
+                                    .map(
+                                      (e) => SizedBox(
+                                        width: 350,
+                                        child: RelatedVideoContainer(
+                                          margin: 8,
+                                          videoModel: e,
+                                        ),
+                                      ),
+                                    )
+                                    .toList(),
+                              )),
                   ) ??
                   const SizedBox(),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  AppHeader(textFieldEnabled: true, textFieldAutoFocus: widget.isFromHome ?? false),
+                  AppHeader(
+                      textFieldEnabled: true,
+                      textFieldAutoFocus: widget.isFromHome ?? false),
                   state.whenOrNull(
                         foundVideos: (_) => idleChips(context),
                         initial: () => idleChips(context),
                         chipsChanged: (chips) => Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: chips.entries
                                 .map(
                                   (e) => Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
                                     child: FilterChip(
                                       label: Text(e.key),
                                       onSelected: (value) => context
@@ -95,9 +99,8 @@ class _SearchWebPageState extends State<SearchWebPage> {
   }
 
   idleChips(BuildContext context) => Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-      children: HomeCubit.chips
-          .entries
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: HomeCubit.chips.entries
           .map(
             (e) => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
