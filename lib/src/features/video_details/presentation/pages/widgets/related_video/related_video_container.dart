@@ -30,7 +30,7 @@ class RelatedVideoContainer extends StatelessWidget {
       },
       child: Container(
         margin:margin==null? EdgeInsets.zero:EdgeInsets.all(margin!),
-        padding: EdgeInsets.only(bottom: 8),
+        padding: const EdgeInsets.only(bottom: 8),
         // height: MediaQuery.of(context).size.height * 0.3,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surfaceContainer,

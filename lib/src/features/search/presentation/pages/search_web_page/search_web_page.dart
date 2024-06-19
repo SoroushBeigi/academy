@@ -24,7 +24,6 @@ class SearchWebPage extends StatefulWidget {
 class _SearchWebPageState extends State<SearchWebPage> {
   @override
   Widget build(BuildContext context) {
-    final crossCount = (MediaQuery.of(context).size.width ~/ 350).toInt();
     return BlocBuilder<SearchCubit, SearchState>(
       builder: (context, state) {
         return Scaffold(
@@ -68,25 +67,9 @@ class _SearchWebPageState extends State<SearchWebPage> {
                       textFieldEnabled: true,
                       textFieldAutoFocus: widget.isFromHome ?? false),
                   state.whenOrNull(
-                        foundVideos: (_) => idleChips(context),
+                        foundVideos: (_) => activeChips(context,context.read<SearchCubit>().chips),
                         initial: () => idleChips(context),
-                        chipsChanged: (chips) => Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: chips.entries
-                                .map(
-                                  (e) => Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 8.0),
-                                    child: FilterChip(
-                                      label: Text(e.key),
-                                      onSelected: (value) => context
-                                          .read<SearchCubit>()
-                                          .switchChips(e.key, value),
-                                      selected: chips[e.key] ?? false,
-                                    ),
-                                  ),
-                                )
-                                .toList()),
+                        chipsChanged: (chips) => activeChips(context,chips),
                       ) ??
                       const SizedBox(),
                 ],
@@ -112,5 +95,23 @@ class _SearchWebPageState extends State<SearchWebPage> {
               ),
             ),
           )
+          .toList());
+
+  activeChips(BuildContext context,Map<String,bool> chips) => Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: chips.entries
+          .map(
+            (e) => Padding(
+          padding: const EdgeInsets.symmetric(
+              horizontal: 8.0),
+          child: FilterChip(
+            label: Text(e.key),
+            onSelected: (value) => context
+                .read<SearchCubit>()
+                .switchChips(e.key, value),
+            selected: chips[e.key] ?? false,
+          ),
+        ),
+      )
           .toList());
 }
