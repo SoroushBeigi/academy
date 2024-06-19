@@ -237,7 +237,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                   ),
                   AppSize.s8.widthSizeBox(),
                   Text(
-                    '${likesCount == null ? 0 : like == true ? likesCount + 1 : like == false ? likesCount - 1 : likesCount} likes',
+                    '${likesCount == null ? 0 : like == true ? likesCount + 1 : like == false ? likesCount==0?0 : likesCount - 1 : likesCount} likes',
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium!
