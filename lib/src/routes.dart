@@ -6,6 +6,7 @@ import 'package:academy/src/features/add/presentation/pages/add_video_page.dart'
 import 'package:academy/src/features/add/presentation/pages/widgets/upload_video/upload_video.dart';
 import 'package:academy/src/features/add/presentation/pages/widgets/video_recorder/video_recorder_widget.dart';
 import 'package:academy/src/features/favourite/presentation/favourite_page.dart';
+import 'package:academy/src/features/new_content/presentation/pages/new_content_component.dart';
 import 'package:academy/src/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:academy/src/features/profile/presentation/screens/profile_screen.dart';
 import 'package:academy/content_entity.dart';
@@ -124,7 +125,7 @@ class Routes {
                 path: '/add',
                 pageBuilder: (context, state) {
                   return getPage(
-                    child: const AddPage(),
+                    child: const NewContentComponent(),
                     state: state,
                   );
                 },
