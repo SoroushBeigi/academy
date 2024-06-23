@@ -5,6 +5,7 @@ import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/core/logic/common/date_format.dart';
 import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/di/di_setup.dart';
+import 'package:academy/src/features/core/core.dart';
 import 'package:academy/src/features/video_details/presentation/bloc/video_details_cubit.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/related_video/related_video_container.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/video_player_widget/video_player_widget.dart';
@@ -16,8 +17,6 @@ import 'package:rxdart/rxdart.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:http/http.dart' as http;
-
-
 
 class MobileVideoDetailsPage extends StatefulWidget {
   const MobileVideoDetailsPage({required this.entity, super.key});
@@ -54,50 +53,60 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
     final BehaviorSubject<int> likeSubject = BehaviorSubject<int>.seeded(0);
     final savedId = getIt<Storage>().getSavedVideos().firstWhere(
           (element) => element == widget.entity.id.toString(),
-      orElse: () => '',
-    );
+          orElse: () => '',
+        );
     final BehaviorSubject<bool> saveSubject =
-    BehaviorSubject<bool>.seeded(savedId != '');
+        BehaviorSubject<bool>.seeded(savedId != '');
     return BlocProvider(
-      create: (context) => getIt<VideoDetailsCubit>(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.entity.title ?? ''),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(AppPadding.p16),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ///player widget
-                Container(
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(AppSize.s12),
+      create: (context) =>
+          getIt<VideoDetailsCubit>()..getRelatedContent(widget.entity),
+      child: BlocBuilder<VideoDetailsCubit, VideoDetailsState>(
+        builder: (context, state) {
+          return state.when(
+              initial: () => const SizedBox(),
+              loading: () => const Center(
+                    child: ACLoading(),
                   ),
-                  child: VideoPlayerWidget(entity: widget.entity),
+              done: ()=>Scaffold(
+                appBar: AppBar(
+                  title: Text(widget.entity.title ?? ''),
                 ),
-                Divider(
-                  thickness: AppSize.s1,
-                  color: Theme.of(context).colorScheme.onSurface,
+                body: Padding(
+                  padding: const EdgeInsets.all(AppPadding.p16),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ///player widget
+                        Container(
+                          width: double.infinity,
+                          height: MediaQuery.of(context).size.height * 0.5,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(AppSize.s12),
+                          ),
+                          child: VideoPlayerWidget(entity: widget.entity),
+                        ),
+                        Divider(
+                          thickness: AppSize.s1,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+
+                        actionButtonsWidget(context),
+                        AppSize.s8.heightSizeBox(),
+                        contentInfoWidget(),
+                        AppSize.s8.heightSizeBox(),
+                        attachmentsWidget(context),
+                        AppSize.s8.heightSizeBox(),
+                        relatedContents(context),
+                        AppSize.s8.heightSizeBox(),
+                        commentsWidget(context),
+
+                      ],
+                    ),
+                  ),
                 ),
-
-                actionButtonsWidget(context),
-                AppSize.s8.heightSizeBox(),
-                contentInfoWidget(),
-                AppSize.s8.heightSizeBox(),
-                attachmentsWidget(context),
-                AppSize.s8.heightSizeBox(),
-                relatedContents(context),
-                AppSize.s8.heightSizeBox(),
-                commentsWidget(context),
-
-              ],
-            ),
-          ),
-        ),
+              ));
+        },
       ),
     );
   }
@@ -112,13 +121,17 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
           textAlign: TextAlign.start,
         ),
         AppSize.s8.heightSizeBox(),
-        RelatedVideoContainer(
-          videoModel: widget.entity,
-          margin: 8,
-        ),
-        RelatedVideoContainer(
-          videoModel: widget.entity,
-          margin: 8,
+        Column(
+          children: context
+              .read<VideoDetailsCubit>()
+              .relatedContent
+              .map(
+                (e) => RelatedVideoContainer(
+                  videoModel: e,
+                  margin: 8,
+                ),
+              )
+              .toList(),
         )
       ],
     );
@@ -199,7 +212,7 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
                 children: [
                   InkWell(
                     onTap: () {
-                      if(like!=true) {
+                      if (like != true) {
                         getIt<VideoDetailsCubit>()
                             .like(true, widget.entity.id ?? 0);
                       }
@@ -217,7 +230,7 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
                   ),
                   AppSize.s8.widthSizeBox(),
                   Text(
-                    '${likesCount == null ? 0 : like == true ? likesCount + 1 : like == false ? likesCount==0?0 : likesCount - 1 : likesCount} likes',
+                    '${likesCount == null ? 0 : like == true ? likesCount + 1 : like == false ? likesCount == 0 ? 0 : likesCount - 1 : likesCount} likes',
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium!
@@ -238,9 +251,9 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
               ),
               child: InkWell(
                 onTap: () {
-                  if(like!=false) {
-                    getIt<VideoDetailsCubit>().like(
-                        false, widget.entity.id ?? 0);
+                  if (like != false) {
+                    getIt<VideoDetailsCubit>()
+                        .like(false, widget.entity.id ?? 0);
                   }
                   like = false;
                   setState(() {});
@@ -325,7 +338,6 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
     );
   }
 
-
   contentInfoWidget() {
     String categories = '';
     for (Category item in widget.entity.categories ?? []) {
@@ -353,7 +365,7 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
             color: Theme.of(context).colorScheme.surfaceContainer,
           ),
           child:
-          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             rowOfData('Title: ', widget.entity.title ?? '-'),
             AppSize.s4.heightSizeBox(),
             rowOfData('Description: ', widget.entity.description ?? '-'),
@@ -363,11 +375,11 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
             rowOfData(
                 'Created At: ',
                 DateFormat.timeAgo(
-                  widget.entity.createdAt ??
-                      DateTime.now().subtract(
-                        const Duration(days: 5),
-                      ),
-                ) ??
+                      widget.entity.createdAt ??
+                          DateTime.now().subtract(
+                            const Duration(days: 5),
+                          ),
+                    ) ??
                     '-'),
             AppSize.s4.heightSizeBox(),
             rowOfData('Views: ', widget.entity.viewCount.toString()),
@@ -423,11 +435,11 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
           // height: 150,
           child: (widget.entity.attachments ?? []).isNotEmpty
               ? Row(
-            children: list,
-          )
+                  children: list,
+                )
               : const SizedBox(
-            child: Text('-'),
-          ),
+                  child: Text('-'),
+                ),
         ),
       ],
     );
@@ -452,10 +464,10 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
               attachment.fileType == '.docx'
                   ? 'assets/word.png'
                   : attachment.fileType == '.pptx'
-                  ? 'assets/powerpoint.png'
-                  : attachment.fileType == '.pdf'
-                  ? 'assets/pdf.png'
-                  : 'assets/video.png',
+                      ? 'assets/powerpoint.png'
+                      : attachment.fileType == '.pdf'
+                          ? 'assets/pdf.png'
+                          : 'assets/video.png',
               width: 40,
               height: 60,
             ),
@@ -524,8 +536,8 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
 
   Future<void> addComment(
       {required int contentId,
-        required int userId,
-        required String text}) async {
+      required int userId,
+      required String text}) async {
     final url = '${AppConstants.baseUrl}/contents/$contentId/comments';
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({
@@ -536,7 +548,7 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
 
     try {
       final response =
-      await http.post(Uri.parse(url), headers: headers, body: body);
+          await http.post(Uri.parse(url), headers: headers, body: body);
       if (response.statusCode == 201) {
         print('Comment added successfully');
         getComments(contentId: contentId);
@@ -561,7 +573,7 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
         print('Comment added successfully');
         final List<dynamic> responseData = jsonDecode(response.body);
         final List<Comment> newComments =
-        responseData.map((data) => Comment.fromJson(data)).toList();
+            responseData.map((data) => Comment.fromJson(data)).toList();
 
         widget.entity.comments = newComments;
 
