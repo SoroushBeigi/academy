@@ -5,6 +5,7 @@ import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/core/logic/common/date_format.dart';
 import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/di/di_setup.dart';
+import 'package:academy/src/features/core/core.dart';
 import 'package:academy/src/features/video_details/presentation/bloc/video_details_cubit.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/related_video/related_video_container.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/video_player_widget/video_player_widget.dart';
@@ -59,65 +60,79 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
         BehaviorSubject<bool>.seeded(savedId != '');
 
     return BlocProvider(
-      create: (context) => getIt<VideoDetailsCubit>(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.entity.title ?? ''),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(AppPadding.p16),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    ///left column
-                    Flexible(
-                      flex: 5,
-                      child: Column(
-                        children: [
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.6,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(AppSize.s12),
-                            ),
-                            child: VideoPlayerWidget(entity: widget.entity),
-                          ),
-                          AppSize.s12.heightSizeBox(),
-                          actionButtonsWidget(context),
-                          AppSize.s12.heightSizeBox(),
-                          commentsWidget(context)
-                        ],
-                      ),
-                    ),
-                    AppSize.s8.widthSizeBox(),
-
-                    ///right column
-                    Flexible(
-                      flex: 2,
-                      child: Column(
-                        children: [
-                          contentInfoWidget(),
-                          AppSize.s12.heightSizeBox(),
-                          attachmentsWidget(context),
-                          AppSize.s12.heightSizeBox(),
-                          relatedContents(context),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                Divider(
-                  thickness: AppSize.s1,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-                AppSize.s8.heightSizeBox(),
-              ],
+      create: (context) =>  getIt<VideoDetailsCubit>()..getRelatedContent(widget.entity),
+      child: BlocBuilder<VideoDetailsCubit, VideoDetailsState>(
+        builder: (context, state) {
+          
+          return state.when(
+            initial: () => const SizedBox(),
+            loading: () => const Center(
+              child: ACLoading(),
             ),
-          ),
-        ),
+            done: () => Scaffold(
+              appBar: AppBar(
+                title: Text(widget.entity.title ?? ''),
+              ),
+              body: Padding(
+                padding: const EdgeInsets.all(AppPadding.p16),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          ///left column
+                          Flexible(
+                            flex: 5,
+                            child: Column(
+                              children: [
+                                Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.6,
+                                  decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.circular(AppSize.s12),
+                                  ),
+                                  child:
+                                      VideoPlayerWidget(entity: widget.entity),
+                                ),
+                                AppSize.s12.heightSizeBox(),
+                                actionButtonsWidget(context),
+                                AppSize.s12.heightSizeBox(),
+                                commentsWidget(context)
+                              ],
+                            ),
+                          ),
+                          AppSize.s8.widthSizeBox(),
+
+                          ///right column
+                          Flexible(
+                            flex: 2,
+                            child: Column(
+                              children: [
+                                contentInfoWidget(),
+                                AppSize.s12.heightSizeBox(),
+                                attachmentsWidget(context),
+                                AppSize.s12.heightSizeBox(),
+                                relatedContents(context),
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      Divider(
+                        thickness: AppSize.s1,
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                      AppSize.s8.heightSizeBox(),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
@@ -132,13 +147,13 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
           textAlign: TextAlign.start,
         ),
         AppSize.s8.heightSizeBox(),
-        RelatedVideoContainer(
-          videoModel: widget.entity,
-          margin: 8,
-        ),
-        RelatedVideoContainer(
-          videoModel: widget.entity,
-          margin: 8,
+        Column(
+          children: context.read<VideoDetailsCubit>().relatedContent.map(
+                (e) => RelatedVideoContainer(
+              videoModel: e,
+              margin: 8,
+            ),
+          ).toList(),
         )
       ],
     );
@@ -219,7 +234,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                 children: [
                   InkWell(
                     onTap: () {
-                      if(like!=true) {
+                      if (like != true) {
                         getIt<VideoDetailsCubit>()
                             .like(true, widget.entity.id ?? 0);
                       }
@@ -237,7 +252,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                   ),
                   AppSize.s8.widthSizeBox(),
                   Text(
-                    '${likesCount == null ? 0 : like == true ? likesCount + 1 : like == false ? likesCount==0?0 : likesCount - 1 : likesCount} likes',
+                    '${likesCount == null ? 0 : like == true ? likesCount + 1 : like == false ? likesCount == 0 ? 0 : likesCount - 1 : likesCount} likes',
                     style: Theme.of(context)
                         .textTheme
                         .bodyMedium!
@@ -258,9 +273,9 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
               ),
               child: InkWell(
                 onTap: () {
-                  if(like!=false) {
-                    getIt<VideoDetailsCubit>().like(
-                        false, widget.entity.id ?? 0);
+                  if (like != false) {
+                    getIt<VideoDetailsCubit>()
+                        .like(false, widget.entity.id ?? 0);
                   }
                   like = false;
                   setState(() {});
