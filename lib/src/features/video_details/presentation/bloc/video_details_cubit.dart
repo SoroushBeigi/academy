@@ -1,3 +1,4 @@
+import 'package:academy/content_entity.dart';
 import 'package:academy/src/core/data/local/shared_pref.dart';
 import 'package:academy/src/di/di_setup.dart';
 import 'package:dio/dio.dart';
@@ -36,5 +37,7 @@ class VideoDetailsCubit extends Cubit<VideoDetailsState> {
     });
     print(result.data);
   }
+
+
 
 }

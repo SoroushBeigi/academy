@@ -19,6 +19,7 @@ class ContentEntity {
   List<Comment>? comments;
   final List<String>? tags;
   final int? likesCount;
+  final List<int>? relatedContent;
 
   bool? isApproved;
 
@@ -44,6 +45,7 @@ class ContentEntity {
     this.tags,
     this.isApproved,
     this.likesCount,
+    this.relatedContent,
   });
 
   factory ContentEntity.fromJson(Map<String, dynamic> json) {
@@ -73,6 +75,7 @@ class ContentEntity {
           ? (json['comments'] as List).map((i) => Comment.fromJson(i)).toList()
           : null,
       tags: json['Tags'] != null ? List<String>.from(json['Tags']) : null,
+      relatedContent: json['related_content_ids'] != null ? List<int>.from(json['related_content_ids']) : null,
       isApproved: json['is_approved'],
       likesCount: json['likes_count'],
     );
@@ -101,6 +104,7 @@ class ContentEntity {
       'Tags': tags,
       'is_approved': isApproved,
       'likes_count': likesCount,
+      'related_content_ids':relatedContent,
     };
   }
 }
