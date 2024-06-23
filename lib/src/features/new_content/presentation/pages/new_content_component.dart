@@ -60,16 +60,18 @@ class _NewContentComponentState extends State<NewContentComponent> {
           builder: (BuildContext context, state) {
             return state.whenOrNull(
               loading: () => const ACLoading(),
-              success: () => Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    '${textLocalization.newContent}:',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                  Space.h8,
-                  const NewContentFormWidget()
-                ],
+              success: () => SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      '${textLocalization.newContent}:',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    Space.h8,
+                    const NewContentFormWidget()
+                  ],
+                ),
               ),
             ) ?? Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,

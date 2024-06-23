@@ -48,362 +48,358 @@ class _NewContentFormWidgetState extends State<NewContentFormWidget> {
       builder: (BuildContext context, NewContentState state) {
         return state.whenOrNull(
           loading: () => const ACLoading()
-        ) ?? Column(
-          children: [
-            Form(
-              key: context.read<NewContentCubit>().formKey,
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.all(AppPadding.p16),
-                child: Column(
+        ) ?? Form(
+          key: context.read<NewContentCubit>().formKey,
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(AppPadding.p16),
+            child: Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: ACTextFormField(
-                              controller: context.read<NewContentCubit>().videoTitle,
-                              hintText: textLocalization.title,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Title is required';
-                                }
-                                return null;
-                              }),
-                        ),
-                        Space.w8,
-                        Expanded(
-                          child: ACTextFormField(
-                              controller:
-                              context.read<NewContentCubit>().videoDescription,
-                              hintText: textLocalization.description,
-                              maxLines: 5,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Title is required';
-                                }
-                                return null;
-                              }),
-                        ),
-                      ],
+                    Expanded(
+                      child: ACTextFormField(
+                          controller: context.read<NewContentCubit>().videoTitle,
+                          hintText: textLocalization.title,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Title is required';
+                            }
+                            return null;
+                          }),
                     ),
-                    Space.h16,
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildFilePicker(
-                            label: textLocalization.selectMainFile,
-                            hint: textLocalization.acceptedFormates,
-                            onTap: _pickMainFile,
-                            fileResult: context.read<NewContentCubit>().mainFileResult,
-                          ),
-                        ),
-                        Space.w12,
-                        Expanded(
-                          child: _buildFilePicker(
-                            label: textLocalization.addPhoto,
-                            hint: textLocalization.acceptedFormatesImage,
-                            onTap: _pickImageFile,
-                            fileResult: context.read<NewContentCubit>().imageFileResult,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Space.h16,
-                    Row(
-                      children: [
-                        Expanded(child: _buildAttachmentPicker()),
-                        Space.w12,
-                        Expanded(child: _buildTagsInput()),
-                      ],
-                    ),
-                    Space.h16,
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.all(AppPadding.p6),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: AppSize.s2,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondary,
-                              ),
-                              borderRadius: BorderRadius.circular(AppSize.s12),
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text('${textLocalization.categories}:', style: Theme.of(context).textTheme.titleMedium),
-                                Space.w12,
-                                if(selectedCategoryList.isNotEmpty)Expanded(
-                                  child: Wrap(
-                                    spacing: AppSize.s8,
-                                    runSpacing: AppSize.s8,
-                                    children: selectedCategoryList.map((item) {
-                                      return Container(
-                                        padding: const EdgeInsets.all(AppPadding.p6),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            width: AppSize.s2,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .secondary,
-                                          ),
-                                          borderRadius: BorderRadius.circular(AppSize.s12),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(item.name ?? '',
-                                                style:
-                                                Theme.of(context).textTheme.bodyMedium),
-                                            Space.w4,
-                                            InkWell(
-                                              onTap: () {
-                                                deleteCategory(item.name ?? '');
-                                              },
-                                              child: Icon(IconManager.close,
-                                                  color: Theme.of(context).colorScheme.error),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                                Space.w12,
-                                InkWell(
-                                  onTap: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (_) {
-                                        return StatefulBuilder(
-                                          builder: (_, void Function(void Function()) updateState) {
-                                            return Dialog(
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(AppPadding.p16),
-                                                child: SizedBox(
-                                                  width: MediaQuery.of(context).size.width * 0.4,
-                                                  child: Column(
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Expanded(
-                                                            child: DropdownButton<String>(
-                                                              hint: Text(
-                                                                textLocalization.selectAnItem,
-                                                                style: Theme.of(context).textTheme.bodyMedium,
-                                                              ),
-                                                              value: selectedCategoryKey,
-                                                              items: context
-                                                                  .read<NewContentCubit>()
-                                                                  .categoryMap
-                                                                  .keys
-                                                                  .map((String key) {
-                                                                return DropdownMenuItem<String>(
-                                                                  value: key,
-                                                                  child: Text(key),
-                                                                );
-                                                              }).toList(),
-                                                              onChanged: (String? newKey) {
-                                                                updateState(() {
-                                                                  selectedCategoryKey = newKey;
-                                                                });
-                                                              },
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Space.h16,
-                                                      ACElevatedButton(
-                                                        width: AppSize.s120,
-                                                        onTap: () {
-                                                          setState(() {
-                                                            selectedCategoryList.add(CategoryResponseEntity(
-                                                                name: selectedCategoryKey,
-                                                                id: context
-                                                                    .read<NewContentCubit>()
-                                                                    .categoryMap[selectedCategoryKey]));
-                                                            context.pop();
-                                                          });
-                                                        },
-                                                        child: Text(textLocalization.add, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.surface),),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
-                                    );
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.all(AppPadding.p8),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(AppSize.s12),
-                                        border: Border.all(
-                                            width: AppSize.s1,
-                                            color: Theme.of(context).colorScheme.primary
-                                        )
-                                    ),
-                                    child: const Icon(Icons.add),
-                                  ),
-                                ),
-                              ],
-                            ),
-
-                          ),
-                        ),
-                        Space.w16,
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.all(AppPadding.p6),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: AppSize.s2,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondary,
-                              ),
-                              borderRadius: BorderRadius.circular(AppSize.s12),
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text('${textLocalization.relatedContent}:', style: Theme.of(context).textTheme.titleMedium),
-                                Space.w12,
-                                if(approvedContentsList.isNotEmpty)Expanded(
-                                  child: Wrap(
-                                    spacing: AppSize.s8,
-                                    runSpacing: AppSize.s8,
-                                    children: approvedContentsList.map((item) {
-                                      return Container(
-                                        padding: const EdgeInsets.all(AppPadding.p6),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(
-                                            width: AppSize.s2,
-                                            color: Theme.of(context)
-                                                .colorScheme
-                                                .secondaryContainer,
-                                          ),
-                                          borderRadius: BorderRadius.circular(AppSize.s12),
-                                        ),
-                                        child: Row(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(item.title ?? '',
-                                                style:
-                                                Theme.of(context).textTheme.bodyMedium),
-                                            Space.w4,
-                                            InkWell(
-                                              onTap: () {
-                                                deleteRelated(item.title ?? '');
-                                              },
-                                              child: Icon(IconManager.close,
-                                                  color: Theme.of(context).colorScheme.error),
-                                            ),
-                                          ],
-                                        ),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                                Space.w12,
-                                InkWell(
-                                  onTap: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (_) {
-                                        return StatefulBuilder(
-                                          builder: (_, void Function(void Function()) updateState) {
-                                            return Dialog(
-                                              child: Padding(
-                                                padding: const EdgeInsets.all(AppPadding.p16),
-                                                child: SizedBox(
-                                                  width: MediaQuery.of(context).size.width * 0.4,
-                                                  child: Column(
-                                                    mainAxisSize: MainAxisSize.min,
-                                                    children: [
-                                                      Row(
-                                                        children: [
-                                                          Expanded(
-                                                            child: DropdownButton<String>(
-                                                              hint: Text(
-                                                                textLocalization.selectAnItem,
-                                                                style: Theme.of(context).textTheme.bodyMedium,
-                                                              ),
-                                                              value: selectedApprovedContentKey,
-                                                              items: context.read<NewContentCubit>().approvedContentsMap.keys.map((String key) {
-                                                                return DropdownMenuItem<String>(
-                                                                  value: key,
-                                                                  child: Text(key),
-                                                                );
-                                                              }).toList(),
-                                                              onChanged: (String? newKey) {
-                                                                updateState(() {
-                                                                  selectedApprovedContentKey = newKey;
-                                                                });
-                                                              },
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      Space.h16,
-                                                      ACElevatedButton(
-                                                        width: AppSize.s120,
-                                                        onTap: () {
-                                                          setState(() {
-                                                            approvedContentsList.add(ContentResponseEntity(
-                                                                title: selectedApprovedContentKey,
-                                                                id: context.read<NewContentCubit>().approvedContentsMap[selectedApprovedContentKey]));
-                                                            context.pop();
-                                                          });
-                                                        },
-                                                        child: Text(textLocalization.add, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.surface),),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
-                                    );
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.all(AppPadding.p8),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(AppSize.s12),
-                                        border: Border.all(
-                                            width: AppSize.s1,
-                                            color: Theme.of(context).colorScheme.primary
-                                        )
-                                    ),
-                                    child: const Icon(Icons.add),
-                                  ),
-                                ),
-                              ],
-                            ),
-
-                          ),
-                        ),
-                      ],
-                    ),
-                    Space.h16,
-                    ElevatedButton(
-                      onPressed: _submitForm,
-                      child: Text(textLocalization.createNewContent, style: Theme.of(context).textTheme.bodyMedium,),
+                    Space.w8,
+                    Expanded(
+                      child: ACTextFormField(
+                          controller:
+                          context.read<NewContentCubit>().videoDescription,
+                          hintText: textLocalization.description,
+                          maxLines: 5,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Title is required';
+                            }
+                            return null;
+                          }),
                     ),
                   ],
                 ),
-              ),
+                Space.h16,
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildFilePicker(
+                        label: textLocalization.selectMainFile,
+                        hint: textLocalization.acceptedFormates,
+                        onTap: _pickMainFile,
+                        fileResult: context.read<NewContentCubit>().mainFileResult,
+                      ),
+                    ),
+                    Space.w12,
+                    Expanded(
+                      child: _buildFilePicker(
+                        label: textLocalization.addPhoto,
+                        hint: textLocalization.acceptedFormatesImage,
+                        onTap: _pickImageFile,
+                        fileResult: context.read<NewContentCubit>().imageFileResult,
+                      ),
+                    ),
+                  ],
+                ),
+                Space.h16,
+                Row(
+                  children: [
+                    Expanded(child: _buildAttachmentPicker()),
+                    Space.w12,
+                    Expanded(child: _buildTagsInput()),
+                  ],
+                ),
+                Space.h16,
+                Row(
+                  children: [
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(AppPadding.p6),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: AppSize.s2,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondary,
+                          ),
+                          borderRadius: BorderRadius.circular(AppSize.s12),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text('${textLocalization.categories}:', style: Theme.of(context).textTheme.titleMedium),
+                            Space.w12,
+                            if(selectedCategoryList.isNotEmpty)Expanded(
+                              child: Wrap(
+                                spacing: AppSize.s8,
+                                runSpacing: AppSize.s8,
+                                children: selectedCategoryList.map((item) {
+                                  return Container(
+                                    padding: const EdgeInsets.all(AppPadding.p6),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        width: AppSize.s2,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondary,
+                                      ),
+                                      borderRadius: BorderRadius.circular(AppSize.s12),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(item.name ?? '',
+                                            style:
+                                            Theme.of(context).textTheme.bodyMedium),
+                                        Space.w4,
+                                        InkWell(
+                                          onTap: () {
+                                            deleteCategory(item.name ?? '');
+                                          },
+                                          child: Icon(IconManager.close,
+                                              color: Theme.of(context).colorScheme.error),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                            Space.w12,
+                            InkWell(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (_) {
+                                    return StatefulBuilder(
+                                      builder: (_, void Function(void Function()) updateState) {
+                                        return Dialog(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(AppPadding.p16),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context).size.width * 0.4,
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: DropdownButton<String>(
+                                                          hint: Text(
+                                                            textLocalization.selectAnItem,
+                                                            style: Theme.of(context).textTheme.bodyMedium,
+                                                          ),
+                                                          value: selectedCategoryKey,
+                                                          items: context
+                                                              .read<NewContentCubit>()
+                                                              .categoryMap
+                                                              .keys
+                                                              .map((String key) {
+                                                            return DropdownMenuItem<String>(
+                                                              value: key,
+                                                              child: Text(key),
+                                                            );
+                                                          }).toList(),
+                                                          onChanged: (String? newKey) {
+                                                            updateState(() {
+                                                              selectedCategoryKey = newKey;
+                                                            });
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Space.h16,
+                                                  ACElevatedButton(
+                                                    width: AppSize.s120,
+                                                    onTap: () {
+                                                      setState(() {
+                                                        selectedCategoryList.add(CategoryResponseEntity(
+                                                            name: selectedCategoryKey,
+                                                            id: context
+                                                                .read<NewContentCubit>()
+                                                                .categoryMap[selectedCategoryKey]));
+                                                        context.pop();
+                                                      });
+                                                    },
+                                                    child: Text(textLocalization.add, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.surface),),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                );
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(AppPadding.p8),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(AppSize.s12),
+                                    border: Border.all(
+                                        width: AppSize.s1,
+                                        color: Theme.of(context).colorScheme.primary
+                                    )
+                                ),
+                                child: const Icon(Icons.add),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                      ),
+                    ),
+                    Space.w16,
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.all(AppPadding.p6),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            width: AppSize.s2,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .secondary,
+                          ),
+                          borderRadius: BorderRadius.circular(AppSize.s12),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text('${textLocalization.relatedContent}:', style: Theme.of(context).textTheme.titleMedium),
+                            Space.w12,
+                            if(approvedContentsList.isNotEmpty)Expanded(
+                              child: Wrap(
+                                spacing: AppSize.s8,
+                                runSpacing: AppSize.s8,
+                                children: approvedContentsList.map((item) {
+                                  return Container(
+                                    padding: const EdgeInsets.all(AppPadding.p6),
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        width: AppSize.s2,
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .secondaryContainer,
+                                      ),
+                                      borderRadius: BorderRadius.circular(AppSize.s12),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(item.title ?? '',
+                                            style:
+                                            Theme.of(context).textTheme.bodyMedium),
+                                        Space.w4,
+                                        InkWell(
+                                          onTap: () {
+                                            deleteRelated(item.title ?? '');
+                                          },
+                                          child: Icon(IconManager.close,
+                                              color: Theme.of(context).colorScheme.error),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }).toList(),
+                              ),
+                            ),
+                            Space.w12,
+                            InkWell(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (_) {
+                                    return StatefulBuilder(
+                                      builder: (_, void Function(void Function()) updateState) {
+                                        return Dialog(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(AppPadding.p16),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context).size.width * 0.4,
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Expanded(
+                                                        child: DropdownButton<String>(
+                                                          hint: Text(
+                                                            textLocalization.selectAnItem,
+                                                            style: Theme.of(context).textTheme.bodyMedium,
+                                                          ),
+                                                          value: selectedApprovedContentKey,
+                                                          items: context.read<NewContentCubit>().approvedContentsMap.keys.map((String key) {
+                                                            return DropdownMenuItem<String>(
+                                                              value: key,
+                                                              child: Text(key),
+                                                            );
+                                                          }).toList(),
+                                                          onChanged: (String? newKey) {
+                                                            updateState(() {
+                                                              selectedApprovedContentKey = newKey;
+                                                            });
+                                                          },
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Space.h16,
+                                                  ACElevatedButton(
+                                                    width: AppSize.s120,
+                                                    onTap: () {
+                                                      setState(() {
+                                                        approvedContentsList.add(ContentResponseEntity(
+                                                            title: selectedApprovedContentKey,
+                                                            id: context.read<NewContentCubit>().approvedContentsMap[selectedApprovedContentKey]));
+                                                        context.pop();
+                                                      });
+                                                    },
+                                                    child: Text(textLocalization.add, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.surface),),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                );
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.all(AppPadding.p8),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(AppSize.s12),
+                                    border: Border.all(
+                                        width: AppSize.s1,
+                                        color: Theme.of(context).colorScheme.primary
+                                    )
+                                ),
+                                child: const Icon(Icons.add),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                      ),
+                    ),
+                  ],
+                ),
+                Space.h16,
+                ElevatedButton(
+                  onPressed: _submitForm,
+                  child: Text(textLocalization.createNewContent, style: Theme.of(context).textTheme.bodyMedium,),
+                ),
+              ],
             ),
-          ],
+          ),
         );
       },
     );
