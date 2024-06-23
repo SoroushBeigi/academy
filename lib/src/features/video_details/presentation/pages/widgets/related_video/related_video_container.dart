@@ -118,6 +118,8 @@ class RelatedVideoContainer extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(AppPadding.p8),
               child: Text(videoModel.title ?? 'title',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.titleMedium),
             ),
             Padding(
