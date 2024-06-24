@@ -44,7 +44,9 @@ class VideoDetailsCubit extends Cubit<VideoDetailsState> {
 
   Future<void> getRelatedContent(ContentEntity entity) async {
     relatedContent.clear();
-    if (entity.relatedContent == null) {
+    if (entity.relatedContent == null ||
+        (entity.relatedContent?.isEmpty ?? true)) {
+      emit(const VideoDetailsState.done());
       return;
     }
     emit(const VideoDetailsState.loading());

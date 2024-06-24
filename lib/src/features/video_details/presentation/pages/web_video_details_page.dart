@@ -54,83 +54,103 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
     final BehaviorSubject<int> likeSubject = BehaviorSubject<int>.seeded(0);
     final savedId = getIt<Storage>().getSavedVideos().firstWhere(
           (element) => element == widget.entity.id.toString(),
-          orElse: () => '',
-        );
+      orElse: () => '',
+    );
     final BehaviorSubject<bool> saveSubject =
-        BehaviorSubject<bool>.seeded(savedId != '');
+    BehaviorSubject<bool>.seeded(savedId != '');
 
     return BlocProvider(
-      create: (context) =>  getIt<VideoDetailsCubit>()..getRelatedContent(widget.entity),
+      create: (context) =>
+      getIt<VideoDetailsCubit>()
+        ..getRelatedContent(widget.entity),
       child: BlocBuilder<VideoDetailsCubit, VideoDetailsState>(
         builder: (context, state) {
-          
           return state.when(
             initial: () => const SizedBox(),
-            loading: () => const Center(
+            loading: () =>
+            const Center(
               child: ACLoading(),
             ),
-            done: () => Scaffold(
-              appBar: AppBar(
-                title: Text(widget.entity.title ?? ''),
-              ),
-              body: Padding(
-                padding: const EdgeInsets.all(AppPadding.p16),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
+            done: () =>
+                Scaffold(
+                  appBar: AppBar(
+                    title: Text(widget.entity.title ?? ''),
+                  ),
+                  body: Padding(
+                    padding: const EdgeInsets.all(AppPadding.p16),
+                    child: SingleChildScrollView(
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ///left column
-                          Flexible(
-                            flex: 5,
-                            child: Column(
-                              children: [
-                                Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.6,
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.circular(AppSize.s12),
-                                  ),
-                                  child:
-                                      VideoPlayerWidget(entity: widget.entity),
-                                ),
-                                AppSize.s12.heightSizeBox(),
-                                actionButtonsWidget(context),
-                                AppSize.s12.heightSizeBox(),
-                                commentsWidget(context)
-                              ],
-                            ),
-                          ),
-                          AppSize.s8.widthSizeBox(),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
 
-                          ///right column
-                          Flexible(
-                            flex: 2,
-                            child: Column(
-                              children: [
-                                contentInfoWidget(),
-                                AppSize.s12.heightSizeBox(),
-                                attachmentsWidget(context),
-                                AppSize.s12.heightSizeBox(),
-                                relatedContents(context),
-                              ],
-                            ),
-                          )
+                              ///left column
+                              Flexible(
+                                flex: 5,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      height:
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .height * 0.6,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(AppSize.s12),
+                                      ),
+                                      child:
+                                      VideoPlayerWidget(entity: widget.entity),
+                                    ),
+                                    AppSize.s12.heightSizeBox(),
+                                    actionButtonsWidget(context),
+                                    AppSize.s12.heightSizeBox(),
+                                    commentsWidget(context)
+                                  ],
+                                ),
+                              ),
+                              AppSize.s8.widthSizeBox(),
+
+                              ///right column
+                              Flexible(
+                                flex: 2,
+                                child: Column(
+                                  children: [
+                                    contentInfoWidget(),
+                                    if (widget.entity.attachments != null &&
+                                        (widget.entity.attachments
+                                            ?.isNotEmpty ??
+                                            false))...[
+                                      AppSize.s12.heightSizeBox(),
+                                      attachmentsWidget(context),
+                                    ],
+                                    if (widget.entity.relatedContent != null &&
+                                        (widget.entity.relatedContent
+                                            ?.isNotEmpty ??
+                                            false)) ...[
+                                      AppSize.s12.heightSizeBox(),
+                                      relatedContents(context),
+                                    ],
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                          Divider(
+                            thickness: AppSize.s1,
+                            color: Theme
+                                .of(context)
+                                .colorScheme
+                                .onSurface,
+                          ),
+                          AppSize.s8.heightSizeBox(),
                         ],
                       ),
-                      Divider(
-                        thickness: AppSize.s1,
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
-                      AppSize.s8.heightSizeBox(),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
           );
         },
       ),
@@ -142,18 +162,28 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          AppLocalizations.of(context).relatedContents,
-          style: Theme.of(context).textTheme.titleSmall,
+          AppLocalizations
+              .of(context)
+              .relatedContents,
+          style: Theme
+              .of(context)
+              .textTheme
+              .titleSmall,
           textAlign: TextAlign.start,
         ),
         AppSize.s8.heightSizeBox(),
         Column(
-          children: context.read<VideoDetailsCubit>().relatedContent.map(
-                (e) => RelatedVideoContainer(
-              videoModel: e,
-              margin: 8,
-            ),
-          ).toList(),
+          children: context
+              .read<VideoDetailsCubit>()
+              .relatedContent
+              .map(
+                (e) =>
+                RelatedVideoContainer(
+                  videoModel: e,
+                  margin: 8,
+                ),
+          )
+              .toList(),
         )
       ],
     );
@@ -170,15 +200,23 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
       // width: MediaQuery.of(context).size.width / 2,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s12),
-        color: Theme.of(context).colorScheme.surfaceContainer,
+        color: Theme
+            .of(context)
+            .colorScheme
+            .surfaceContainer,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            AppLocalizations.of(context).comments,
-            style: Theme.of(context).textTheme.titleMedium,
+            AppLocalizations
+                .of(context)
+                .comments,
+            style: Theme
+                .of(context)
+                .textTheme
+                .titleMedium,
           ),
           AppSize.s12.heightSizeBox(),
           TextFormField(
@@ -187,10 +225,15 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(AppSize.s12),
                   borderSide: BorderSide(
-                    color: Theme.of(context).colorScheme.onSurface,
+                    color: Theme
+                        .of(context)
+                        .colorScheme
+                        .onSurface,
                   ),
                 ),
-                hintText: AppLocalizations.of(context).addComment),
+                hintText: AppLocalizations
+                    .of(context)
+                    .addComment),
           ),
           AppSize.s16.heightSizeBox(),
           Align(
@@ -204,7 +247,9 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                     text: commentTextFieldController.text,
                     userId: userId);
               },
-              child: Text(AppLocalizations.of(context).submit),
+              child: Text(AppLocalizations
+                  .of(context)
+                  .submit),
             ),
           ),
           Column(
@@ -226,7 +271,10 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
               margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
               padding: const EdgeInsets.all(AppPadding.p6),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainer,
+                color: Theme
+                    .of(context)
+                    .colorScheme
+                    .surfaceContainer,
                 borderRadius: BorderRadius.circular(AppSize.s60),
               ),
               child: Row(
@@ -246,14 +294,25 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                           ? Icons.thumb_up_alt
                           : Icons.thumb_up_alt_outlined,
                       color: like == true
-                          ? Theme.of(context).colorScheme.primary
-                          : Theme.of(context).colorScheme.onSurface,
+                          ? Theme
+                          .of(context)
+                          .colorScheme
+                          .primary
+                          : Theme
+                          .of(context)
+                          .colorScheme
+                          .onSurface,
                     ),
                   ),
                   AppSize.s8.widthSizeBox(),
                   Text(
-                    '${likesCount == null ? 0 : like == true ? likesCount + 1 : like == false ? likesCount == 0 ? 0 : likesCount - 1 : likesCount} likes',
-                    style: Theme.of(context)
+                    '${likesCount == null ? 0 : like == true
+                        ? likesCount + 1
+                        : like == false
+                        ? likesCount == 0 ? 0 : likesCount - 1
+                        : likesCount} likes',
+                    style: Theme
+                        .of(context)
                         .textTheme
                         .bodyMedium!
                         .copyWith(fontWeight: FontWeight.bold),
@@ -268,7 +327,10 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
               margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
               padding: const EdgeInsets.all(AppPadding.p6),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainer,
+                color: Theme
+                    .of(context)
+                    .colorScheme
+                    .surfaceContainer,
                 borderRadius: BorderRadius.circular(AppSize.s60),
               ),
               child: InkWell(
@@ -285,8 +347,14 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                       ? Icons.thumb_down_alt
                       : Icons.thumb_down_alt_outlined,
                   color: like == false
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context).colorScheme.onSurface,
+                      ? Theme
+                      .of(context)
+                      .colorScheme
+                      .primary
+                      : Theme
+                      .of(context)
+                      .colorScheme
+                      .onSurface,
                 ),
               ),
             ),
@@ -297,7 +365,10 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
               margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
               padding: const EdgeInsets.all(AppPadding.p6),
               decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainer,
+                color: Theme
+                    .of(context)
+                    .colorScheme
+                    .surfaceContainer,
                 borderRadius: BorderRadius.circular(AppSize.s60),
               ),
               child: InkWell(
@@ -311,7 +382,9 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                   children: [
                     const Icon(Icons.share),
                     (AppSize.s4).widthSizeBox(),
-                    Text(AppLocalizations.of(context).share)
+                    Text(AppLocalizations
+                        .of(context)
+                        .share)
                   ],
                 ),
               ),
@@ -323,7 +396,10 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                 margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
                 padding: const EdgeInsets.all(AppPadding.p6),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceContainer,
+                  color: Theme
+                      .of(context)
+                      .colorScheme
+                      .surfaceContainer,
                   borderRadius: BorderRadius.circular(AppSize.s60),
                 ),
                 child: InkWell(
@@ -340,16 +416,34 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                       Icon(
                         save ?? false ? Icons.bookmark : Icons.bookmark_border,
                         color: save ?? false
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.onSurface,
+                            ? Theme
+                            .of(context)
+                            .colorScheme
+                            .primary
+                            : Theme
+                            .of(context)
+                            .colorScheme
+                            .onSurface,
                       ),
                       (AppSize.s4).widthSizeBox(),
                       Text(
-                        AppLocalizations.of(context).save,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        AppLocalizations
+                            .of(context)
+                            .save,
+                        style: Theme
+                            .of(context)
+                            .textTheme
+                            .bodyMedium
+                            ?.copyWith(
                             color: save ?? false
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context).colorScheme.onSurface),
+                                ? Theme
+                                .of(context)
+                                .colorScheme
+                                .primary
+                                : Theme
+                                .of(context)
+                                .colorScheme
+                                .onSurface),
                       )
                     ],
                   ),
@@ -374,7 +468,10 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
       children: [
         Text(
           'Content Info',
-          style: Theme.of(context).textTheme.titleSmall,
+          style: Theme
+              .of(context)
+              .textTheme
+              .titleSmall,
           textAlign: TextAlign.start,
         ),
         // AppSize.s8.heightSizeBox(),
@@ -384,10 +481,13 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
           // height: 150,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppSize.s12),
-            color: Theme.of(context).colorScheme.surfaceContainer,
+            color: Theme
+                .of(context)
+                .colorScheme
+                .surfaceContainer,
           ),
           child:
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             rowOfData('Title: ', widget.entity.title ?? '-'),
             AppSize.s4.heightSizeBox(),
             rowOfData('Description: ', widget.entity.description ?? '-'),
@@ -397,11 +497,11 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
             rowOfData(
                 'Created At: ',
                 DateFormat.timeAgo(
-                      widget.entity.createdAt ??
-                          DateTime.now().subtract(
-                            const Duration(days: 5),
-                          ),
-                    ) ??
+                  widget.entity.createdAt ??
+                      DateTime.now().subtract(
+                        const Duration(days: 5),
+                      ),
+                ) ??
                     '-'),
             AppSize.s4.heightSizeBox(),
             rowOfData('Views: ', widget.entity.viewCount.toString()),
@@ -421,13 +521,19 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
       children: [
         Text(
           title,
-          style: Theme.of(context).textTheme.titleSmall,
+          style: Theme
+              .of(context)
+              .textTheme
+              .titleSmall,
           textAlign: TextAlign.start,
         ),
         Flexible(
           child: Text(
             description ?? '-',
-            style: Theme.of(context).textTheme.titleSmall,
+            style: Theme
+                .of(context)
+                .textTheme
+                .titleSmall,
             textAlign: TextAlign.start,
           ),
         ),
@@ -446,7 +552,10 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
       children: [
         Text(
           'Attachments',
-          style: Theme.of(context).textTheme.titleSmall,
+          style: Theme
+              .of(context)
+              .textTheme
+              .titleSmall,
           textAlign: TextAlign.start,
         ),
         // AppSize.s8.heightSizeBox(),
@@ -457,11 +566,11 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
           // height: 150,
           child: (widget.entity.attachments ?? []).isNotEmpty
               ? Row(
-                  children: list,
-                )
+            children: list,
+          )
               : const SizedBox(
-                  child: Text('-'),
-                ),
+            child: Text('-'),
+          ),
         ),
       ],
     );
@@ -473,7 +582,10 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
       margin: const EdgeInsets.only(right: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(AppSize.s12),
-        color: Theme.of(context).colorScheme.surfaceContainer,
+        color: Theme
+            .of(context)
+            .colorScheme
+            .surfaceContainer,
       ),
       child: InkWell(
         onTap: () {
@@ -486,10 +598,10 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
               attachment.fileType == '.docx'
                   ? 'assets/word.png'
                   : attachment.fileType == '.pptx'
-                      ? 'assets/powerpoint.png'
-                      : attachment.fileType == '.pdf'
-                          ? 'assets/pdf.png'
-                          : 'assets/video.png',
+                  ? 'assets/powerpoint.png'
+                  : attachment.fileType == '.pdf'
+                  ? 'assets/pdf.png'
+                  : 'assets/video.png',
               width: 40,
               height: 60,
             ),
@@ -512,13 +624,19 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
               height: AppSize.s28,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Theme.of(context).colorScheme.onSecondary),
+                  color: Theme
+                      .of(context)
+                      .colorScheme
+                      .onSecondary),
               child: const Center(child: Icon(Icons.person)),
             ),
             AppSize.s4.widthSizeBox(),
             Text(
               '@$username',
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .bodyMedium,
             ),
             const Spacer(),
             Text(
@@ -528,7 +646,10 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                       const Duration(days: 5),
                     ),
               ),
-              style: Theme.of(context).textTheme.bodyMedium,
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .bodyMedium,
             )
           ],
         ),
@@ -539,14 +660,20 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
             children: [
               Text(
                 comment.text ?? '-',
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .bodyMedium,
               ),
               const Spacer(),
               IconButton(
                   onPressed: () {},
                   icon: Icon(
                     Icons.reply,
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Theme
+                        .of(context)
+                        .colorScheme
+                        .secondary,
                     size: AppSize.s28,
                   )),
             ],
@@ -556,10 +683,9 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
     );
   }
 
-  Future<void> addComment(
-      {required int contentId,
-      required int userId,
-      required String text}) async {
+  Future<void> addComment({required int contentId,
+    required int userId,
+    required String text}) async {
     final url = '${AppConstants.baseUrl}/contents/$contentId/comments';
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({
@@ -570,7 +696,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
 
     try {
       final response =
-          await http.post(Uri.parse(url), headers: headers, body: body);
+      await http.post(Uri.parse(url), headers: headers, body: body);
       if (response.statusCode == 201) {
         print('Comment added successfully');
         getComments(contentId: contentId);
@@ -595,7 +721,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
         print('Comment added successfully');
         final List<dynamic> responseData = jsonDecode(response.body);
         final List<Comment> newComments =
-            responseData.map((data) => Comment.fromJson(data)).toList();
+        responseData.map((data) => Comment.fromJson(data)).toList();
 
         widget.entity.comments = newComments;
 

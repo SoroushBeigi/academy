@@ -13,7 +13,6 @@ import 'package:academy/content_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:http/http.dart' as http;
@@ -50,13 +49,6 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final BehaviorSubject<int> likeSubject = BehaviorSubject<int>.seeded(0);
-    final savedId = getIt<Storage>().getSavedVideos().firstWhere(
-          (element) => element == widget.entity.id.toString(),
-          orElse: () => '',
-        );
-    final BehaviorSubject<bool> saveSubject =
-        BehaviorSubject<bool>.seeded(savedId != '');
     return BlocProvider(
       create: (context) =>
           getIt<VideoDetailsCubit>()..getRelatedContent(widget.entity),
@@ -67,45 +59,55 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
               loading: () => const Center(
                     child: ACLoading(),
                   ),
-              done: ()=>Scaffold(
-                appBar: AppBar(
-                  title: Text(widget.entity.title ?? ''),
-                ),
-                body: Padding(
-                  padding: const EdgeInsets.all(AppPadding.p16),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ///player widget
-                        Container(
-                          width: double.infinity,
-                          height: MediaQuery.of(context).size.height * 0.5,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(AppSize.s12),
-                          ),
-                          child: VideoPlayerWidget(entity: widget.entity),
-                        ),
-                        Divider(
-                          thickness: AppSize.s1,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
-
-                        actionButtonsWidget(context),
-                        AppSize.s8.heightSizeBox(),
-                        contentInfoWidget(),
-                        AppSize.s8.heightSizeBox(),
-                        attachmentsWidget(context),
-                        AppSize.s8.heightSizeBox(),
-                        relatedContents(context),
-                        AppSize.s8.heightSizeBox(),
-                        commentsWidget(context),
-
-                      ],
+              done: () => Scaffold(
+                    appBar: AppBar(
+                      title: Text(widget.entity.title ?? ''),
                     ),
-                  ),
-                ),
-              ));
+                    body: Padding(
+                      padding: const EdgeInsets.all(AppPadding.p16),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ///player widget
+                            Container(
+                              width: double.infinity,
+                              height: MediaQuery.of(context).size.height * 0.5,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.circular(AppSize.s12),
+                              ),
+                              child: VideoPlayerWidget(entity: widget.entity),
+                            ),
+                            Divider(
+                              thickness: AppSize.s1,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+
+                            actionButtonsWidget(context),
+                            AppSize.s8.heightSizeBox(),
+                            contentInfoWidget(),
+
+                            if (widget.entity.attachments != null &&
+                                (widget.entity.attachments?.isNotEmpty ??
+                                    false)) ...[
+                              AppSize.s8.heightSizeBox(),
+                              attachmentsWidget(context),
+                            ],
+                            if (widget.entity.relatedContent != null &&
+                                (widget.entity.relatedContent?.isNotEmpty ??
+                                    false)) ...[
+                              AppSize.s8.heightSizeBox(),
+                              relatedContents(context),
+                            ],
+
+                            AppSize.s8.heightSizeBox(),
+                            commentsWidget(context),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ));
         },
       ),
     );

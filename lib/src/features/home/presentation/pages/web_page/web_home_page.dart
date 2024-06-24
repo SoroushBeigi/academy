@@ -161,23 +161,26 @@ class _WebHomePageState extends State<WebHomePage> {
         ),
       );
 
-  idleChips(BuildContext context) => Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-      children: HomeCubit
-          .chips
-          .entries
-          .map(
-            (e) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: FilterChip(
-                label: Text(e.key),
-                onSelected: (_) {
-                  getIt<SearchCubit>().selectChip(e.key);
-                  context.go('/search', extra: {'isFromHome':true,'selectedChip': e.key});
-                },
-                selected: false,
+  idleChips(BuildContext context) => SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+        children: HomeCubit
+            .chips
+            .entries
+            .map(
+              (e) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: FilterChip(
+                  label: Text(e.key),
+                  onSelected: (_) {
+                    getIt<SearchCubit>().selectChip(e.key);
+                    context.go('/search', extra: {'isFromHome':true,'selectedChip': e.key});
+                  },
+                  selected: false,
+                ),
               ),
-            ),
-          )
-          .toList());
+            )
+            .toList()),
+  );
 }

@@ -1,12 +1,9 @@
-import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/core/widgets/app_header.dart';
 import 'package:academy/src/features/home/home.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_cubit.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_state.dart';
-import 'package:academy/src/features/search/presentation/widgets/search_field.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/related_video/related_video_container.dart';
 import 'package:flutter/material.dart';
 
@@ -81,37 +78,43 @@ class _SearchWebPageState extends State<SearchWebPage> {
     );
   }
 
-  idleChips(BuildContext context) => Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: HomeCubit.chips.entries
-          .map(
-            (e) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: FilterChip(
-                label: Text(e.key),
-                onSelected: (value) =>
-                    context.read<SearchCubit>().switchChips(e.key, value),
-                selected: false,
+  idleChips(BuildContext context) => SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: HomeCubit.chips.entries
+            .map(
+              (e) => Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: FilterChip(
+                  label: Text(e.key),
+                  onSelected: (value) =>
+                      context.read<SearchCubit>().switchChips(e.key, value),
+                  selected: false,
+                ),
               ),
-            ),
-          )
-          .toList());
+            )
+            .toList()),
+  );
 
-  activeChips(BuildContext context,Map<String,bool> chips) => Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: chips.entries
-          .map(
-            (e) => Padding(
-          padding: const EdgeInsets.symmetric(
-              horizontal: 8.0),
-          child: FilterChip(
-            label: Text(e.key),
-            onSelected: (value) => context
-                .read<SearchCubit>()
-                .switchChips(e.key, value),
-            selected: chips[e.key] ?? false,
+  activeChips(BuildContext context,Map<String,bool> chips) => SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: chips.entries
+            .map(
+              (e) => Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: 8.0),
+            child: FilterChip(
+              label: Text(e.key),
+              onSelected: (value) => context
+                  .read<SearchCubit>()
+                  .switchChips(e.key, value),
+              selected: chips[e.key] ?? false,
+            ),
           ),
-        ),
-      )
-          .toList());
+        )
+            .toList()),
+  );
 }
