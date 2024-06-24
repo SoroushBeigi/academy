@@ -53,7 +53,7 @@ class _WebHomePageState extends State<WebHomePage> {
                 onRefresh: () => context.read<HomeCubit>().initial(),
                 child: SingleChildScrollView(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       ///page header
                       const AppHeader(
@@ -64,6 +64,8 @@ class _WebHomePageState extends State<WebHomePage> {
                       ///categories
                       idleChips(context),
                       AppSize.s8.heightSizeBox(),
+
+                      ///videos
                       categorySection(
                           context, 'New', HomeCubit.videos.sublist(0)),
                       categorySection(
@@ -148,7 +150,7 @@ class _WebHomePageState extends State<WebHomePage> {
       period: const Duration(milliseconds: 1000),
       child: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const AppHeader(
               textFieldAutoFocus: false,
