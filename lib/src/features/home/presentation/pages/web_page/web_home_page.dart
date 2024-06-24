@@ -63,17 +63,15 @@ class _WebHomePageState extends State<WebHomePage> {
 
                       ///categories
                       idleChips(context),
-
+                      AppSize.s8.heightSizeBox(),
                       categorySection(
-                          context, 'Live', HomeCubit.videos.sublist(0)),
+                          context, 'New', HomeCubit.videos.sublist(0)),
                       categorySection(
-                          context, 'Education', HomeCubit.videos.sublist(0, 5)),
-                      categorySection(context, 'Entertainment',
-                          HomeCubit.videos.sublist(2, 4)),
-                      categorySection(context, 'Music',
-                          HomeCubit.videos.sublist(1, HomeCubit.videos.length)),
+                          context, 'Trending', HomeCubit.videos.sublist(3)),
                       categorySection(
-                          context, 'Nature', HomeCubit.videos.sublist(2, 5)),
+                          context, 'Top Rated', HomeCubit.videos.sublist(6)),
+                      categorySection(
+                          context, 'For You', HomeCubit.videos.sublist(1)),
                     ],
                   ),
                 ),

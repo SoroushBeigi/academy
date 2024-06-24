@@ -53,8 +53,7 @@ class _MobileHomePageState extends State<MobileHomePage> {
                   return Column(
                     children: [
                       Padding(
-                        padding:
-                            const EdgeInsets.all(16),
+                        padding: const EdgeInsets.all(16),
                         child: GestureDetector(
                           onTap: () {
                             context.go('/search', extra: {
@@ -83,16 +82,14 @@ class _MobileHomePageState extends State<MobileHomePage> {
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  categorySection(context, 'Live',
-                                      HomeCubit.videos.sublist(1, 5)),
-                                  categorySection(context, 'Education',
-                                      HomeCubit.videos.sublist(0, 5)),
-                                  categorySection(context, 'Entertainment',
-                                      HomeCubit.videos.sublist(2, 4)),
-                                  categorySection(context, 'Music',
-                                      HomeCubit.videos.sublist(1, 4)),
-                                  categorySection(context, 'Nature',
-                                      HomeCubit.videos.sublist(2, 5)),
+                                  categorySection(context, 'New',
+                                      HomeCubit.videos.sublist(0)),
+                                  categorySection(context, 'Trending',
+                                      HomeCubit.videos.sublist(3)),
+                                  categorySection(context, 'Top Rated',
+                                      HomeCubit.videos.sublist(6)),
+                                  categorySection(context, 'For You',
+                                      HomeCubit.videos.sublist(1)),
                                 ],
                               ),
                             ),
@@ -136,29 +133,27 @@ class _MobileHomePageState extends State<MobileHomePage> {
       );
 
   idleChips(BuildContext context) => SingleChildScrollView(
-    scrollDirection: Axis.horizontal,
-    child: Row(
-        children: HomeCubit.chips.entries
-            .map(
-              (e) => Container(
-                margin: const EdgeInsets.only(bottom: 2),
-                padding: const EdgeInsets.symmetric(horizontal: 2),
-                child: FilterChip(
-                  label: Text(e.key),
-                  onSelected: (_) {
-                    getIt<SearchCubit>().selectChip(e.key);
-                    context.go('/search',
-                        extra: {'isFromHome': true, 'selectedChip': e.key});
-                    context
-                        .read<MainCubit>()
-                        .updateNavigationIndexState(1);
-                  },
-                  selected: false,
-                ),
-              ),
-            )
-            .toList()),
-  );
+        scrollDirection: Axis.horizontal,
+        child: Row(
+            children: HomeCubit.chips.entries
+                .map(
+                  (e) => Container(
+                    margin: const EdgeInsets.only(bottom: 2),
+                    padding: const EdgeInsets.symmetric(horizontal: 2),
+                    child: FilterChip(
+                      label: Text(e.key),
+                      onSelected: (_) {
+                        getIt<SearchCubit>().selectChip(e.key);
+                        context.go('/search',
+                            extra: {'isFromHome': true, 'selectedChip': e.key});
+                        context.read<MainCubit>().updateNavigationIndexState(1);
+                      },
+                      selected: false,
+                    ),
+                  ),
+                )
+                .toList()),
+      );
 
   shimmerWidget(BuildContext context) {
     final random = Random();
@@ -170,8 +165,7 @@ class _MobileHomePageState extends State<MobileHomePage> {
         child: Column(
           children: [
             const Padding(
-              padding:
-              const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(16),
               child: const SearchField(
                 enabled: false,
                 autoFocus: false,
@@ -183,7 +177,7 @@ class _MobileHomePageState extends State<MobileHomePage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: List.generate(
                   10,
-                      (index) => Padding(
+                  (index) => Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4),
                     child: FilterChip(
                         label: SizedBox(
