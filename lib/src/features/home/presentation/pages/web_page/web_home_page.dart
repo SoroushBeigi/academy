@@ -156,17 +156,20 @@ class _WebHomePageState extends State<WebHomePage> {
               textFieldAutoFocus: false,
               textFieldEnabled: false,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(
-                10,
-                (index) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 4),
-                  child: FilterChip(
-                      label: SizedBox(
-                        width: random.nextDouble() * 100,
-                      ),
-                      onSelected: null),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  10,
+                  (index) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: FilterChip(
+                        label: SizedBox(
+                          width: random.nextDouble() * 100,
+                        ),
+                        onSelected: null),
+                  ),
                 ),
               ),
             ),
