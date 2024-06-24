@@ -20,6 +20,7 @@ class ACTextFormField extends StatelessWidget {
     this.hintStyle,
     this.style,
     this.maxLines,
+    this.validator
   });
   final TextEditingController controller;
   final FocusNode? focusNode;
@@ -35,6 +36,7 @@ class ACTextFormField extends StatelessWidget {
   final String hintText;
   final Widget? suffixIcon;
   final int? maxLines;
+  final Function(String?)? validator;
 
   @override
   Widget build(BuildContext context) {
@@ -58,18 +60,19 @@ class ACTextFormField extends StatelessWidget {
         enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
               width: 2,
-              color: borderColor ?? Theme.of(context).colorScheme.onSecondary,
+              color: borderColor ?? Theme.of(context).colorScheme.secondary,
             ),
             borderRadius: const BorderRadius.all(Radius.circular(AppSize.s12))
         ),
         border: OutlineInputBorder(
             borderSide: BorderSide(
               width: 2,
-              color: borderColor ?? Theme.of(context).colorScheme.onSecondary,
+              color: borderColor ?? Theme.of(context).colorScheme.secondary,
             ),
             borderRadius: const BorderRadius.all(Radius.circular(AppSize.s12))
         ),
       ),
+      validator: (value) => validator!(value),
     );
   }
 }

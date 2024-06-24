@@ -1,31 +1,5 @@
 import 'package:flutter/material.dart';
 
-@immutable
-class AppStyle {
-  AppStyle({Size? screenSize}) {
-    if (screenSize == null) {
-      scale = 1;
-      return;
-    }
-    final shortestSide = screenSize.shortestSide;
-    const tabletXl = 1000;
-    const tabletLg = 800;
-    if (shortestSide > tabletXl) {
-      scale = 1.2;
-    } else if (shortestSide > tabletLg) {
-      scale = 1.1;
-    } else {
-      scale = 1;
-    }
-  }
-
-
-  late final double scale;
-
-
-  late final insets = _Insets(scale);
-}
-
 class AppMargin{
   static const double m0 = 0.0;
   static const double m2 = 2.0;
@@ -67,25 +41,13 @@ class AppSize{
   static const double s20 = 20.0;
   static const double s24 = 24.0;
   static const double s28 = 28.0;
+  static const double s32 = 32.0;
   static const double s42 = 42.0;
   static const double s48 = 48.0;
   static const double s60 = 60.0;
+  static const double s64 = 64.0;
   static const double s80 = 80.0;
-}
-
-@immutable
-class _Insets {
-  _Insets(this._scale);
-  final double _scale;
-
-  late final double xxs = 4 * _scale;
-  late final double xs = 8 * _scale;
-  late final double sm = 16 * _scale;
-  late final double md = 24 * _scale;
-  late final double lg = 32 * _scale;
-  late final double xl = 48 * _scale;
-  late final double xxl = 56 * _scale;
-  late final double offset = 80 * _scale;
+  static const double s120 = 120.0;
 }
 
 @immutable
@@ -103,4 +65,28 @@ class AppTimes {
   final Duration t600 = const Duration(milliseconds: 600);
   final Duration t900 = const Duration(milliseconds: 900);
   final Duration t200 = const Duration(milliseconds: 200);
+}
+
+class Space {
+  /// Constant  widths
+  static const w4 = SizedBox(width: AppSize.s4);
+  static const w8 = SizedBox(width: AppSize.s8);
+  static const w12 = SizedBox(width: AppSize.s12);
+  static const w16 = SizedBox(width: AppSize.s16);
+  static const w20 = SizedBox(width: AppSize.s20);
+  static const w24 = SizedBox(width: AppSize.s24);
+  static const w32 = SizedBox(width: AppSize.s32);
+  static const w48 = SizedBox(width: AppSize.s48);
+  static const w64 = SizedBox(width: AppSize.s64);
+
+  /// Constant  heights
+  static const h4 = SizedBox(height: AppSize.s4);
+  static const h8 = SizedBox(height: AppSize.s8);
+  static const h12 = SizedBox(height: AppSize.s12);
+  static const h16 = SizedBox(height: AppSize.s16);
+  static const h20 = SizedBox(height: AppSize.s20);
+  static const h24 = SizedBox(height: AppSize.s24);
+  static const h32 = SizedBox(height: AppSize.s32);
+  static const h48 = SizedBox(height: AppSize.s48);
+  static const h64 = SizedBox(height: AppSize.s64);
 }

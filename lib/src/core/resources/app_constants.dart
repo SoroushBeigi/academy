@@ -1,3 +1,5 @@
+import 'package:academy/src/features/auth/presentation/cubit/auth_cubit.dart';
+
 class AppConstants {
   static const int onboardingPagesCount = 3;
   static const String tokenKey = 'token';
@@ -11,4 +13,5 @@ class AppConstants {
       'https://fastly.picsum.photos/id/1044/200/200.jpg?hmac=HB3e6tTss6J_9wexZ1v1psMlccdyQIrHrrijUgWXFhg';
   static bool isDark = false;
   static bool isFa = false;
+  static const bool showApprovedOnly = true;
 }

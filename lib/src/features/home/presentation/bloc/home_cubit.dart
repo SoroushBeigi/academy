@@ -7,10 +7,9 @@ import 'package:injectable/injectable.dart';
 
 import 'home_state.dart';
 
-
 @singleton
 class HomeCubit extends Cubit<HomeState> {
-  HomeCubit() : super(const HomeState.loading());
+  HomeCubit() : super(const HomeState.initial());
   final _dio = Dio(
     BaseOptions(
       baseUrl: AppConstants.baseUrl,
@@ -18,19 +17,49 @@ class HomeCubit extends Cubit<HomeState> {
     ),
   );
   static List<ContentEntity> videos = [];
+  static Map<String, bool> chips = {};
+  static List<Category> categories = [];
 
-  Future<void> getVideos() async{
+  Future<void> initial() async {
     emit(const HomeState.loading());
-    try{
+    await getVideos();
+    await getCategories();
+
+    emit(const HomeState.done());
+  }
+
+  Future<void> getVideos() async {
+    try {
       final result = await _dio.get('/content');
-      final fetchedVideos = (result.data as List).map((json) => ContentEntity.fromJson(json)).toList();
+      final fetchedVideos = (result.data as List)
+          .map((json) => ContentEntity.fromJson(json))
+          .toList()
+          .where(
+            (element) => AppConstants.showApprovedOnly
+                ? (element.isApproved ?? false)
+                : true,
+          );
+      videos.clear();
       videos.addAll(fetchedVideos);
       videos = videos.reversed.toList();
 
-      emit(const HomeState.done());
-    }on DioException catch(e){
+      // return;
+    } on DioException catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  Future<void> getCategories() async {
+    try {
+      final result = await _dio.get('/categories');
+      final fetchedCategories =
+          (result.data as List).map((json) => Category.fromJson(json)).toList();
+      categories.clear();
+      categories.addAll(fetchedCategories);
+      chips = {for (var category in categories) category.name ?? '': false};
+      // return;
+    } on DioException catch (e) {
       debugPrint(e.error.toString());
     }
   }
 }
-

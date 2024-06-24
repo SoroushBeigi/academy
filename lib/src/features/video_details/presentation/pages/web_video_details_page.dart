@@ -5,6 +5,7 @@ import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/core/logic/common/date_format.dart';
 import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/di/di_setup.dart';
+import 'package:academy/src/features/core/core.dart';
 import 'package:academy/src/features/video_details/presentation/bloc/video_details_cubit.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/related_video/related_video_container.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/video_player_widget/video_player_widget.dart';
@@ -17,9 +18,6 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:http/http.dart' as http;
 
-import 'widgets/comment_container.dart';
-
-
 class WebVideoDetailsPage extends StatefulWidget {
   const WebVideoDetailsPage({required this.entity, super.key});
 
@@ -30,13 +28,26 @@ class WebVideoDetailsPage extends StatefulWidget {
 }
 
 class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
-
   ///when like is null, no selection. dislike == false, like == true
   bool? like;
   bool? save;
 
+  late String username;
+  late int userId;
 
   TextEditingController commentTextFieldController = TextEditingController();
+
+  loadUserInfo() {
+    final pref = getIt<Storage>();
+    username = pref.getUsername();
+    userId = pref.getId();
+  }
+
+  @override
+  void initState() {
+    loadUserInfo();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -49,94 +60,102 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
     BehaviorSubject<bool>.seeded(savedId != '');
 
     return BlocProvider(
-      create: (context) => getIt<VideoDetailsCubit>(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.entity.title ?? ''),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(AppPadding.p16),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-
-                    ///left column
-                    Flexible(
-                      flex: 5,
+      create: (context) =>
+      getIt<VideoDetailsCubit>()
+        ..getRelatedContent(widget.entity),
+      child: BlocBuilder<VideoDetailsCubit, VideoDetailsState>(
+        builder: (context, state) {
+          return state.when(
+            initial: () => const SizedBox(),
+            loading: () =>
+            const Center(
+              child: ACLoading(),
+            ),
+            done: () =>
+                Scaffold(
+                  appBar: AppBar(
+                    title: Text(widget.entity.title ?? ''),
+                  ),
+                  body: Padding(
+                    padding: const EdgeInsets.all(AppPadding.p16),
+                    child: SingleChildScrollView(
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            height: MediaQuery
-                                .of(context)
-                                .size
-                                .height * 0.6,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(AppSize.s12),
-                            ),
-                            child: VideoPlayerWidget(entity: widget.entity),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+
+                              ///left column
+                              Flexible(
+                                flex: 5,
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      height:
+                                      MediaQuery
+                                          .of(context)
+                                          .size
+                                          .height * 0.6,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                        BorderRadius.circular(AppSize.s12),
+                                      ),
+                                      child:
+                                      VideoPlayerWidget(entity: widget.entity),
+                                    ),
+                                    AppSize.s12.heightSizeBox(),
+                                    actionButtonsWidget(context),
+                                    AppSize.s12.heightSizeBox(),
+                                    commentsWidget(context)
+                                  ],
+                                ),
+                              ),
+                              AppSize.s8.widthSizeBox(),
+
+                              ///right column
+                              Flexible(
+                                flex: 2,
+                                child: Column(
+                                  children: [
+                                    contentInfoWidget(),
+                                    if (widget.entity.attachments != null &&
+                                        (widget.entity.attachments
+                                            ?.isNotEmpty ??
+                                            false))...[
+                                      AppSize.s12.heightSizeBox(),
+                                      attachmentsWidget(context),
+                                    ],
+                                    if (widget.entity.relatedContent != null &&
+                                        (widget.entity.relatedContent
+                                            ?.isNotEmpty ??
+                                            false)) ...[
+                                      AppSize.s12.heightSizeBox(),
+                                      relatedContents(context),
+                                    ],
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
-
-                          AppSize.s12.heightSizeBox(),
-
-                          actionButtonsWidget(context),
-
-                          AppSize.s12.heightSizeBox(),
-
-                          commentsWidget(context)
-
+                          Divider(
+                            thickness: AppSize.s1,
+                            color: Theme
+                                .of(context)
+                                .colorScheme
+                                .onSurface,
+                          ),
+                          AppSize.s8.heightSizeBox(),
                         ],
                       ),
                     ),
-                    AppSize.s8.widthSizeBox(),
-
-
-                    ///right column
-                    Flexible(
-                      flex: 2,
-                      child: Column(
-                        children: [
-
-                          contentInfoWidget(),
-
-                          AppSize.s12.heightSizeBox(),
-
-                          attachmentsWidget(context),
-
-
-                          AppSize.s12.heightSizeBox(),
-
-                          relatedContents(context),
-
-
-                        ],
-                      ),
-                    )
-                  ],
+                  ),
                 ),
-                Divider(
-                  thickness: AppSize.s1,
-                  color: Theme
-                      .of(context)
-                      .colorScheme
-                      .onSurface,
-                ),
-
-
-                AppSize.s8.heightSizeBox(),
-
-
-              ],
-            ),
-          ),
-        ),
+          );
+        },
       ),
     );
   }
-
 
   relatedContents(BuildContext context) {
     return Column(
@@ -153,23 +172,27 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
           textAlign: TextAlign.start,
         ),
         AppSize.s8.heightSizeBox(),
-        RelatedVideoContainer(
-          videoModel: widget.entity,
-          margin: 8,
-        ),
-        RelatedVideoContainer(
-          videoModel: widget.entity,
-          margin: 8,
+        Column(
+          children: context
+              .read<VideoDetailsCubit>()
+              .relatedContent
+              .map(
+                (e) =>
+                RelatedVideoContainer(
+                  videoModel: e,
+                  margin: 8,
+                ),
+          )
+              .toList(),
         )
       ],
     );
   }
 
-
   commentsWidget(BuildContext context) {
     List<Widget> list = [];
-    for (Comment comment in widget.entity.comments??[]){
-      list.add(commentItemBuilder(context,comment));
+    for (Comment comment in widget.entity.comments ?? []) {
+      list.add(commentItemBuilder(context, comment));
     }
 
     return Container(
@@ -186,7 +209,6 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           Text(
             AppLocalizations
                 .of(context)
@@ -220,9 +242,10 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                 : Alignment.bottomRight,
             child: ElevatedButton(
               onPressed: () {
-
-                addComment(contentId: widget.entity.id!,text: commentTextFieldController.text, userId: 1 );
-
+                addComment(
+                    contentId: widget.entity.id!,
+                    text: commentTextFieldController.text,
+                    userId: userId);
               },
               child: Text(AppLocalizations
                   .of(context)
@@ -230,7 +253,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
             ),
           ),
           Column(
-            children: list,
+            children: list.reversed.toList(),
           )
         ],
       ),
@@ -238,6 +261,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
   }
 
   actionButtonsWidget(context) {
+    final likesCount = widget.entity.likesCount;
     return SizedBox(
       child: Row(
         children: [
@@ -253,25 +277,47 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                     .surfaceContainer,
                 borderRadius: BorderRadius.circular(AppSize.s60),
               ),
-              child: InkWell(
-                onTap: () {
-                  like = true;
-                  setState(() {});
-                },
-                child: Icon(
-                  like == true
-                      ? Icons.thumb_up_alt
-                      : Icons.thumb_up_alt_outlined,
-                  color: like == true
-                      ? Theme
-                      .of(context)
-                      .colorScheme
-                      .primary
-                      : Theme
-                      .of(context)
-                      .colorScheme
-                      .onSurface,
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      if (like != true) {
+                        getIt<VideoDetailsCubit>()
+                            .like(true, widget.entity.id ?? 0);
+                      }
+                      like = true;
+                      setState(() {});
+                    },
+                    child: Icon(
+                      like == true
+                          ? Icons.thumb_up_alt
+                          : Icons.thumb_up_alt_outlined,
+                      color: like == true
+                          ? Theme
+                          .of(context)
+                          .colorScheme
+                          .primary
+                          : Theme
+                          .of(context)
+                          .colorScheme
+                          .onSurface,
+                    ),
+                  ),
+                  AppSize.s8.widthSizeBox(),
+                  Text(
+                    '${likesCount == null ? 0 : like == true
+                        ? likesCount + 1
+                        : like == false
+                        ? likesCount == 0 ? 0 : likesCount - 1
+                        : likesCount} likes',
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(fontWeight: FontWeight.bold),
+                  )
+                ],
               ),
             ),
           ),
@@ -289,6 +335,10 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
               ),
               child: InkWell(
                 onTap: () {
+                  if (like != false) {
+                    getIt<VideoDetailsCubit>()
+                        .like(false, widget.entity.id ?? 0);
+                  }
                   like = false;
                   setState(() {});
                 },
@@ -323,8 +373,9 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
               ),
               child: InkWell(
                 onTap: () {
-                  Share.share('check out my website http://academy.behpardaz.net', subject: 'Look what We made!');
-
+                  Share.share(
+                      'check out my website http://academy.behpardaz.net',
+                      subject: 'Look what We made!');
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -357,17 +408,13 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                     // context
                     //     .read<VideoDetailsCubit>()
                     //     .saveVideo(widget.entity.id);
-                    setState(() {
-
-                    });
+                    setState(() {});
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
-                        save ?? false
-                            ? Icons.bookmark
-                            : Icons.bookmark_border,
+                        save ?? false ? Icons.bookmark : Icons.bookmark_border,
                         color: save ?? false
                             ? Theme
                             .of(context)
@@ -400,8 +447,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                       )
                     ],
                   ),
-                )
-            ),
+                )),
           )
         ],
       ),
@@ -419,13 +465,15 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
-
       children: [
-        Text('Content Info', style: Theme
-            .of(context)
-            .textTheme
-            .titleSmall,
-          textAlign: TextAlign.start,),
+        Text(
+          'Content Info',
+          style: Theme
+              .of(context)
+              .textTheme
+              .titleSmall,
+          textAlign: TextAlign.start,
+        ),
         // AppSize.s8.heightSizeBox(),
         Container(
           padding: const EdgeInsets.all(AppPadding.p8),
@@ -438,112 +486,122 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                 .colorScheme
                 .surfaceContainer,
           ),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          child:
+          Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            rowOfData('Title: ', widget.entity.title ?? '-'),
+            AppSize.s4.heightSizeBox(),
+            rowOfData('Description: ', widget.entity.description ?? '-'),
+            AppSize.s4.heightSizeBox(),
+            rowOfData('Created By: ', widget.entity.authorName ?? '-'),
+            AppSize.s4.heightSizeBox(),
+            rowOfData(
+                'Created At: ',
+                DateFormat.timeAgo(
+                  widget.entity.createdAt ??
+                      DateTime.now().subtract(
+                        const Duration(days: 5),
+                      ),
+                ) ??
+                    '-'),
+            AppSize.s4.heightSizeBox(),
+            rowOfData('Views: ', widget.entity.viewCount.toString()),
+            AppSize.s4.heightSizeBox(),
+            rowOfData('Categories: ', categories ?? '-'),
+            AppSize.s4.heightSizeBox(),
+            rowOfData('Tags: ', tags ?? '-'),
+            AppSize.s4.heightSizeBox(),
+          ]),
+        ),
+      ],
+    );
+  }
 
-              children: [
-
-                rowOfData('Title: ', widget.entity.title ?? '-'),
-                AppSize.s4.heightSizeBox(),
-
-                rowOfData('Description: ', widget.entity.description ?? '-'),
-                AppSize.s4.heightSizeBox(),
-
-                rowOfData('Created By: ', widget.entity.authorName ?? '-'),
-                AppSize.s4.heightSizeBox(),
-
-                rowOfData('Created At: ', '${DateFormat.timeAgo(widget.entity.createdAt ?? DateTime.now().subtract(const Duration(days: 5),),)}' ?? '-'),
-                AppSize.s4.heightSizeBox(),
-
-                rowOfData('Views: ', widget.entity.viewCount.toString()),
-                AppSize.s4.heightSizeBox(),
-
-                rowOfData('Categories: ', categories ?? '-'),
-                AppSize.s4.heightSizeBox(),
-
-                rowOfData('Tags: ', tags ?? '-'),
-                AppSize.s4.heightSizeBox(),
-
-
-              ]
+  Widget rowOfData(String title, String? description) {
+    return Row(
+      children: [
+        Text(
+          title,
+          style: Theme
+              .of(context)
+              .textTheme
+              .titleSmall,
+          textAlign: TextAlign.start,
+        ),
+        Flexible(
+          child: Text(
+            description ?? '-',
+            style: Theme
+                .of(context)
+                .textTheme
+                .titleSmall,
+            textAlign: TextAlign.start,
           ),
         ),
       ],
     );
   }
 
-  Widget rowOfData(String title, String description) {
-    return Row(children: [
-      Text(title, style: Theme
-          .of(context)
-          .textTheme
-          .titleSmall,
-        textAlign: TextAlign.start,),
-      Flexible(
-        child: Text(description ?? '-', style: Theme
-            .of(context)
-            .textTheme
-            .titleSmall,
-          textAlign: TextAlign.start,),
-      ),
-    ],);
-  }
-
-
   attachmentsWidget(context) {
     List<Widget> list = [];
-    for (Attachment attachment in widget.entity.attachments??[]){
+    for (Attachment attachment in widget.entity.attachments ?? []) {
       list.add(attachmentItemBuilder(context, attachment));
     }
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
-
       children: [
-        Text('Attachments', style: Theme
-            .of(context)
-            .textTheme
-            .titleSmall,
-          textAlign: TextAlign.start,),
+        Text(
+          'Attachments',
+          style: Theme
+              .of(context)
+              .textTheme
+              .titleSmall,
+          textAlign: TextAlign.start,
+        ),
         // AppSize.s8.heightSizeBox(),
 
         Container(
           padding: const EdgeInsets.all(AppPadding.p8),
           width: double.infinity,
           // height: 150,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(AppSize.s12),
-            color: Theme
-                .of(context)
-                .colorScheme
-                .surfaceContainer,
-          ),
-          child: (widget.entity.attachments ??[]).isNotEmpty ?
-          Row(
+          child: (widget.entity.attachments ?? []).isNotEmpty
+              ? Row(
             children: list,
           )
-              : SizedBox(child: Text('-'),),
+              : const SizedBox(
+            child: Text('-'),
+          ),
         ),
       ],
     );
   }
 
-
   attachmentItemBuilder(BuildContext context, Attachment attachment) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      margin: const EdgeInsets.only(right: 8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppSize.s12),
+        color: Theme
+            .of(context)
+            .colorScheme
+            .surfaceContainer,
+      ),
       child: InkWell(
         onTap: () {
-          UrlLauncher.launchUrl(Uri.parse('${AppConstants.baseUrlWithoutPort}${attachment.filePath}'));
+          UrlLauncher.launchUrl(Uri.parse(
+              '${AppConstants.baseUrlWithoutPort}${attachment.filePath}'));
         },
         child: Column(
           children: [
             Image.asset(
-              attachment.fileType == '.docx' ? 'assets/word.png'
-                  : attachment.fileType == '.pptx' ? 'assets/powerpoint.png'
-                  : attachment.fileType == '.pdf' ? 'assets/pdf.png'
-                  : 'assets/video.png'
-              ,
+              attachment.fileType == '.docx'
+                  ? 'assets/word.png'
+                  : attachment.fileType == '.pptx'
+                  ? 'assets/powerpoint.png'
+                  : attachment.fileType == '.pdf'
+                  ? 'assets/pdf.png'
+                  : 'assets/video.png',
               width: 40,
               height: 60,
             ),
@@ -555,7 +613,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
     );
   }
 
-  commentItemBuilder(BuildContext context, Comment comment){
+  commentItemBuilder(BuildContext context, Comment comment) {
     return Column(
       children: [
         AppSize.s16.heightSizeBox(),
@@ -566,18 +624,32 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
               height: AppSize.s28,
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Theme.of(context).colorScheme.onSecondary),
+                  color: Theme
+                      .of(context)
+                      .colorScheme
+                      .onSecondary),
               child: const Center(child: Icon(Icons.person)),
             ),
             AppSize.s4.widthSizeBox(),
             Text(
-              '@guest - ${comment.userId}',
-              style: Theme.of(context).textTheme.bodyMedium,
+              '@$username',
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .bodyMedium,
             ),
             const Spacer(),
             Text(
-              '${DateFormat.timeAgo(comment.createdAt ?? DateTime.now().subtract(const Duration(days: 5),),)}',
-              style: Theme.of(context).textTheme.bodyMedium,
+              DateFormat.timeAgo(
+                comment.createdAt ??
+                    DateTime.now().subtract(
+                      const Duration(days: 5),
+                    ),
+              ),
+              style: Theme
+                  .of(context)
+                  .textTheme
+                  .bodyMedium,
             )
           ],
         ),
@@ -588,14 +660,20 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
             children: [
               Text(
                 comment.text ?? '-',
-                style: Theme.of(context).textTheme.bodyMedium,
+                style: Theme
+                    .of(context)
+                    .textTheme
+                    .bodyMedium,
               ),
               const Spacer(),
               IconButton(
                   onPressed: () {},
                   icon: Icon(
                     Icons.reply,
-                    color: Theme.of(context).colorScheme.secondary,
+                    color: Theme
+                        .of(context)
+                        .colorScheme
+                        .secondary,
                     size: AppSize.s28,
                   )),
             ],
@@ -605,8 +683,9 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
     );
   }
 
-
-  Future<void> addComment({required int contentId, required int userId, required String text}) async {
+  Future<void> addComment({required int contentId,
+    required int userId,
+    required String text}) async {
     final url = '${AppConstants.baseUrl}/contents/$contentId/comments';
     final headers = {'Content-Type': 'application/json'};
     final body = jsonEncode({
@@ -616,7 +695,8 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
     });
 
     try {
-      final response = await http.post(Uri.parse(url), headers: headers, body: body);
+      final response =
+      await http.post(Uri.parse(url), headers: headers, body: body);
       if (response.statusCode == 201) {
         print('Comment added successfully');
         getComments(contentId: contentId);
@@ -631,7 +711,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
     }
   }
 
-  getComments({required int contentId}) async{
+  getComments({required int contentId}) async {
     final url = '${AppConstants.baseUrl}/contents/$contentId/comments';
     final headers = {'Content-Type': 'application/json'};
 
@@ -640,13 +720,12 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
       if (response.statusCode == 200) {
         print('Comment added successfully');
         final List<dynamic> responseData = jsonDecode(response.body);
-        final List<Comment> newComments = responseData.map((data) => Comment.fromJson(data)).toList();
+        final List<Comment> newComments =
+        responseData.map((data) => Comment.fromJson(data)).toList();
 
         widget.entity.comments = newComments;
 
-        setState(() {
-
-        });
+        setState(() {});
         // Optionally, handle success (e.g., update UI, notify user, etc.)
       } else {
         print('Failed to add comment: ${response.statusCode}');
@@ -657,5 +736,4 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
       // Optionally, handle network or other errors
     }
   }
-
 }

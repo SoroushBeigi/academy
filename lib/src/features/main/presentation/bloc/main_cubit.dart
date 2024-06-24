@@ -1,9 +1,11 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 
 import '../../../../bottom_navigation/src/bottom_controller.dart';
 part 'main_state.dart';
 
+@singleton
 class MainCubit extends Cubit<MainState> {
   MainCubit() : super(const MainState(currentIndex: 0,isExtended: false));
 

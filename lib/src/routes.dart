@@ -6,11 +6,13 @@ import 'package:academy/src/features/add/presentation/pages/add_video_page.dart'
 import 'package:academy/src/features/add/presentation/pages/widgets/upload_video/upload_video.dart';
 import 'package:academy/src/features/add/presentation/pages/widgets/video_recorder/video_recorder_widget.dart';
 import 'package:academy/src/features/favourite/presentation/favourite_page.dart';
+import 'package:academy/src/features/new_content/presentation/pages/new_content_component.dart';
 import 'package:academy/src/features/onboarding/presentation/onboarding_screen.dart';
 import 'package:academy/src/features/profile/presentation/screens/profile_screen.dart';
 import 'package:academy/content_entity.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 import 'features/auth/presentation/screens/auth_screen.dart';
 import 'features/home/presentation/pages/home_page.dart';
@@ -109,7 +111,7 @@ class Routes {
                 path: '/search',
                 pageBuilder: (context, state) {
                   return getPage(
-                    child: SearchScreen(isFromHome: state.extra as bool?),
+                    child: SearchScreen(extra: state.extra as Map<String,dynamic>?),
                     state: state,
                   );
                 },
@@ -123,7 +125,7 @@ class Routes {
                 path: '/add',
                 pageBuilder: (context, state) {
                   return getPage(
-                    child: const AddPage(),
+                    child: const NewContentComponent(),
                     state: state,
                   );
                 },
@@ -183,17 +185,6 @@ class Routes {
           );
         },
       ),
-      // GoRoute(
-      //   path: '/lessons/:name',
-      //   pageBuilder: (context, state) {
-      //     return getPage(
-      //       child: LessonsScreen(
-      //         courseEntity: state.extra as CourseEntity,
-      //       ),
-      //       state: state,
-      //     );
-      //   },
-      // ),
     ],
   );
 

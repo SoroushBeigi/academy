@@ -1,5 +1,6 @@
 import 'package:academy/src/core/extensions/widget_extensions.dart';
 import 'package:academy/src/core/resources/resources.dart';
+import 'package:academy/src/features/home/home.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_cubit.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_state.dart';
 import 'package:academy/src/features/search/presentation/widgets/search_field.dart';
@@ -9,9 +10,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SearchMobilePage extends StatelessWidget {
-  const SearchMobilePage({required this.isFromHome, super.key});
+  const SearchMobilePage({required this.isFromHome,required this.selectedChip, super.key});
 
   final bool? isFromHome;
+  final String? selectedChip;
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +42,7 @@ class SearchMobilePage extends StatelessWidget {
                                       .noItemsFound),
                                 )
                               : ListView.builder(
-                                  padding: const EdgeInsets.only(bottom: 100),
+                                  padding: const EdgeInsets.only(bottom: 100,top:100),
                                   shrinkWrap: true,
                                   itemCount: videos.length,
                                   itemBuilder: (context, index) =>
@@ -57,24 +59,10 @@ class SearchMobilePage extends StatelessWidget {
                       SearchField(enabled: true, autoFocus: isFromHome),
                       AppSize.s8.heightSizeBox(),
                       state.whenOrNull(
-                            foundVideos: (_) => const SizedBox(),
-                            initial: () => idleChips(context),
-                            chipsChanged: (chips) => Wrap(
-                                children: chips.entries
-                                    .map(
-                                      (e) => Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                        child: FilterChip(
-                                          label: Text(e.key),
-                                          onSelected: (value) => context
-                                              .read<SearchCubit>()
-                                              .switchChips(e.key, value),
-                                          selected: chips[e.key] ?? false,
-                                        ),
-                                      ),
-                                    )
-                                    .toList()),
-                          ) ??
+                        foundVideos: (_) => activeChips(context,context.read<SearchCubit>().chips),
+                        initial: () => idleChips(context),
+                        chipsChanged: (chips) => activeChips(context,chips),
+                      ) ??
                           const SizedBox(),
                     ],
                   ),
@@ -87,21 +75,43 @@ class SearchMobilePage extends StatelessWidget {
     );
   }
 
-  idleChips(BuildContext context) => Wrap(
-      children: context
-          .read<SearchCubit>()
-          .chips
-          .entries
-          .map(
-            (e) => Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: FilterChip(
-                label: Text(e.key),
-                onSelected: (value) =>
-                    context.read<SearchCubit>().switchChips(e.key, value),
-                selected: false,
-              ),
+  idleChips(BuildContext context) => SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Row(
+        children: HomeCubit.chips.entries
+            .map(
+              (e) => Container(
+                margin: const EdgeInsets.only(bottom: 2),
+            padding: const EdgeInsets.symmetric(horizontal: 2),
+            child: FilterChip(
+              label: Text(e.key),
+              onSelected: (value) =>
+                  context.read<SearchCubit>().switchChips(e.key, value),
+              selected: false,
             ),
-          )
-          .toList());
+          ),
+        )
+            .toList()),
+  );
+
+  activeChips(BuildContext context,Map<String,bool> chips) => SingleChildScrollView(
+    scrollDirection: Axis.horizontal,
+    child: Row(
+        children: chips.entries
+            .map(
+              (e) => Container(
+                margin: const EdgeInsets.only(bottom: 2),
+            padding: const EdgeInsets.symmetric(
+                horizontal: 2),
+            child: FilterChip(
+              label: Text(e.key),
+              onSelected: (value) => context
+                  .read<SearchCubit>()
+                  .switchChips(e.key, value),
+              selected: chips[e.key] ?? false,
+            ),
+          ),
+        )
+            .toList()),
+  );
 }

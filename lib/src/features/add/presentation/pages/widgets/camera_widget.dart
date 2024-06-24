@@ -239,6 +239,7 @@ class _CameraWidgetState extends State<CameraWidget> {
                         }
                       },
                     ),
+                    const SizedBox(),
                     // isRecording ? const SizedBox.shrink( ) : IconButton(
                     //   icon: const Icon(
                     //     Icons.refresh,

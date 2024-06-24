@@ -36,7 +36,24 @@
   "addWord": "Add doc Content (.docx)",
   "addPdf": "Add doc Content (.pdf)",
   "addSlide": "Add slide Content (.pptx)",
-  "@helloWorld": {
-    "description": "The conventional newborn programmer greeting"
-  }
+  "title": "Title",
+  "description": "Description",
+  "selectMainFile": "Select Main File",
+  "selectAttachment": "Select Attachment",
+  "categories": "Categories",
+  "tags": "Tags",
+  "createContent": "Create Content",
+  "tagHint": "Enter tags separated by commas",
+  "tagValidator": "Please enter at least one tag",
+  "acceptedFormatesImage": "Accepted formates: JPG, PNG",
+  "acceptedFormatesAttachment": "Accepted formats: docx, pdf, pptx",
+  "acceptedFormates": "Accepted formates: mp4",
+  "addPhoto": "Add Photo",
+  "selectAnItem": "Select an Item",
+  "relatedContent": "Related Content",
+  "createNewContent": "Create New Content",
+  "attachments": "Attachments",
+  "successfulAddNewContent": "New content uploaded successfully",
+  "accept": "ok",
+  "newContent": "New Content"
 }

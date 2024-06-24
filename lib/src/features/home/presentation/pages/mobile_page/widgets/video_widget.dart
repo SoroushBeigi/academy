@@ -111,8 +111,8 @@ class VideoWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8),
             child: Row(
               children: [
-                Text('$publisherName ---'),
-                Text('$viewsNumber views ---'),
+                Text('$publisherName • '),
+                Text('$viewsNumber views • '),
                 Text(publisherTime),
               ],
             ),

@@ -16,7 +16,7 @@ final pages = [
       bgColor: Colors.purple[900]!,
       imagePath: 'assets/onboarding2.jpg'),
    PageData(
-      title: "Help others learn",
+      title: "Help others to learn",
       bgColor: Colors.cyan[900]!,
        textColor: Colors.white,
       imagePath: 'assets/onboarding3.jpg'),

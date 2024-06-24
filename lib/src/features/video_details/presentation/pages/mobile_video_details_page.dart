@@ -1,412 +1,593 @@
+import 'dart:convert';
+
 import 'package:academy/src/core/data/local/shared_pref.dart';
 import 'package:academy/src/core/extensions/extensions.dart';
+import 'package:academy/src/core/logic/common/date_format.dart';
 import 'package:academy/src/core/resources/resources.dart';
-import 'package:academy/src/core/widgets/responsive_widget/responsive_widget.dart';
 import 'package:academy/src/di/di_setup.dart';
+import 'package:academy/src/features/core/core.dart';
 import 'package:academy/src/features/video_details/presentation/bloc/video_details_cubit.dart';
-import 'package:academy/src/features/video_details/presentation/pages/widgets/description_video.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/related_video/related_video_container.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/video_player_widget/video_player_widget.dart';
 import 'package:academy/content_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
+import 'package:http/http.dart' as http;
 
-import 'widgets/comment_container.dart';
-
-class MobileVideoDetailsPage extends StatelessWidget {
+class MobileVideoDetailsPage extends StatefulWidget {
   const MobileVideoDetailsPage({required this.entity, super.key});
 
   final ContentEntity entity;
 
   @override
-  Widget build(BuildContext context) {
-    final BehaviorSubject<int> likeSubject = BehaviorSubject<int>.seeded(0);
-    final savedId = getIt<Storage>().getSavedVideos().firstWhere(
-          (element) => element == entity.id.toString(),
-      orElse: () => '',
-    );
-    final BehaviorSubject<bool> saveSubject =
-    BehaviorSubject<bool>.seeded(savedId != '');
-    return BlocProvider(
-      create: (context) => getIt<VideoDetailsCubit>(),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(entity.title ?? ''),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(AppPadding.p16),
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ///player widget
-                Container(
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height * 0.5,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(AppSize.s12),
-                  ),
-                  child: VideoPlayerWidget(entity: entity),
-                ),
-                Divider(
-                  thickness: AppSize.s1,
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
+  State<MobileVideoDetailsPage> createState() => _MobileVideoDetailsPageState();
+}
 
-                DescriptionVideo(videoModel: entity),
-                // (AppSize.s12).heightSizeBox(),
-                ResponsiveWidget(
-                  smallScreen: smallCards(context, likeSubject, saveSubject),
-                  largeScreen: largeCards(context, likeSubject, saveSubject),
-                ),
-                AppSize.s8.heightSizeBox(),
-                Divider(
-                  color: Colors.grey[400],
-                  indent: 32,
-                  endIndent: 32,
-                ),
-                AppSize.s4.heightSizeBox(),
-                Text(
-                  AppLocalizations.of(context).comments,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                AppSize.s8.heightSizeBox(),
-                ResponsiveWidget(
-                  smallScreen: commentCard(context,true),
-                  mediumScreen: commentCard(context,false),
-                  largeScreen: commentCard(context,false),
-                )
-              ],
-            ),
-          ),
-        ),
+class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
+  bool? like;
+  bool? save;
+
+  late String username;
+  late int userId;
+
+  TextEditingController commentTextFieldController = TextEditingController();
+
+  loadUserInfo() {
+    final pref = getIt<Storage>();
+    username = pref.getUsername();
+    userId = pref.getId();
+  }
+
+  @override
+  void initState() {
+    loadUserInfo();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) =>
+          getIt<VideoDetailsCubit>()..getRelatedContent(widget.entity),
+      child: BlocBuilder<VideoDetailsCubit, VideoDetailsState>(
+        builder: (context, state) {
+          return state.when(
+              initial: () => const SizedBox(),
+              loading: () => const Center(
+                    child: ACLoading(),
+                  ),
+              done: () => Scaffold(
+                    appBar: AppBar(
+                      title: Text(widget.entity.title ?? ''),
+                    ),
+                    body: Padding(
+                      padding: const EdgeInsets.all(AppPadding.p16),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ///player widget
+                            Container(
+                              width: double.infinity,
+                              height: MediaQuery.of(context).size.height * 0.5,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.circular(AppSize.s12),
+                              ),
+                              child: VideoPlayerWidget(entity: widget.entity),
+                            ),
+                            Divider(
+                              thickness: AppSize.s1,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+
+                            actionButtonsWidget(context),
+                            AppSize.s8.heightSizeBox(),
+                            contentInfoWidget(),
+
+                            if (widget.entity.attachments != null &&
+                                (widget.entity.attachments?.isNotEmpty ??
+                                    false)) ...[
+                              AppSize.s8.heightSizeBox(),
+                              attachmentsWidget(context),
+                            ],
+                            if (widget.entity.relatedContent != null &&
+                                (widget.entity.relatedContent?.isNotEmpty ??
+                                    false)) ...[
+                              AppSize.s8.heightSizeBox(),
+                              relatedContents(context),
+                            ],
+
+                            AppSize.s8.heightSizeBox(),
+                            commentsWidget(context),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ));
+        },
       ),
     );
   }
 
-  smallCards(BuildContext context, likeSubject, saveSubject) => Column(
-    children: [
-      docCard(context, likeSubject, saveSubject),
-      (AppSize.s8).heightSizeBox(),
-      // commentCard(context, 180),
-      similarVideos(context),
-    ],
-  );
-
-  largeCards(BuildContext context, likeSubject, saveSubject) => Row(
-    children: [
-      Expanded(child: docCard(context, likeSubject, saveSubject)),
-      AppSize.s8.widthSizeBox(),
-      // Expanded(child: commentCard(context, 150))
-      Expanded(
-        child: similarVideos(context),
-      )
-    ],
-  );
-
-  similarVideos(BuildContext context) {
-    final large = Row(
-      children: [
-        SizedBox(
-            width: MediaQuery.of(context).size.width >= 650
-                ? 400
-                : double.infinity,
-            child: RelatedVideoContainer(
-              videoModel: entity,
-              margin: 8,
-            )),
-        SizedBox(
-            width: MediaQuery.of(context).size.width >= 650
-                ? 400
-                : double.infinity,
-            child: RelatedVideoContainer(videoModel: entity, margin: 8)),
-      ],
-    );
+  relatedContents(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          AppLocalizations.of(context).similarVideos,
-          style: Theme.of(context).textTheme.titleLarge,
+          AppLocalizations.of(context).relatedContents,
+          style: Theme.of(context).textTheme.titleSmall,
           textAlign: TextAlign.start,
         ),
         AppSize.s8.heightSizeBox(),
-        ResponsiveWidget(
-          largeScreen: large,
-          mediumScreen: large,
-          smallScreen: Column(
-            children: [
-              SizedBox(
-                  width: MediaQuery.of(context).size.width >= 650
-                      ? 400
-                      : double.infinity,
-                  child: RelatedVideoContainer(
-                    videoModel: entity,
-                    margin: 8,
-                  )),
-              SizedBox(
-                  width: MediaQuery.of(context).size.width >= 650
-                      ? 400
-                      : double.infinity,
-                  child:
-                  RelatedVideoContainer(videoModel: entity, margin: 8)),
-            ],
+        Column(
+          children: context
+              .read<VideoDetailsCubit>()
+              .relatedContent
+              .map(
+                (e) => RelatedVideoContainer(
+                  videoModel: e,
+                  margin: 8,
+                ),
+              )
+              .toList(),
+        )
+      ],
+    );
+  }
+
+  commentsWidget(BuildContext context) {
+    List<Widget> list = [];
+    for (Comment comment in widget.entity.comments ?? []) {
+      list.add(commentItemBuilder(context, comment));
+    }
+
+    return Container(
+      padding: const EdgeInsets.all(AppPadding.p8),
+      // width: MediaQuery.of(context).size.width / 2,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppSize.s12),
+        color: Theme.of(context).colorScheme.surfaceContainer,
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            AppLocalizations.of(context).comments,
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          AppSize.s12.heightSizeBox(),
+          TextFormField(
+            controller: commentTextFieldController,
+            decoration: InputDecoration(
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(AppSize.s12),
+                  borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
+                ),
+                hintText: AppLocalizations.of(context).addComment),
+          ),
+          AppSize.s16.heightSizeBox(),
+          Align(
+            alignment: AppConstants.isFa
+                ? Alignment.bottomLeft
+                : Alignment.bottomRight,
+            child: ElevatedButton(
+              onPressed: () {
+                addComment(
+                    contentId: widget.entity.id!,
+                    text: commentTextFieldController.text,
+                    userId: userId);
+              },
+              child: Text(AppLocalizations.of(context).submit),
+            ),
+          ),
+          Column(
+            children: list.reversed.toList(),
+          )
+        ],
+      ),
+    );
+  }
+
+  actionButtonsWidget(context) {
+    final likesCount = widget.entity.likesCount;
+    return SizedBox(
+      child: Row(
+        children: [
+          Expanded(
+            flex: 2,
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
+              padding: const EdgeInsets.all(AppPadding.p6),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceContainer,
+                borderRadius: BorderRadius.circular(AppSize.s60),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      if (like != true) {
+                        getIt<VideoDetailsCubit>()
+                            .like(true, widget.entity.id ?? 0);
+                      }
+                      like = true;
+                      setState(() {});
+                    },
+                    child: Icon(
+                      like == true
+                          ? Icons.thumb_up_alt
+                          : Icons.thumb_up_alt_outlined,
+                      color: like == true
+                          ? Theme.of(context).colorScheme.primary
+                          : Theme.of(context).colorScheme.onSurface,
+                    ),
+                  ),
+                  AppSize.s8.widthSizeBox(),
+                  Text(
+                    '${likesCount == null ? 0 : like == true ? likesCount + 1 : like == false ? likesCount == 0 ? 0 : likesCount - 1 : likesCount} likes',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
+              padding: const EdgeInsets.all(AppPadding.p6),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceContainer,
+                borderRadius: BorderRadius.circular(AppSize.s60),
+              ),
+              child: InkWell(
+                onTap: () {
+                  if (like != false) {
+                    getIt<VideoDetailsCubit>()
+                        .like(false, widget.entity.id ?? 0);
+                  }
+                  like = false;
+                  setState(() {});
+                },
+                child: Icon(
+                  like == false
+                      ? Icons.thumb_down_alt
+                      : Icons.thumb_down_alt_outlined,
+                  color: like == false
+                      ? Theme.of(context).colorScheme.primary
+                      : Theme.of(context).colorScheme.onSurface,
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
+              padding: const EdgeInsets.all(AppPadding.p6),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.surfaceContainer,
+                borderRadius: BorderRadius.circular(AppSize.s60),
+              ),
+              child: InkWell(
+                onTap: () {
+                  Share.share(
+                      'check out my website http://academy.behpardaz.net',
+                      subject: 'Look what We made!');
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.share),
+                    (AppSize.s4).widthSizeBox(),
+                    Text(AppLocalizations.of(context).share)
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
+                padding: const EdgeInsets.all(AppPadding.p6),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainer,
+                  borderRadius: BorderRadius.circular(AppSize.s60),
+                ),
+                child: InkWell(
+                  onTap: () {
+                    save = !(save ?? false);
+                    // context
+                    //     .read<VideoDetailsCubit>()
+                    //     .saveVideo(widget.entity.id);
+                    setState(() {});
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        save ?? false ? Icons.bookmark : Icons.bookmark_border,
+                        color: save ?? false
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.onSurface,
+                      ),
+                      (AppSize.s4).widthSizeBox(),
+                      Text(
+                        AppLocalizations.of(context).save,
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: save ?? false
+                                ? Theme.of(context).colorScheme.primary
+                                : Theme.of(context).colorScheme.onSurface),
+                      )
+                    ],
+                  ),
+                )),
+          )
+        ],
+      ),
+    );
+  }
+
+  contentInfoWidget() {
+    String categories = '';
+    for (Category item in widget.entity.categories ?? []) {
+      categories = '$categories ${item.name}';
+    }
+    String tags = '';
+    for (String item in widget.entity.tags ?? []) {
+      tags = '$tags $item';
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Content Info',
+          style: Theme.of(context).textTheme.titleSmall,
+          textAlign: TextAlign.start,
+        ),
+        // AppSize.s8.heightSizeBox(),
+        Container(
+          padding: const EdgeInsets.all(AppPadding.p8),
+          width: double.infinity,
+          // height: 150,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(AppSize.s12),
+            color: Theme.of(context).colorScheme.surfaceContainer,
+          ),
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            rowOfData('Title: ', widget.entity.title ?? '-'),
+            AppSize.s4.heightSizeBox(),
+            rowOfData('Description: ', widget.entity.description ?? '-'),
+            AppSize.s4.heightSizeBox(),
+            rowOfData('Created By: ', widget.entity.authorName ?? '-'),
+            AppSize.s4.heightSizeBox(),
+            rowOfData(
+                'Created At: ',
+                DateFormat.timeAgo(
+                      widget.entity.createdAt ??
+                          DateTime.now().subtract(
+                            const Duration(days: 5),
+                          ),
+                    ) ??
+                    '-'),
+            AppSize.s4.heightSizeBox(),
+            rowOfData('Views: ', widget.entity.viewCount.toString()),
+            AppSize.s4.heightSizeBox(),
+            rowOfData('Categories: ', categories ?? '-'),
+            AppSize.s4.heightSizeBox(),
+            rowOfData('Tags: ', tags ?? '-'),
+            AppSize.s4.heightSizeBox(),
+          ]),
+        ),
+      ],
+    );
+  }
+
+  Widget rowOfData(String title, String? description) {
+    return Row(
+      children: [
+        Text(
+          title,
+          style: Theme.of(context).textTheme.titleSmall,
+          textAlign: TextAlign.start,
+        ),
+        Flexible(
+          child: Text(
+            description ?? '-',
+            style: Theme.of(context).textTheme.titleSmall,
+            textAlign: TextAlign.start,
           ),
         ),
       ],
     );
   }
 
-  docCard(context, likeSubject, saveSubject) => Column(
-    children: [
-      StreamBuilder<int>(
-          stream: likeSubject.stream,
-          builder: (context, snapshot) {
-            return ResponsiveWidget(
-              smallScreen: rowWidget(context, snapshot, likeSubject,
-                  saveSubject, MediaQuery.of(context).size.width),
-              largeScreen: rowWidget(context, snapshot, likeSubject,
-                  saveSubject, MediaQuery.of(context).size.width / 2),
-            );
-          }),
-      AppSize.s24.heightSizeBox(),
-      Container(
-        padding: const EdgeInsets.all(AppPadding.p8),
-        width: double.infinity,
-        // height: 150,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(AppSize.s12),
-          color: Theme.of(context).colorScheme.surfaceContainer,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              AppLocalizations.of(context).documents,
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            (AppSize.s12).heightSizeBox(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                  children: [
-                    Image.asset(
-                      'assets/pdf.png',
-                      width: 50,
-                      height: 50,
-                    ),
-                    (AppSize.s4).heightSizeBox(),
-                    const Text('PDF')
-                  ],
-                ),
-                Column(
-                  children: [
-                    Image.asset(
-                      'assets/word.png',
-                      width: 50,
-                      height: 50,
-                    ),
-                    (AppSize.s4).heightSizeBox(),
-                    const Text('DOCX')
-                  ],
-                ),
-                Column(
-                  children: [
-                    Image.asset(
-                      'assets/powerpoint.png',
-                      width: 50,
-                      height: 50,
-                    ),
-                    (AppSize.s4).heightSizeBox(),
-                    const Text('PPTX')
-                  ],
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    ],
-  );
-
-  commentCard(BuildContext context, bool isMobile) => Container(
-    padding: const EdgeInsets.all(AppPadding.p8),
-    width: isMobile
-        ? MediaQuery.of(context).size.width
-        : MediaQuery.of(context).size.width / 2,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(AppSize.s12),
-      color: Theme.of(context).colorScheme.surfaceContainer,
-    ),
-    child: Column(
+  attachmentsWidget(context) {
+    List<Widget> list = [];
+    for (Attachment attachment in widget.entity.attachments ?? []) {
+      list.add(attachmentItemBuilder(context, attachment));
+    }
+    return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          AppLocalizations.of(context).comment,
-          style: Theme.of(context).textTheme.titleMedium,
+          'Attachments',
+          style: Theme.of(context).textTheme.titleSmall,
+          textAlign: TextAlign.start,
         ),
-        AppSize.s12.heightSizeBox(),
-        TextFormField(
-          decoration: InputDecoration(
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(AppSize.s12),
-                borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.onSurface,
-                ),
-              ),
-              hintText: AppLocalizations.of(context).addComment),
-        ),
-        AppSize.s16.heightSizeBox(),
-        Align(
-          alignment: AppConstants.isFa
-              ? Alignment.bottomLeft
-              : Alignment.bottomRight,
-          child: ElevatedButton(
-            onPressed: () {},
-            child: Text(AppLocalizations.of(context).submit),
-          ),
-        ),
-        const CommentContainer(),
-        const CommentContainer(),
-        const CommentContainer(),
-        const CommentContainer(),
-        const CommentContainer(),
-        const CommentContainer(),
-      ],
-    ),
-  );
+        // AppSize.s8.heightSizeBox(),
 
-  rowWidget(context, snapshot, likeSubject, saveSubject, width) => SizedBox(
-    width: width,
-    child: Row(
+        Container(
+          padding: const EdgeInsets.all(AppPadding.p8),
+          width: double.infinity,
+          // height: 150,
+          child: (widget.entity.attachments ?? []).isNotEmpty
+              ? Row(
+                  children: list,
+                )
+              : const SizedBox(
+                  child: Text('-'),
+                ),
+        ),
+      ],
+    );
+  }
+
+  attachmentItemBuilder(BuildContext context, Attachment attachment) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+      margin: const EdgeInsets.only(right: 8),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppSize.s12),
+        color: Theme.of(context).colorScheme.surfaceContainer,
+      ),
+      child: InkWell(
+        onTap: () {
+          UrlLauncher.launchUrl(Uri.parse(
+              '${AppConstants.baseUrlWithoutPort}${attachment.filePath}'));
+        },
+        child: Column(
+          children: [
+            Image.asset(
+              attachment.fileType == '.docx'
+                  ? 'assets/word.png'
+                  : attachment.fileType == '.pptx'
+                      ? 'assets/powerpoint.png'
+                      : attachment.fileType == '.pdf'
+                          ? 'assets/pdf.png'
+                          : 'assets/video.png',
+              width: 40,
+              height: 60,
+            ),
+            (AppSize.s4).heightSizeBox(),
+            Text(attachment.fileType ?? '-')
+          ],
+        ),
+      ),
+    );
+  }
+
+  commentItemBuilder(BuildContext context, Comment comment) {
+    return Column(
       children: [
-        Expanded(
-          flex: 1,
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
-            padding: const EdgeInsets.all(AppPadding.p6),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceContainer,
-              borderRadius: BorderRadius.circular(AppSize.s60),
+        AppSize.s16.heightSizeBox(),
+        Row(
+          children: [
+            Container(
+              width: AppSize.s28,
+              height: AppSize.s28,
+              decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Theme.of(context).colorScheme.onSecondary),
+              child: const Center(child: Icon(Icons.person)),
             ),
-            child: InkWell(
-              onTap: () {
-                likeSubject.add(1);
-              },
-              child: Icon(
-                snapshot.data == 1
-                    ? Icons.thumb_up_alt
-                    : Icons.thumb_up_alt_outlined,
-                color: snapshot.data == 1
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.onSurface,
-              ),
+            AppSize.s4.widthSizeBox(),
+            Text(
+              '@$username',
+              style: Theme.of(context).textTheme.bodyMedium,
             ),
-          ),
-        ),
-        Expanded(
-          flex: 1,
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
-            padding: const EdgeInsets.all(AppPadding.p6),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceContainer,
-              borderRadius: BorderRadius.circular(AppSize.s60),
-            ),
-            child: InkWell(
-              onTap: () {
-                likeSubject.add(-1);
-              },
-              child: Icon(
-                snapshot.data == -1
-                    ? Icons.thumb_down_alt
-                    : Icons.thumb_down_alt_outlined,
-                color: snapshot.data == -1
-                    ? Theme.of(context).colorScheme.primary
-                    : Theme.of(context).colorScheme.onSurface,
-              ),
-            ),
-          ),
-        ),
-        Expanded(
-          flex: 2,
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
-            padding: const EdgeInsets.all(AppPadding.p6),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceContainer,
-              borderRadius: BorderRadius.circular(AppSize.s60),
-            ),
-            child: InkWell(
-              onTap: () {},
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(Icons.share),
-                  (AppSize.s4).widthSizeBox(),
-                  Text(AppLocalizations.of(context).share)
-                ],
-              ),
-            ),
-          ),
-        ),
-        Expanded(
-          flex: 2,
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
-            padding: const EdgeInsets.all(AppPadding.p6),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceContainer,
-              borderRadius: BorderRadius.circular(AppSize.s60),
-            ),
-            child: StreamBuilder<bool>(
-                stream: saveSubject.stream,
-                builder: (context, snapshot) {
-                  return InkWell(
-                    onTap: () {
-                      saveSubject.add(!snapshot.data!);
-                      context
-                          .read<VideoDetailsCubit>()
-                          .saveVideo(entity.id);
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          snapshot.data ?? false
-                              ? Icons.bookmark
-                              : Icons.bookmark_border,
-                          color: snapshot.data ?? false
-                              ? Theme.of(context).colorScheme.primary
-                              : Theme.of(context).colorScheme.onSurface,
-                        ),
-                        (AppSize.s4).widthSizeBox(),
-                        Text(
-                          AppLocalizations.of(context).save,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(
-                              color: snapshot.data ?? false
-                                  ? Theme.of(context)
-                                  .colorScheme
-                                  .primary
-                                  : Theme.of(context)
-                                  .colorScheme
-                                  .onSurface),
-                        )
-                      ],
+            const Spacer(),
+            Text(
+              DateFormat.timeAgo(
+                comment.createdAt ??
+                    DateTime.now().subtract(
+                      const Duration(days: 5),
                     ),
-                  );
-                }),
+              ),
+              style: Theme.of(context).textTheme.bodyMedium,
+            )
+          ],
+        ),
+        AppSize.s8.heightSizeBox(),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8),
+          child: Row(
+            children: [
+              Text(
+                comment.text ?? '-',
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+              const Spacer(),
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.reply,
+                    color: Theme.of(context).colorScheme.secondary,
+                    size: AppSize.s28,
+                  )),
+            ],
           ),
         )
       ],
-    ),
-  );
+    );
+  }
+
+  Future<void> addComment(
+      {required int contentId,
+      required int userId,
+      required String text}) async {
+    final url = '${AppConstants.baseUrl}/contents/$contentId/comments';
+    final headers = {'Content-Type': 'application/json'};
+    final body = jsonEncode({
+      'content_id': contentId,
+      'user_id': userId,
+      'text': text,
+    });
+
+    try {
+      final response =
+          await http.post(Uri.parse(url), headers: headers, body: body);
+      if (response.statusCode == 201) {
+        print('Comment added successfully');
+        getComments(contentId: contentId);
+        // Optionally, handle success (e.g., update UI, notify user, etc.)
+      } else {
+        print('Failed to add comment: ${response.statusCode}');
+        // Optionally, handle the error (e.g., show a message to the user)
+      }
+    } catch (e) {
+      print('Error adding comment: $e');
+      // Optionally, handle network or other errors
+    }
+  }
+
+  getComments({required int contentId}) async {
+    final url = '${AppConstants.baseUrl}/contents/$contentId/comments';
+    final headers = {'Content-Type': 'application/json'};
+
+    try {
+      final response = await http.get(Uri.parse(url), headers: headers);
+      if (response.statusCode == 200) {
+        print('Comment added successfully');
+        final List<dynamic> responseData = jsonDecode(response.body);
+        final List<Comment> newComments =
+            responseData.map((data) => Comment.fromJson(data)).toList();
+
+        widget.entity.comments = newComments;
+
+        setState(() {});
+        // Optionally, handle success (e.g., update UI, notify user, etc.)
+      } else {
+        print('Failed to add comment: ${response.statusCode}');
+        // Optionally, handle the error (e.g., show a message to the user)
+      }
+    } catch (e) {
+      print('Error adding comment: $e');
+      // Optionally, handle network or other errors
+    }
+  }
 }
