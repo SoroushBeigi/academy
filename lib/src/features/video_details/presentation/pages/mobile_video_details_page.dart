@@ -94,9 +94,10 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
                               AppSize.s8.heightSizeBox(),
                               attachmentsWidget(context),
                             ],
-                            if (widget.entity.relatedContent != null &&
+                            if ((widget.entity.relatedContent != null) &&
                                 (widget.entity.relatedContent?.isNotEmpty ??
-                                    false)) ...[
+                                    false)
+                            ) ...[
                               AppSize.s8.heightSizeBox(),
                               relatedContents(context),
                             ],
@@ -128,10 +129,13 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
               .read<VideoDetailsCubit>()
               .relatedContent
               .map(
-                (e) => RelatedVideoContainer(
-                  videoModel: e,
-                  margin: 8,
-                ),
+                (e) => Column(children: [
+                  RelatedVideoContainer(
+                    videoModel: e,
+                    margin: 8,
+                  ),
+                  AppSize.s8.heightSizeBox(),
+                ],)
               )
               .toList(),
         )

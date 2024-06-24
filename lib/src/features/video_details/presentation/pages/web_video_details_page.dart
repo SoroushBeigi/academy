@@ -129,7 +129,8 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                                     if (widget.entity.relatedContent != null &&
                                         (widget.entity.relatedContent
                                             ?.isNotEmpty ??
-                                            false)) ...[
+                                            false))
+                                      ...[
                                       AppSize.s12.heightSizeBox(),
                                       relatedContents(context),
                                     ],
@@ -178,9 +179,14 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
               .relatedContent
               .map(
                 (e) =>
-                RelatedVideoContainer(
-                  videoModel: e,
-                  margin: 8,
+                Column(
+                  children: [
+                    RelatedVideoContainer(
+                      videoModel: e,
+                      margin: 8,
+                    ),
+                    AppSize.s8.heightSizeBox(),
+                  ],
                 ),
           )
               .toList(),
