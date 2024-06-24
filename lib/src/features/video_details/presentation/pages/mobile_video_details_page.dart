@@ -209,19 +209,19 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
                 color: Theme.of(context).colorScheme.surfaceContainer,
                 borderRadius: BorderRadius.circular(AppSize.s60),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      if (like != true) {
-                        getIt<VideoDetailsCubit>()
-                            .like(true, widget.entity.id ?? 0);
-                      }
-                      like = true;
-                      setState(() {});
-                    },
-                    child: Icon(
+              child: InkWell(
+                onTap: () {
+                  if (like != true) {
+                    getIt<VideoDetailsCubit>()
+                        .like(true, widget.entity.id ?? 0);
+                  }
+                  like = true;
+                  setState(() {});
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
                       like == true
                           ? Icons.thumb_up_alt
                           : Icons.thumb_up_alt_outlined,
@@ -229,16 +229,16 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
                           ? Theme.of(context).colorScheme.primary
                           : Theme.of(context).colorScheme.onSurface,
                     ),
-                  ),
-                  AppSize.s8.widthSizeBox(),
-                  Text(
-                    '${likesCount == null ? 0 : like == true ? likesCount + 1 : like == false ? likesCount == 0 ? 0 : likesCount - 1 : likesCount} likes',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  )
-                ],
+                    AppSize.s8.widthSizeBox(),
+                    Text(
+                      '${likesCount == null ? 0 : like == true ? likesCount + 1 : like == false ? likesCount == 0 ? 0 : likesCount - 1 : likesCount} likes',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
