@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/di/di_setup.dart';
@@ -11,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shimmer/shimmer.dart';
 
 import '../../../../core/ui_kits/ac_loading/ac_loading.dart';
 import '../../bloc/home_cubit.dart';
@@ -44,14 +47,14 @@ class _MobileHomePageState extends State<MobileHomePage> {
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           return state.whenOrNull(
-                loading: () => const ACLoading(),
+                loading: () => shimmerWidget(context),
                 initial: () => const ACLoading(),
                 done: () {
                   return Column(
                     children: [
                       Padding(
                         padding:
-                            const EdgeInsets.only(left: 16, right: 16, top: 16),
+                            const EdgeInsets.all(16),
                         child: GestureDetector(
                           onTap: () {
                             context.go('/search', extra: {
@@ -156,4 +159,46 @@ class _MobileHomePageState extends State<MobileHomePage> {
             )
             .toList()),
   );
+
+  shimmerWidget(BuildContext context) {
+    final random = Random();
+    return Shimmer.fromColors(
+      baseColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+      highlightColor: Theme.of(context).colorScheme.surfaceContainerLow,
+      period: const Duration(milliseconds: 1000),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            const Padding(
+              padding:
+              const EdgeInsets.all(16),
+              child: const SearchField(
+                enabled: false,
+                autoFocus: false,
+              ),
+            ),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(
+                  10,
+                      (index) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 4),
+                    child: FilterChip(
+                        label: SizedBox(
+                          width: random.nextDouble() * 100,
+                        ),
+                        onSelected: null),
+                  ),
+                ),
+              ),
+            ),
+            categorySection(
+                context, '', List.generate(10, (_) => ContentEntity()))
+          ],
+        ),
+      ),
+    );
+  }
 }
