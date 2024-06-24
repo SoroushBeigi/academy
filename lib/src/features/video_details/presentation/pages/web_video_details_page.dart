@@ -459,10 +459,8 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
     for (Category item in widget.entity.categories ?? []) {
       categories = '$categories ${item.name}';
     }
-    String tags = '';
-    for (String item in widget.entity.tags ?? []) {
-      tags = '$tags $item';
-    }
+    final tags = widget.entity.tags?.join(', ') ?? '';
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
