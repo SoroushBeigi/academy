@@ -2,20 +2,18 @@ import 'package:academy/src/core/data/local/shared_pref.dart';
 import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/core/logic/common/date_format.dart';
 import 'package:academy/src/core/resources/resources.dart';
-import 'package:academy/src/core/widgets/responsive_widget/responsive_widget.dart';
-import 'package:academy/src/di/di_setup.dart';
-import 'package:academy/src/features/video_details/presentation/bloc/video_details_cubit.dart';
-import 'package:academy/content_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:readmore/readmore.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../../favourite/domain/entity/content/response/content_response_entity.dart';
+
 class DescriptionVideo extends StatelessWidget {
   const DescriptionVideo({required this.videoModel, super.key});
 
-  final ContentEntity videoModel;
+  final ContentResponseEntity videoModel;
 
   @override
   Widget build(BuildContext context) {

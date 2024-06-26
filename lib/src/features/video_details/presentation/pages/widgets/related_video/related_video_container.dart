@@ -1,11 +1,10 @@
 import 'package:academy/src/core/logic/common/date_format.dart';
 import 'package:academy/src/core/resources/resources.dart';
+import 'package:academy/src/features/favourite/domain/entity/content/response/content_response_entity.dart';
 import 'package:academy/src/features/home/presentation/pages/mobile_page/widgets/more_widget.dart';
-import 'package:academy/content_entity.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../../../core/ui_kits/ac_loading/ac_loading.dart';
 import '../../../bloc/video_details_cubit.dart';
 
@@ -16,7 +15,7 @@ class RelatedVideoContainer extends StatelessWidget {
     required this.videoModel,
   });
 
-  final ContentEntity videoModel;
+  final ContentResponseEntity videoModel;
   final double? margin;
   @override
   Widget build(BuildContext context) {

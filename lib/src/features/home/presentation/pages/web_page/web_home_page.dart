@@ -4,10 +4,10 @@ import 'package:academy/src/core/extensions/widget_extensions.dart';
 import 'package:academy/src/core/widgets/app_header.dart';
 import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/core/core.dart';
+import 'package:academy/src/features/favourite/domain/entity/content/response/content_response_entity.dart';
 import 'package:academy/src/features/home/presentation/bloc/home_state.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_cubit.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/related_video/related_video_container.dart';
-import 'package:academy/content_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -86,7 +86,7 @@ class _WebHomePageState extends State<WebHomePage> {
   }
 
   categorySection(
-          BuildContext context, String title, List<ContentEntity> models) =>
+          BuildContext context, String title, List<ContentResponseEntity> models) =>
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -178,7 +178,7 @@ class _WebHomePageState extends State<WebHomePage> {
               children: List.generate(
                 3,
                 (_) => categorySection(
-                    context, '', List.generate(10, (_) => ContentEntity())),
+                    context, '', List.generate(10, (_) => ContentResponseEntity())),
               ),
             )
           ],

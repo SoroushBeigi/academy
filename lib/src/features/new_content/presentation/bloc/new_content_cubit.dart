@@ -1,7 +1,6 @@
 
 
 import 'package:academy/src/features/new_content/domain/entity/category/response/category_response_entity.dart';
-import 'package:academy/src/features/new_content/domain/entity/content_list/response/content_response_entity.dart';
 import 'package:academy/src/features/new_content/domain/repository/category/get_category_repository.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -10,8 +9,7 @@ import 'package:injectable/injectable.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:http_parser/http_parser.dart';
-
-import '../../../../../content_entity.dart';
+import '../../../favourite/domain/entity/content/response/content_response_entity.dart';
 import '../../domain/repository/content/get_all_content.dart';
 import 'new_content_state.dart';
 
@@ -42,8 +40,8 @@ class NewContentCubit extends Cubit<NewContentState> {
   Map<String, int> contentsMap = {};
   Map<String, int> allContentsMap = {};
 
-  List<ContentEntity> allContentsList = [];
-  List<ContentEntity> approvedContentsList = [];
+  List<ContentResponseEntity> allContentsList = [];
+  List<ContentResponseEntity> approvedContentsList = [];
 
 
 
@@ -159,7 +157,7 @@ class NewContentCubit extends Cubit<NewContentState> {
             approvedContentsList.add(item);
           }
         }
-        allContentsMap = approvedContentsList.fold({}, (Map<String, int> map, ContentEntity contentEntity) {
+        allContentsMap = approvedContentsList.fold({}, (Map<String, int> map, ContentResponseEntity contentEntity) {
           map[contentEntity.title ?? ''] = contentEntity.id ?? 1;
           return map;
         });

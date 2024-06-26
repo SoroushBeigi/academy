@@ -3,7 +3,6 @@ import 'package:academy/src/core/widgets/responsive_widget/responsive_widget.dar
 import 'package:academy/src/features/core/ui_kits/ac_loading/ac_loading.dart';
 import 'package:academy/src/features/core/ui_kits/ac_text_form_field/ac_text_form_field.dart';
 import 'package:academy/src/features/new_content/domain/entity/category/response/category_response_entity.dart';
-import 'package:academy/src/features/new_content/domain/entity/content_list/response/content_response_entity.dart';
 import 'package:academy/src/features/new_content/new_content.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/ui_kits/ac_elevated_button/ac_elevated_button.dart';
+import '../../../../favourite/domain/entity/content/response/content_response_entity.dart';
 import 'category_widget.dart';
 
 class NewContentWidget extends StatefulWidget {
