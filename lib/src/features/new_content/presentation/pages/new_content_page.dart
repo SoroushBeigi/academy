@@ -2,23 +2,20 @@ import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/core/ui_kits/ac_elevated_button/ac_elevated_button.dart';
 import 'package:academy/src/features/core/ui_kits/ac_loading/ac_loading.dart';
-import 'package:academy/src/features/new_content/presentation/bloc/new_content_cubit.dart';
-import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
-import '../bloc/new_content_state.dart';
-import 'new_content_form_widget.dart';
+import '../../new_content.dart';
 
-class NewContentComponent extends StatefulWidget {
-  const NewContentComponent({super.key});
+class NewContentPage extends StatefulWidget {
+  const NewContentPage({super.key});
 
   @override
-  State<NewContentComponent> createState() => _NewContentComponentState();
+  State<NewContentPage> createState() => _NewContentPageState();
 }
 
-class _NewContentComponentState extends State<NewContentComponent> {
+class _NewContentPageState extends State<NewContentPage> {
   @override
   Widget build(BuildContext context) {
     final textLocalization = AppLocalizations.of(context);
@@ -79,7 +76,7 @@ class _NewContentComponentState extends State<NewContentComponent> {
                           style: Theme.of(context).textTheme.titleMedium,
                         ),
                         Space.h8,
-                        const NewContentFormWidget()
+                        const NewContentWidget()
                       ],
                     ),
                   ),
@@ -93,7 +90,7 @@ class _NewContentComponentState extends State<NewContentComponent> {
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                       Space.h8,
-                      const NewContentFormWidget()
+                      const NewContentWidget()
                     ],
                   ),
                 );

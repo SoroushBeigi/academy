@@ -13,7 +13,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../../core/resources/resources.dart';
 import '../../bloc/home_cubit.dart';
 
@@ -44,6 +44,7 @@ class _WebHomePageState extends State<WebHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final textLocalization = AppLocalizations.of(context);
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return state.whenOrNull(
@@ -67,13 +68,13 @@ class _WebHomePageState extends State<WebHomePage> {
 
                       ///videos
                       categorySection(
-                          context, 'New', HomeCubit.videos.sublist(0)),
+                          context, textLocalization.newContents, HomeCubit.videos.sublist(0)),
                       categorySection(
-                          context, 'Trending', HomeCubit.videos.sublist(3)),
+                          context, textLocalization.trends, HomeCubit.videos.sublist(3)),
                       categorySection(
-                          context, 'Top Rated', HomeCubit.videos.sublist(6)),
+                          context, textLocalization.topRated, HomeCubit.videos.sublist(6)),
                       categorySection(
-                          context, 'For You', HomeCubit.videos.sublist(1)),
+                          context, textLocalization.forYou, HomeCubit.videos.sublist(1)),
                     ],
                   ),
                 ),
