@@ -1,3 +1,4 @@
+import 'package:academy/src/core/resources/resources.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
@@ -8,10 +9,7 @@ class ACElevatedButton extends StatelessWidget {
     this.onTap,
     this.backgroundColor,
     this.buttonPadding,
-    this.titleColor,
     this.showLoading,
-    this.width,
-    this.height,
     this.elevation,
     this.underline = false,
     this.borderRadius = 8,
@@ -21,12 +19,9 @@ class ACElevatedButton extends StatelessWidget {
 
   final VoidCallback? onTap;
   final Color? backgroundColor;
-  final Color? titleColor;
   final String? title;
   final bool? showLoading;
   final bool? underline;
-  final double? height;
-  final double? width;
   final double? borderRadius;
   final double? elevation;
   final double? buttonPadding;
@@ -35,47 +30,51 @@ class ACElevatedButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: height ?? 50,
-      width: width ?? double.maxFinite,
-      child: ElevatedButton(
-        style: ButtonStyle(
-          elevation:
-          elevation == null ? null : WidgetStateProperty.all(elevation),
-          shadowColor: WidgetStateColor.resolveWith((states) =>
-          backgroundColor ?? Theme.of(context).colorScheme.primary),
-          shape: WidgetStateProperty.all(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(borderRadius ?? 0),
-            ),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        ElevatedButton(
+          onPressed: onTap,
+          style: ElevatedButton.styleFrom(
+              elevation: elevation,
+              backgroundColor: backgroundColor ?? Theme.of(context).colorScheme.primary,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(borderRadius ?? 0),
+              ),
+              padding: EdgeInsets.all(buttonPadding ?? AppPadding.p12)
           ),
-          backgroundColor: WidgetStateColor.resolveWith((states) =>
-          backgroundColor ?? Theme.of(context).colorScheme.primary),
-        ),
-        onPressed: onTap,
-        child: Padding(
-          padding: EdgeInsets.all(buttonPadding ?? 0.0),
           child: showLoading ?? false
-              ? Center(
-              child: SpinKitThreeBounce(
-                color: Theme.of(context).colorScheme.surface,
-                size: 30,
-              ))
-              : Center(
-            child: child ??
-                FittedBox(
-                  child: Text(
-                    title ?? '',
-                    textAlign: TextAlign.center,
-                    style: style ??
-                        Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: titleColor),
-                  ),
-                ),
-          ),
+              ? _buildLoadingIndicator(context)
+              : _buildButtonContent(context),
         ),
+      ],
+    );
+  }
+  Widget _buildLoadingIndicator(BuildContext context) {
+    return Center(
+      child: SpinKitThreeBounce(
+        color: Theme.of(context).colorScheme.surface,
+        size: AppSize.s28,
+      ),
+    );
+  }
+
+  Widget _buildButtonContent(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(AppPadding.p8),
+        child: child ??
+            FittedBox(
+              child: Text(
+                title ?? '',
+                textAlign: TextAlign.center,
+                style: style ??
+                    Theme.of(context).textTheme.bodyMedium,
+              ),
+            ),
       ),
     );
   }
 }
+
+

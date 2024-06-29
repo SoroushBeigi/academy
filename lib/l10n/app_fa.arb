@@ -55,5 +55,9 @@
     "attachments": "پیوست ها",
     "successfulAddNewContent": "محتوای جدید با موفقیت بارگذاری شد",
     "accept": "تائید",
-    "newContent": "محتوای جدید"
+    "newContent": "محتوای جدید",
+    "trends": "محبوب ها",
+    "newContents": "جدید",
+    "topRated": "بالاترین امتیاز",
+    "forYou": "برای شما"
 }

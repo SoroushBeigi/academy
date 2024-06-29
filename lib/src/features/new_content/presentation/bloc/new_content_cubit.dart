@@ -9,8 +9,7 @@ import 'package:injectable/injectable.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:http_parser/http_parser.dart';
-
-import '../../../../../content_entity.dart';
+import '../../../favourite/domain/entity/content/response/content_response_entity.dart';
 import '../../domain/repository/content/get_all_content.dart';
 import 'new_content_state.dart';
 
@@ -35,11 +34,14 @@ class NewContentCubit extends Cubit<NewContentState> {
   GetCategoryRepository getCategoryRepository;
 
   List<CategoryResponseEntity> categoryList = [];
-  Map<String, int> categoryMap = {};
 
-  Map<String, int> approvedContentsMap = {};
-  List<ContentEntity> allContentsList = [];
-  List<ContentEntity> approvedContentsList = [];
+  Map<String, int> allCategoryMap = {};
+  Map<String, int> categoryMap = {};
+  Map<String, int> contentsMap = {};
+  Map<String, int> allContentsMap = {};
+
+  List<ContentResponseEntity> allContentsList = [];
+  List<ContentResponseEntity> approvedContentsList = [];
 
 
 
@@ -52,7 +54,7 @@ class NewContentCubit extends Cubit<NewContentState> {
         for(var i in data) {
           categoryList.add(i);
         }
-        categoryMap = categoryList.fold({}, (Map<String, int> map, CategoryResponseEntity categoryEntity) {
+        allCategoryMap = categoryList.fold({}, (Map<String, int> map, CategoryResponseEntity categoryEntity) {
           map[categoryEntity.name ?? ''] = categoryEntity.id ?? 1;
           return map;
         });
@@ -65,15 +67,15 @@ class NewContentCubit extends Cubit<NewContentState> {
   }
 
 
-  Future createContent() async {
-    emit(const NewContentState.loading());
+  Future createContent({required Function(int) onProgress}) async {
+    emit(const NewContentState.loadingAddNewContent(progress: 0));
     print('Creating content...');
 
     final request = http.MultipartRequest('POST', Uri.parse('http://172.16.251.80:8080/content/upload_new'));
     request.fields['title'] = videoTitle.text;
     request.fields['description'] = videoDescription.text;
     request.fields['author_id'] = authorId.toString();
-    request.fields['author_name'] = authorNameController.text;
+    request.fields['author_name'] = 'admin';
     request.fields['tags'] = jsonEncode(tags);
     request.fields['category_ids'] = categoryIds.join(',');
     request.fields['related_content_ids'] = relatedIds.join(',');
@@ -111,12 +113,29 @@ class NewContentCubit extends Cubit<NewContentState> {
     }
 
     try {
-      final response = await request.send();
-      if (response.statusCode == 200) {
+      final streamedResponse = await request.send();
+      final totalBytes = streamedResponse.contentLength ?? 0;
+      int bytesUploaded = 0;
+      streamedResponse.stream.listen(
+            (chunk) {
+          bytesUploaded += chunk.length;
+          final progress = ((bytesUploaded / totalBytes) * 100).toInt();
+          onProgress(progress);
+          emit(NewContentState.loadingAddNewContent(progress: progress));
+        },
+        onDone: () {
+          print('Content upload complete');
+          emit(const NewContentState.successAddNewContent());
+        },
+        onError: (e) {
+          print('Error during upload: $e');
+        },
+      );
+      if (streamedResponse.statusCode == 200) {
         print('Content created successfully');
         emit(const NewContentState.successAddNewContent());
       } else {
-        print('Failed to create content: ${response.reasonPhrase}');
+        print('Failed to create content: ${streamedResponse.reasonPhrase}');
       }
     } catch (e) {
       print('Error sending request: $e');
@@ -138,8 +157,7 @@ class NewContentCubit extends Cubit<NewContentState> {
             approvedContentsList.add(item);
           }
         }
-        print(allContentsList);
-        approvedContentsMap = approvedContentsList.fold({}, (Map<String, int> map, ContentEntity contentEntity) {
+        allContentsMap = approvedContentsList.fold({}, (Map<String, int> map, ContentResponseEntity contentEntity) {
           map[contentEntity.title ?? ''] = contentEntity.id ?? 1;
           return map;
         });

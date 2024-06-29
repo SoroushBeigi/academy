@@ -1,4 +1,3 @@
-import 'package:academy/content_entity.dart';
 import 'package:academy/src/core/resources/app_constants.dart';
 import 'package:academy/src/features/video_details/presentation/bloc/video_details_cubit.dart';
 import 'package:flutter/material.dart';
@@ -6,11 +5,12 @@ import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 
 import '../../../../../core/ui_kits/ac_loading/ac_loading.dart';
+import '../../../../../favourite/domain/entity/content/response/content_response_entity.dart';
 
 class VideoPlayerWidget extends StatefulWidget {
   const VideoPlayerWidget({required this.entity, super.key});
 
-  final ContentEntity entity;
+  final ContentResponseEntity entity;
 
   @override
   State<VideoPlayerWidget> createState() => _VideoPlayerWidgetState();

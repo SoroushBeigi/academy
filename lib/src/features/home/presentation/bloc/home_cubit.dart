@@ -1,10 +1,11 @@
 import 'package:academy/src/core/resources/app_constants.dart';
-import 'package:academy/content_entity.dart';
+import 'package:academy/src/features/favourite/domain/entity/category/response/category_response_entity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../favourite/domain/entity/content/response/content_response_entity.dart';
 import 'home_state.dart';
 
 @singleton
@@ -16,9 +17,9 @@ class HomeCubit extends Cubit<HomeState> {
       headers: {'Content-Type': 'application/json'},
     ),
   );
-  static List<ContentEntity> videos = [];
+  static List<ContentResponseEntity> videos = [];
   static Map<String, bool> chips = {};
-  static List<Category> categories = [];
+  static List<CategoryResponseEntity> categories = [];
 
   Future<void> initial() async {
     emit(const HomeState.loading());
@@ -32,7 +33,7 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       final result = await _dio.get('/content');
       final fetchedVideos = (result.data as List)
-          .map((json) => ContentEntity.fromJson(json))
+          .map((json) => ContentResponseEntity.fromJson(json))
           .toList()
           .where(
             (element) => AppConstants.showApprovedOnly
@@ -53,7 +54,7 @@ class HomeCubit extends Cubit<HomeState> {
     try {
       final result = await _dio.get('/categories');
       final fetchedCategories =
-          (result.data as List).map((json) => Category.fromJson(json)).toList();
+          (result.data as List).map((json) => CategoryResponseEntity.fromJson(json)).toList();
       categories.clear();
       categories.addAll(fetchedCategories);
       chips = {for (var category in categories) category.name ?? '': false};

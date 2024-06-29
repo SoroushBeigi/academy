@@ -1,8 +1,8 @@
 import 'dart:convert';
-
-import 'package:academy/content_entity.dart';
 import 'package:academy/src/core/data/local/shared_pref.dart';
 import 'package:academy/src/di/di_setup.dart';
+import 'package:academy/src/features/favourite/domain/entity/content/response/content_response_entity.dart';
+import 'package:academy/src/features/favourite/domain/entity/entity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,8 +19,10 @@ part 'video_details_cubit.freezed.dart';
 class VideoDetailsCubit extends Cubit<VideoDetailsState> {
   VideoDetailsCubit() : super(const VideoDetailsState.initial());
 
+  final _storage = getIt<Storage>();
+
   static String url = '';
-  List<ContentEntity> relatedContent = [];
+  List<ContentResponseEntity> relatedContent = [];
 
   final _dio = Dio(
     BaseOptions(
@@ -29,9 +31,33 @@ class VideoDetailsCubit extends Cubit<VideoDetailsState> {
     ),
   );
 
-  void saveVideo(int? id) {
-    if (id == null) return;
-    getIt<Storage>().saveVideo(id);
+  Future setSaveContent({required int contentId}) async {
+    List<int> listContentId = [];
+    String? encodedData = _storage.getSavedContent();
+    print(encodedData);
+    if (encodedData.isNotEmpty) {
+      listContentId = (jsonDecode(encodedData) as List<dynamic>)
+          .map((e) => e as int)
+          .toList();
+    }
+    listContentId.add(contentId);
+    print(listContentId);
+    String decodedData = jsonEncode(listContentId);
+    await _storage.setSavedContent(decodedData);
+  }
+
+  Future removeSaveContent({required int contentId}) async {
+    List<int> listContentId = [];
+    String? encodedData = _storage.getSavedContent();
+    if (encodedData.isNotEmpty) {
+      listContentId = (jsonDecode(encodedData) as List<dynamic>)
+          .map((e) => e as int)
+          .toList();
+      listContentId.remove(contentId);
+      String decodedData = jsonEncode(listContentId);
+      await _storage.remove(AppConstants.saveContentList);
+      await _storage.setSavedContent(decodedData);
+    }
   }
 
   Future<void> like(bool isLiked, int contentId) async {
@@ -42,18 +68,19 @@ class VideoDetailsCubit extends Cubit<VideoDetailsState> {
     print(result.data);
   }
 
-  Future<void> getRelatedContent(ContentEntity entity) async {
+  Future<void> getRelatedContent(ContentResponseEntity entity) async {
     relatedContent.clear();
-    if (entity.relatedContent == null ||
-        (entity.relatedContent?.isEmpty ?? true)) {
+    if (entity.relatedContentIds == null ||
+        (entity.relatedContentIds?.isEmpty ?? true)) {
       emit(const VideoDetailsState.done());
       return;
     }
     emit(const VideoDetailsState.loading());
-    for (var contentId in entity.relatedContent!) {
+    for (var contentId in entity.relatedContentIds!) {
       try {
         final result = await _dio.get('/content/$contentId');
-        relatedContent.add(ContentEntity.fromJson(json.decode(result.data)));
+        relatedContent
+            .add(ContentResponseEntity.fromJson(json.decode(result.data)));
         print('related content added');
       } catch (e) {
         debugPrint(e.toString());

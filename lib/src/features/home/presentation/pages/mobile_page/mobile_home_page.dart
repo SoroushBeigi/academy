@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/di/di_setup.dart';
@@ -8,14 +7,13 @@ import 'package:academy/src/features/main/presentation/bloc/main_cubit.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_cubit.dart';
 import 'package:academy/src/features/search/presentation/widgets/search_field.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/related_video/related_video_container.dart';
-import 'package:academy/content_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
-
 import '../../../../core/ui_kits/ac_loading/ac_loading.dart';
+import '../../../../favourite/domain/entity/content/response/content_response_entity.dart';
 import '../../bloc/home_cubit.dart';
 
 class MobileHomePage extends StatefulWidget {
@@ -107,7 +105,7 @@ class _MobileHomePageState extends State<MobileHomePage> {
   }
 
   categorySection(
-          BuildContext context, String title, List<ContentEntity> models) =>
+          BuildContext context, String title, List<ContentResponseEntity> models) =>
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
         child: Column(
@@ -189,7 +187,7 @@ class _MobileHomePageState extends State<MobileHomePage> {
               ),
             ),
             categorySection(
-                context, '', List.generate(10, (_) => ContentEntity()))
+                context, '', List.generate(10, (_) => ContentResponseEntity()))
           ],
         ),
       ),

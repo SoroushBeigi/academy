@@ -22,6 +22,7 @@ mixin _$NewContentState {
     required TResult Function(String errorMessage) error,
     required TResult Function() success,
     required TResult Function() successAddNewContent,
+    required TResult Function(int progress) loadingAddNewContent,
     required TResult Function() loading,
   }) =>
       throw _privateConstructorUsedError;
@@ -31,6 +32,7 @@ mixin _$NewContentState {
     TResult? Function(String errorMessage)? error,
     TResult? Function()? success,
     TResult? Function()? successAddNewContent,
+    TResult? Function(int progress)? loadingAddNewContent,
     TResult? Function()? loading,
   }) =>
       throw _privateConstructorUsedError;
@@ -40,6 +42,7 @@ mixin _$NewContentState {
     TResult Function(String errorMessage)? error,
     TResult Function()? success,
     TResult Function()? successAddNewContent,
+    TResult Function(int progress)? loadingAddNewContent,
     TResult Function()? loading,
     required TResult orElse(),
   }) =>
@@ -51,6 +54,8 @@ mixin _$NewContentState {
     required TResult Function(NewContentStateSuccess value) success,
     required TResult Function(NewContentStateSuccessAddNewContent value)
         successAddNewContent,
+    required TResult Function(NewContentStateLoadingAddNewContent value)
+        loadingAddNewContent,
     required TResult Function(NewContentStateLoading value) loading,
   }) =>
       throw _privateConstructorUsedError;
@@ -61,6 +66,8 @@ mixin _$NewContentState {
     TResult? Function(NewContentStateSuccess value)? success,
     TResult? Function(NewContentStateSuccessAddNewContent value)?
         successAddNewContent,
+    TResult? Function(NewContentStateLoadingAddNewContent value)?
+        loadingAddNewContent,
     TResult? Function(NewContentStateLoading value)? loading,
   }) =>
       throw _privateConstructorUsedError;
@@ -71,6 +78,8 @@ mixin _$NewContentState {
     TResult Function(NewContentStateSuccess value)? success,
     TResult Function(NewContentStateSuccessAddNewContent value)?
         successAddNewContent,
+    TResult Function(NewContentStateLoadingAddNewContent value)?
+        loadingAddNewContent,
     TResult Function(NewContentStateLoading value)? loading,
     required TResult orElse(),
   }) =>
@@ -138,6 +147,7 @@ class _$NewContentStateIdleImpl implements NewContentStateIdle {
     required TResult Function(String errorMessage) error,
     required TResult Function() success,
     required TResult Function() successAddNewContent,
+    required TResult Function(int progress) loadingAddNewContent,
     required TResult Function() loading,
   }) {
     return idle();
@@ -150,6 +160,7 @@ class _$NewContentStateIdleImpl implements NewContentStateIdle {
     TResult? Function(String errorMessage)? error,
     TResult? Function()? success,
     TResult? Function()? successAddNewContent,
+    TResult? Function(int progress)? loadingAddNewContent,
     TResult? Function()? loading,
   }) {
     return idle?.call();
@@ -162,6 +173,7 @@ class _$NewContentStateIdleImpl implements NewContentStateIdle {
     TResult Function(String errorMessage)? error,
     TResult Function()? success,
     TResult Function()? successAddNewContent,
+    TResult Function(int progress)? loadingAddNewContent,
     TResult Function()? loading,
     required TResult orElse(),
   }) {
@@ -179,6 +191,8 @@ class _$NewContentStateIdleImpl implements NewContentStateIdle {
     required TResult Function(NewContentStateSuccess value) success,
     required TResult Function(NewContentStateSuccessAddNewContent value)
         successAddNewContent,
+    required TResult Function(NewContentStateLoadingAddNewContent value)
+        loadingAddNewContent,
     required TResult Function(NewContentStateLoading value) loading,
   }) {
     return idle(this);
@@ -192,6 +206,8 @@ class _$NewContentStateIdleImpl implements NewContentStateIdle {
     TResult? Function(NewContentStateSuccess value)? success,
     TResult? Function(NewContentStateSuccessAddNewContent value)?
         successAddNewContent,
+    TResult? Function(NewContentStateLoadingAddNewContent value)?
+        loadingAddNewContent,
     TResult? Function(NewContentStateLoading value)? loading,
   }) {
     return idle?.call(this);
@@ -205,6 +221,8 @@ class _$NewContentStateIdleImpl implements NewContentStateIdle {
     TResult Function(NewContentStateSuccess value)? success,
     TResult Function(NewContentStateSuccessAddNewContent value)?
         successAddNewContent,
+    TResult Function(NewContentStateLoadingAddNewContent value)?
+        loadingAddNewContent,
     TResult Function(NewContentStateLoading value)? loading,
     required TResult orElse(),
   }) {
@@ -290,6 +308,7 @@ class _$NewContentStateErrorImpl implements NewContentStateError {
     required TResult Function(String errorMessage) error,
     required TResult Function() success,
     required TResult Function() successAddNewContent,
+    required TResult Function(int progress) loadingAddNewContent,
     required TResult Function() loading,
   }) {
     return error(errorMessage);
@@ -302,6 +321,7 @@ class _$NewContentStateErrorImpl implements NewContentStateError {
     TResult? Function(String errorMessage)? error,
     TResult? Function()? success,
     TResult? Function()? successAddNewContent,
+    TResult? Function(int progress)? loadingAddNewContent,
     TResult? Function()? loading,
   }) {
     return error?.call(errorMessage);
@@ -314,6 +334,7 @@ class _$NewContentStateErrorImpl implements NewContentStateError {
     TResult Function(String errorMessage)? error,
     TResult Function()? success,
     TResult Function()? successAddNewContent,
+    TResult Function(int progress)? loadingAddNewContent,
     TResult Function()? loading,
     required TResult orElse(),
   }) {
@@ -331,6 +352,8 @@ class _$NewContentStateErrorImpl implements NewContentStateError {
     required TResult Function(NewContentStateSuccess value) success,
     required TResult Function(NewContentStateSuccessAddNewContent value)
         successAddNewContent,
+    required TResult Function(NewContentStateLoadingAddNewContent value)
+        loadingAddNewContent,
     required TResult Function(NewContentStateLoading value) loading,
   }) {
     return error(this);
@@ -344,6 +367,8 @@ class _$NewContentStateErrorImpl implements NewContentStateError {
     TResult? Function(NewContentStateSuccess value)? success,
     TResult? Function(NewContentStateSuccessAddNewContent value)?
         successAddNewContent,
+    TResult? Function(NewContentStateLoadingAddNewContent value)?
+        loadingAddNewContent,
     TResult? Function(NewContentStateLoading value)? loading,
   }) {
     return error?.call(this);
@@ -357,6 +382,8 @@ class _$NewContentStateErrorImpl implements NewContentStateError {
     TResult Function(NewContentStateSuccess value)? success,
     TResult Function(NewContentStateSuccessAddNewContent value)?
         successAddNewContent,
+    TResult Function(NewContentStateLoadingAddNewContent value)?
+        loadingAddNewContent,
     TResult Function(NewContentStateLoading value)? loading,
     required TResult orElse(),
   }) {
@@ -422,6 +449,7 @@ class _$NewContentStateSuccessImpl implements NewContentStateSuccess {
     required TResult Function(String errorMessage) error,
     required TResult Function() success,
     required TResult Function() successAddNewContent,
+    required TResult Function(int progress) loadingAddNewContent,
     required TResult Function() loading,
   }) {
     return success();
@@ -434,6 +462,7 @@ class _$NewContentStateSuccessImpl implements NewContentStateSuccess {
     TResult? Function(String errorMessage)? error,
     TResult? Function()? success,
     TResult? Function()? successAddNewContent,
+    TResult? Function(int progress)? loadingAddNewContent,
     TResult? Function()? loading,
   }) {
     return success?.call();
@@ -446,6 +475,7 @@ class _$NewContentStateSuccessImpl implements NewContentStateSuccess {
     TResult Function(String errorMessage)? error,
     TResult Function()? success,
     TResult Function()? successAddNewContent,
+    TResult Function(int progress)? loadingAddNewContent,
     TResult Function()? loading,
     required TResult orElse(),
   }) {
@@ -463,6 +493,8 @@ class _$NewContentStateSuccessImpl implements NewContentStateSuccess {
     required TResult Function(NewContentStateSuccess value) success,
     required TResult Function(NewContentStateSuccessAddNewContent value)
         successAddNewContent,
+    required TResult Function(NewContentStateLoadingAddNewContent value)
+        loadingAddNewContent,
     required TResult Function(NewContentStateLoading value) loading,
   }) {
     return success(this);
@@ -476,6 +508,8 @@ class _$NewContentStateSuccessImpl implements NewContentStateSuccess {
     TResult? Function(NewContentStateSuccess value)? success,
     TResult? Function(NewContentStateSuccessAddNewContent value)?
         successAddNewContent,
+    TResult? Function(NewContentStateLoadingAddNewContent value)?
+        loadingAddNewContent,
     TResult? Function(NewContentStateLoading value)? loading,
   }) {
     return success?.call(this);
@@ -489,6 +523,8 @@ class _$NewContentStateSuccessImpl implements NewContentStateSuccess {
     TResult Function(NewContentStateSuccess value)? success,
     TResult Function(NewContentStateSuccessAddNewContent value)?
         successAddNewContent,
+    TResult Function(NewContentStateLoadingAddNewContent value)?
+        loadingAddNewContent,
     TResult Function(NewContentStateLoading value)? loading,
     required TResult orElse(),
   }) {
@@ -550,6 +586,7 @@ class _$NewContentStateSuccessAddNewContentImpl
     required TResult Function(String errorMessage) error,
     required TResult Function() success,
     required TResult Function() successAddNewContent,
+    required TResult Function(int progress) loadingAddNewContent,
     required TResult Function() loading,
   }) {
     return successAddNewContent();
@@ -562,6 +599,7 @@ class _$NewContentStateSuccessAddNewContentImpl
     TResult? Function(String errorMessage)? error,
     TResult? Function()? success,
     TResult? Function()? successAddNewContent,
+    TResult? Function(int progress)? loadingAddNewContent,
     TResult? Function()? loading,
   }) {
     return successAddNewContent?.call();
@@ -574,6 +612,7 @@ class _$NewContentStateSuccessAddNewContentImpl
     TResult Function(String errorMessage)? error,
     TResult Function()? success,
     TResult Function()? successAddNewContent,
+    TResult Function(int progress)? loadingAddNewContent,
     TResult Function()? loading,
     required TResult orElse(),
   }) {
@@ -591,6 +630,8 @@ class _$NewContentStateSuccessAddNewContentImpl
     required TResult Function(NewContentStateSuccess value) success,
     required TResult Function(NewContentStateSuccessAddNewContent value)
         successAddNewContent,
+    required TResult Function(NewContentStateLoadingAddNewContent value)
+        loadingAddNewContent,
     required TResult Function(NewContentStateLoading value) loading,
   }) {
     return successAddNewContent(this);
@@ -604,6 +645,8 @@ class _$NewContentStateSuccessAddNewContentImpl
     TResult? Function(NewContentStateSuccess value)? success,
     TResult? Function(NewContentStateSuccessAddNewContent value)?
         successAddNewContent,
+    TResult? Function(NewContentStateLoadingAddNewContent value)?
+        loadingAddNewContent,
     TResult? Function(NewContentStateLoading value)? loading,
   }) {
     return successAddNewContent?.call(this);
@@ -617,6 +660,8 @@ class _$NewContentStateSuccessAddNewContentImpl
     TResult Function(NewContentStateSuccess value)? success,
     TResult Function(NewContentStateSuccessAddNewContent value)?
         successAddNewContent,
+    TResult Function(NewContentStateLoadingAddNewContent value)?
+        loadingAddNewContent,
     TResult Function(NewContentStateLoading value)? loading,
     required TResult orElse(),
   }) {
@@ -630,6 +675,179 @@ class _$NewContentStateSuccessAddNewContentImpl
 abstract class NewContentStateSuccessAddNewContent implements NewContentState {
   const factory NewContentStateSuccessAddNewContent() =
       _$NewContentStateSuccessAddNewContentImpl;
+}
+
+/// @nodoc
+abstract class _$$NewContentStateLoadingAddNewContentImplCopyWith<$Res> {
+  factory _$$NewContentStateLoadingAddNewContentImplCopyWith(
+          _$NewContentStateLoadingAddNewContentImpl value,
+          $Res Function(_$NewContentStateLoadingAddNewContentImpl) then) =
+      __$$NewContentStateLoadingAddNewContentImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int progress});
+}
+
+/// @nodoc
+class __$$NewContentStateLoadingAddNewContentImplCopyWithImpl<$Res>
+    extends _$NewContentStateCopyWithImpl<$Res,
+        _$NewContentStateLoadingAddNewContentImpl>
+    implements _$$NewContentStateLoadingAddNewContentImplCopyWith<$Res> {
+  __$$NewContentStateLoadingAddNewContentImplCopyWithImpl(
+      _$NewContentStateLoadingAddNewContentImpl _value,
+      $Res Function(_$NewContentStateLoadingAddNewContentImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? progress = null,
+  }) {
+    return _then(_$NewContentStateLoadingAddNewContentImpl(
+      progress: null == progress
+          ? _value.progress
+          : progress // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$NewContentStateLoadingAddNewContentImpl
+    implements NewContentStateLoadingAddNewContent {
+  const _$NewContentStateLoadingAddNewContentImpl({required this.progress});
+
+  @override
+  final int progress;
+
+  @override
+  String toString() {
+    return 'NewContentState.loadingAddNewContent(progress: $progress)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$NewContentStateLoadingAddNewContentImpl &&
+            (identical(other.progress, progress) ||
+                other.progress == progress));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, progress);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$NewContentStateLoadingAddNewContentImplCopyWith<
+          _$NewContentStateLoadingAddNewContentImpl>
+      get copyWith => __$$NewContentStateLoadingAddNewContentImplCopyWithImpl<
+          _$NewContentStateLoadingAddNewContentImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() idle,
+    required TResult Function(String errorMessage) error,
+    required TResult Function() success,
+    required TResult Function() successAddNewContent,
+    required TResult Function(int progress) loadingAddNewContent,
+    required TResult Function() loading,
+  }) {
+    return loadingAddNewContent(progress);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? idle,
+    TResult? Function(String errorMessage)? error,
+    TResult? Function()? success,
+    TResult? Function()? successAddNewContent,
+    TResult? Function(int progress)? loadingAddNewContent,
+    TResult? Function()? loading,
+  }) {
+    return loadingAddNewContent?.call(progress);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? idle,
+    TResult Function(String errorMessage)? error,
+    TResult Function()? success,
+    TResult Function()? successAddNewContent,
+    TResult Function(int progress)? loadingAddNewContent,
+    TResult Function()? loading,
+    required TResult orElse(),
+  }) {
+    if (loadingAddNewContent != null) {
+      return loadingAddNewContent(progress);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(NewContentStateIdle value) idle,
+    required TResult Function(NewContentStateError value) error,
+    required TResult Function(NewContentStateSuccess value) success,
+    required TResult Function(NewContentStateSuccessAddNewContent value)
+        successAddNewContent,
+    required TResult Function(NewContentStateLoadingAddNewContent value)
+        loadingAddNewContent,
+    required TResult Function(NewContentStateLoading value) loading,
+  }) {
+    return loadingAddNewContent(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(NewContentStateIdle value)? idle,
+    TResult? Function(NewContentStateError value)? error,
+    TResult? Function(NewContentStateSuccess value)? success,
+    TResult? Function(NewContentStateSuccessAddNewContent value)?
+        successAddNewContent,
+    TResult? Function(NewContentStateLoadingAddNewContent value)?
+        loadingAddNewContent,
+    TResult? Function(NewContentStateLoading value)? loading,
+  }) {
+    return loadingAddNewContent?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(NewContentStateIdle value)? idle,
+    TResult Function(NewContentStateError value)? error,
+    TResult Function(NewContentStateSuccess value)? success,
+    TResult Function(NewContentStateSuccessAddNewContent value)?
+        successAddNewContent,
+    TResult Function(NewContentStateLoadingAddNewContent value)?
+        loadingAddNewContent,
+    TResult Function(NewContentStateLoading value)? loading,
+    required TResult orElse(),
+  }) {
+    if (loadingAddNewContent != null) {
+      return loadingAddNewContent(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class NewContentStateLoadingAddNewContent implements NewContentState {
+  const factory NewContentStateLoadingAddNewContent(
+          {required final int progress}) =
+      _$NewContentStateLoadingAddNewContentImpl;
+
+  int get progress;
+  @JsonKey(ignore: true)
+  _$$NewContentStateLoadingAddNewContentImplCopyWith<
+          _$NewContentStateLoadingAddNewContentImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -677,6 +895,7 @@ class _$NewContentStateLoadingImpl implements NewContentStateLoading {
     required TResult Function(String errorMessage) error,
     required TResult Function() success,
     required TResult Function() successAddNewContent,
+    required TResult Function(int progress) loadingAddNewContent,
     required TResult Function() loading,
   }) {
     return loading();
@@ -689,6 +908,7 @@ class _$NewContentStateLoadingImpl implements NewContentStateLoading {
     TResult? Function(String errorMessage)? error,
     TResult? Function()? success,
     TResult? Function()? successAddNewContent,
+    TResult? Function(int progress)? loadingAddNewContent,
     TResult? Function()? loading,
   }) {
     return loading?.call();
@@ -701,6 +921,7 @@ class _$NewContentStateLoadingImpl implements NewContentStateLoading {
     TResult Function(String errorMessage)? error,
     TResult Function()? success,
     TResult Function()? successAddNewContent,
+    TResult Function(int progress)? loadingAddNewContent,
     TResult Function()? loading,
     required TResult orElse(),
   }) {
@@ -718,6 +939,8 @@ class _$NewContentStateLoadingImpl implements NewContentStateLoading {
     required TResult Function(NewContentStateSuccess value) success,
     required TResult Function(NewContentStateSuccessAddNewContent value)
         successAddNewContent,
+    required TResult Function(NewContentStateLoadingAddNewContent value)
+        loadingAddNewContent,
     required TResult Function(NewContentStateLoading value) loading,
   }) {
     return loading(this);
@@ -731,6 +954,8 @@ class _$NewContentStateLoadingImpl implements NewContentStateLoading {
     TResult? Function(NewContentStateSuccess value)? success,
     TResult? Function(NewContentStateSuccessAddNewContent value)?
         successAddNewContent,
+    TResult? Function(NewContentStateLoadingAddNewContent value)?
+        loadingAddNewContent,
     TResult? Function(NewContentStateLoading value)? loading,
   }) {
     return loading?.call(this);
@@ -744,6 +969,8 @@ class _$NewContentStateLoadingImpl implements NewContentStateLoading {
     TResult Function(NewContentStateSuccess value)? success,
     TResult Function(NewContentStateSuccessAddNewContent value)?
         successAddNewContent,
+    TResult Function(NewContentStateLoadingAddNewContent value)?
+        loadingAddNewContent,
     TResult Function(NewContentStateLoading value)? loading,
     required TResult orElse(),
   }) {

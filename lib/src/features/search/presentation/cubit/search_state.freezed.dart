@@ -19,21 +19,21 @@ mixin _$SearchState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(List<ContentEntity> videos) foundVideos,
+    required TResult Function(List<ContentResponseEntity> videos) foundVideos,
     required TResult Function(Map<String, bool> chips) chipsChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(List<ContentEntity> videos)? foundVideos,
+    TResult? Function(List<ContentResponseEntity> videos)? foundVideos,
     TResult? Function(Map<String, bool> chips)? chipsChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(List<ContentEntity> videos)? foundVideos,
+    TResult Function(List<ContentResponseEntity> videos)? foundVideos,
     TResult Function(Map<String, bool> chips)? chipsChanged,
     required TResult orElse(),
   }) =>
@@ -119,7 +119,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(List<ContentEntity> videos) foundVideos,
+    required TResult Function(List<ContentResponseEntity> videos) foundVideos,
     required TResult Function(Map<String, bool> chips) chipsChanged,
   }) {
     return initial();
@@ -129,7 +129,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(List<ContentEntity> videos)? foundVideos,
+    TResult? Function(List<ContentResponseEntity> videos)? foundVideos,
     TResult? Function(Map<String, bool> chips)? chipsChanged,
   }) {
     return initial?.call();
@@ -139,7 +139,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(List<ContentEntity> videos)? foundVideos,
+    TResult Function(List<ContentResponseEntity> videos)? foundVideos,
     TResult Function(Map<String, bool> chips)? chipsChanged,
     required TResult orElse(),
   }) {
@@ -194,7 +194,7 @@ abstract class _$$FoundImplCopyWith<$Res> {
           _$FoundImpl value, $Res Function(_$FoundImpl) then) =
       __$$FoundImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<ContentEntity> videos});
+  $Res call({List<ContentResponseEntity> videos});
 }
 
 /// @nodoc
@@ -214,7 +214,7 @@ class __$$FoundImplCopyWithImpl<$Res>
       null == videos
           ? _value._videos
           : videos // ignore: cast_nullable_to_non_nullable
-              as List<ContentEntity>,
+              as List<ContentResponseEntity>,
     ));
   }
 }
@@ -222,11 +222,12 @@ class __$$FoundImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$FoundImpl implements _Found {
-  const _$FoundImpl(final List<ContentEntity> videos) : _videos = videos;
+  const _$FoundImpl(final List<ContentResponseEntity> videos)
+      : _videos = videos;
 
-  final List<ContentEntity> _videos;
+  final List<ContentResponseEntity> _videos;
   @override
-  List<ContentEntity> get videos {
+  List<ContentResponseEntity> get videos {
     if (_videos is EqualUnmodifiableListView) return _videos;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_videos);
@@ -259,7 +260,7 @@ class _$FoundImpl implements _Found {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(List<ContentEntity> videos) foundVideos,
+    required TResult Function(List<ContentResponseEntity> videos) foundVideos,
     required TResult Function(Map<String, bool> chips) chipsChanged,
   }) {
     return foundVideos(videos);
@@ -269,7 +270,7 @@ class _$FoundImpl implements _Found {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(List<ContentEntity> videos)? foundVideos,
+    TResult? Function(List<ContentResponseEntity> videos)? foundVideos,
     TResult? Function(Map<String, bool> chips)? chipsChanged,
   }) {
     return foundVideos?.call(videos);
@@ -279,7 +280,7 @@ class _$FoundImpl implements _Found {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(List<ContentEntity> videos)? foundVideos,
+    TResult Function(List<ContentResponseEntity> videos)? foundVideos,
     TResult Function(Map<String, bool> chips)? chipsChanged,
     required TResult orElse(),
   }) {
@@ -325,9 +326,9 @@ class _$FoundImpl implements _Found {
 }
 
 abstract class _Found implements SearchState {
-  const factory _Found(final List<ContentEntity> videos) = _$FoundImpl;
+  const factory _Found(final List<ContentResponseEntity> videos) = _$FoundImpl;
 
-  List<ContentEntity> get videos;
+  List<ContentResponseEntity> get videos;
   @JsonKey(ignore: true)
   _$$FoundImplCopyWith<_$FoundImpl> get copyWith =>
       throw _privateConstructorUsedError;
@@ -404,7 +405,7 @@ class _$ChipsImpl implements _Chips {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(List<ContentEntity> videos) foundVideos,
+    required TResult Function(List<ContentResponseEntity> videos) foundVideos,
     required TResult Function(Map<String, bool> chips) chipsChanged,
   }) {
     return chipsChanged(chips);
@@ -414,7 +415,7 @@ class _$ChipsImpl implements _Chips {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(List<ContentEntity> videos)? foundVideos,
+    TResult? Function(List<ContentResponseEntity> videos)? foundVideos,
     TResult? Function(Map<String, bool> chips)? chipsChanged,
   }) {
     return chipsChanged?.call(chips);
@@ -424,7 +425,7 @@ class _$ChipsImpl implements _Chips {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(List<ContentEntity> videos)? foundVideos,
+    TResult Function(List<ContentResponseEntity> videos)? foundVideos,
     TResult Function(Map<String, bool> chips)? chipsChanged,
     required TResult orElse(),
   }) {
