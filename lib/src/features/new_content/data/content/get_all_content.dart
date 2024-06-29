@@ -2,7 +2,7 @@
 import 'package:academy/src/services/network/network.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../favourite/domain/entity/content/response/content_response_entity.dart';
+import '../../../saved/domain/entity/content/response/content_response_entity.dart';
 
 
 

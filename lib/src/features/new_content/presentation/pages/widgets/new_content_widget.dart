@@ -11,7 +11,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../core/ui_kits/ac_elevated_button/ac_elevated_button.dart';
-import '../../../../favourite/domain/entity/content/response/content_response_entity.dart';
+import '../../../../saved/domain/entity/content/response/content_response_entity.dart';
 import 'category_widget.dart';
 
 class NewContentWidget extends StatefulWidget {

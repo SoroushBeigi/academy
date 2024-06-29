@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../../favourite/domain/entity/content/response/content_response_entity.dart';
+import '../../../saved/domain/entity/content/response/content_response_entity.dart';
 part 'search_state.freezed.dart';
 
 @freezed

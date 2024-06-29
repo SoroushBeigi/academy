@@ -1,11 +1,11 @@
 import 'package:academy/src/core/resources/app_constants.dart';
-import 'package:academy/src/features/favourite/domain/entity/category/response/category_response_entity.dart';
+import 'package:academy/src/features/saved/domain/entity/category/response/category_response_entity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../../favourite/domain/entity/content/response/content_response_entity.dart';
+import '../../../saved/domain/entity/content/response/content_response_entity.dart';
 import 'home_state.dart';
 
 @singleton

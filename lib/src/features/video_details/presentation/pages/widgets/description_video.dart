@@ -8,7 +8,7 @@ import 'package:readmore/readmore.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-import '../../../../favourite/domain/entity/content/response/content_response_entity.dart';
+import '../../../../saved/domain/entity/content/response/content_response_entity.dart';
 
 class DescriptionVideo extends StatelessWidget {
   const DescriptionVideo({required this.videoModel, super.key});

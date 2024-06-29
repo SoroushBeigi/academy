@@ -1,6 +1,6 @@
 import 'package:academy/src/core/logic/common/date_format.dart';
 import 'package:academy/src/core/resources/resources.dart';
-import 'package:academy/src/features/favourite/domain/entity/content/response/content_response_entity.dart';
+import 'package:academy/src/features/saved/domain/entity/content/response/content_response_entity.dart';
 import 'package:academy/src/features/home/presentation/pages/mobile_page/widgets/more_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';

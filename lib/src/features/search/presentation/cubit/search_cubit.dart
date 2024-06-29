@@ -1,7 +1,6 @@
 import 'package:academy/src/features/search/presentation/cubit/search_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-
 import '../../../home/presentation/bloc/home_cubit.dart';
 
 @singleton

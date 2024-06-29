@@ -4,7 +4,7 @@ import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/core/widgets/responsive_widget/responsive_widget.dart';
 import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/core/core.dart';
-import 'package:academy/src/features/favourite/domain/entity/content/response/content_response_entity.dart';
+import 'package:academy/src/features/saved/domain/entity/content/response/content_response_entity.dart';
 import 'package:academy/src/features/video_details/presentation/bloc/video_details_cubit.dart';
 import 'package:academy/src/features/video_details/presentation/pages/mobile_video_details_page.dart';
 import 'package:academy/src/features/video_details/presentation/pages/web_video_details_page.dart';

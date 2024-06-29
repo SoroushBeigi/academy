@@ -6,9 +6,9 @@ import 'package:academy/src/core/logic/common/date_format.dart';
 import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/core/core.dart';
-import 'package:academy/src/features/favourite/domain/entity/attachment/response/attachment_response_entity.dart';
-import 'package:academy/src/features/favourite/domain/entity/category/response/category_response_entity.dart';
-import 'package:academy/src/features/favourite/domain/entity/comment/response/comment_response_entity.dart';
+import 'package:academy/src/features/saved/domain/entity/attachment/response/attachment_response_entity.dart';
+import 'package:academy/src/features/saved/domain/entity/category/response/category_response_entity.dart';
+import 'package:academy/src/features/saved/domain/entity/comment/response/comment_response_entity.dart';
 import 'package:academy/src/features/video_details/presentation/bloc/video_details_cubit.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/related_video/related_video_container.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/video_player_widget/video_player_widget.dart';
@@ -20,7 +20,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:http/http.dart' as http;
 
-import '../../../favourite/domain/entity/content/response/content_response_entity.dart';
+import '../../../saved/domain/entity/content/response/content_response_entity.dart';
 
 class WebVideoDetailsPage extends StatefulWidget {
   const WebVideoDetailsPage({required this.entity, super.key});

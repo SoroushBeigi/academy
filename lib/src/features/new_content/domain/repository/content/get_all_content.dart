@@ -4,7 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../../services/network/network.dart';
-import '../../../../favourite/domain/entity/content/response/content_response_entity.dart';
+import '../../../../saved/domain/entity/content/response/content_response_entity.dart';
 import '../../../data/content/get_all_content.dart';
 
 

@@ -1,4 +1,4 @@
-import 'package:academy/src/features/favourite/domain/entity/entity.dart';
+import 'package:academy/src/features/saved/saved.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'content_response_entity.g.dart';
 

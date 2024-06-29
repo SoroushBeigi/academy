@@ -1,5 +1,4 @@
-import 'package:academy/src/features/favourite/data/content/content_data_source.dart';
-import 'package:academy/src/features/favourite/domain/entity/entity.dart';
+import 'package:academy/src/features/saved/saved.dart';
 import 'package:academy/src/services/network/network.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';

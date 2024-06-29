@@ -9,7 +9,7 @@ import 'package:injectable/injectable.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:http_parser/http_parser.dart';
-import '../../../favourite/domain/entity/content/response/content_response_entity.dart';
+import '../../../saved/domain/entity/content/response/content_response_entity.dart';
 import '../../domain/repository/content/get_all_content.dart';
 import 'new_content_state.dart';
 

@@ -13,7 +13,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../core/ui_kits/ac_loading/ac_loading.dart';
-import '../../../../favourite/domain/entity/content/response/content_response_entity.dart';
+import '../../../../saved/domain/entity/content/response/content_response_entity.dart';
 import '../../bloc/home_cubit.dart';
 
 class MobileHomePage extends StatefulWidget {

@@ -1,6 +1,7 @@
 import 'package:academy/src/core/widgets/responsive_widget/responsive_widget.dart';
 import 'package:academy/src/features/main/presentation/screens/scaffold_with_nested_navigation.dart';
 import 'package:academy/src/features/main/presentation/screens/scaffold_with_nested_navigation_rail.dart';
+import 'package:academy/src/features/saved/presentation/cubit/saved_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -26,6 +27,7 @@ class MainScreen extends StatelessWidget {
               selectedIndex: navigationShell.currentIndex,
               onDestinationSelected: (index) {
                 context.read<MainCubit>().updateNavigationIndexState(index);
+                SavedCubit.selectedIndex.value = index;
                 navigationShell.goBranch(
                   index,
                   initialLocation: index == navigationShell.currentIndex,

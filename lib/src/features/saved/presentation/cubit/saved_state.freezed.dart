@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'favourite_state.dart';
+part of 'saved_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$FavouriteState {
+mixin _$SavedState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
@@ -69,16 +69,16 @@ mixin _$FavouriteState {
 }
 
 /// @nodoc
-abstract class $FavouriteStateCopyWith<$Res> {
-  factory $FavouriteStateCopyWith(
-          FavouriteState value, $Res Function(FavouriteState) then) =
-      _$FavouriteStateCopyWithImpl<$Res, FavouriteState>;
+abstract class $SavedStateCopyWith<$Res> {
+  factory $SavedStateCopyWith(
+          SavedState value, $Res Function(SavedState) then) =
+      _$SavedStateCopyWithImpl<$Res, SavedState>;
 }
 
 /// @nodoc
-class _$FavouriteStateCopyWithImpl<$Res, $Val extends FavouriteState>
-    implements $FavouriteStateCopyWith<$Res> {
-  _$FavouriteStateCopyWithImpl(this._value, this._then);
+class _$SavedStateCopyWithImpl<$Res, $Val extends SavedState>
+    implements $SavedStateCopyWith<$Res> {
+  _$SavedStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -95,7 +95,7 @@ abstract class _$$InitialImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$FavouriteStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$SavedStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
@@ -109,7 +109,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'FavouriteState.initial()';
+    return 'SavedState.initial()';
   }
 
   @override
@@ -196,7 +196,7 @@ class _$InitialImpl implements _Initial {
   }
 }
 
-abstract class _Initial implements FavouriteState {
+abstract class _Initial implements SavedState {
   const factory _Initial() = _$InitialImpl;
 }
 
@@ -209,7 +209,7 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$FavouriteStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$SavedStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
@@ -223,7 +223,7 @@ class _$LoadingImpl implements _Loading {
 
   @override
   String toString() {
-    return 'FavouriteState.loading()';
+    return 'SavedState.loading()';
   }
 
   @override
@@ -310,7 +310,7 @@ class _$LoadingImpl implements _Loading {
   }
 }
 
-abstract class _Loading implements FavouriteState {
+abstract class _Loading implements SavedState {
   const factory _Loading() = _$LoadingImpl;
 }
 
@@ -323,7 +323,7 @@ abstract class _$$SuccessImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$SuccessImplCopyWithImpl<$Res>
-    extends _$FavouriteStateCopyWithImpl<$Res, _$SuccessImpl>
+    extends _$SavedStateCopyWithImpl<$Res, _$SuccessImpl>
     implements _$$SuccessImplCopyWith<$Res> {
   __$$SuccessImplCopyWithImpl(
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
@@ -337,7 +337,7 @@ class _$SuccessImpl implements _Success {
 
   @override
   String toString() {
-    return 'FavouriteState.success()';
+    return 'SavedState.success()';
   }
 
   @override
@@ -424,7 +424,7 @@ class _$SuccessImpl implements _Success {
   }
 }
 
-abstract class _Success implements FavouriteState {
+abstract class _Success implements SavedState {
   const factory _Success() = _$SuccessImpl;
 }
 
@@ -439,7 +439,7 @@ abstract class _$$ErrorImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$FavouriteStateCopyWithImpl<$Res, _$ErrorImpl>
+    extends _$SavedStateCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
@@ -469,7 +469,7 @@ class _$ErrorImpl implements _Error {
 
   @override
   String toString() {
-    return 'FavouriteState.error(errorMessage: $errorMessage)';
+    return 'SavedState.error(errorMessage: $errorMessage)';
   }
 
   @override
@@ -565,7 +565,7 @@ class _$ErrorImpl implements _Error {
   }
 }
 
-abstract class _Error implements FavouriteState {
+abstract class _Error implements SavedState {
   const factory _Error({required final String errorMessage}) = _$ErrorImpl;
 
   String get errorMessage;

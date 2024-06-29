@@ -5,7 +5,7 @@ import 'package:video_player/video_player.dart';
 import 'package:chewie/chewie.dart';
 
 import '../../../../../core/ui_kits/ac_loading/ac_loading.dart';
-import '../../../../../favourite/domain/entity/content/response/content_response_entity.dart';
+import '../../../../../saved/domain/entity/content/response/content_response_entity.dart';
 
 class VideoPlayerWidget extends StatefulWidget {
   const VideoPlayerWidget({required this.entity, super.key});

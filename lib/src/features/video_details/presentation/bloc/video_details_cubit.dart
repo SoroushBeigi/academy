@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:academy/src/core/data/local/shared_pref.dart';
 import 'package:academy/src/di/di_setup.dart';
-import 'package:academy/src/features/favourite/domain/entity/content/response/content_response_entity.dart';
-import 'package:academy/src/features/favourite/domain/entity/entity.dart';
+import 'package:academy/src/features/saved/domain/entity/content/response/content_response_entity.dart';
+import 'package:academy/src/features/saved/domain/entity/entity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

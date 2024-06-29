@@ -1,26 +1,28 @@
 import 'dart:convert';
 import 'package:academy/src/core/data/local/shared_pref.dart';
 import 'package:academy/src/di/di_setup.dart';
-import 'package:academy/src/features/favourite/domain/repository/repository.dart';
-import 'package:academy/src/features/favourite/domain/entity/content/response/content_response_entity.dart';
-import 'package:academy/src/features/favourite/presentation/cubit/favourite_state.dart';
+import 'package:academy/src/features/saved/saved.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 @singleton
-class FavouriteCubit extends Cubit<FavouriteState> {
+class SavedCubit extends Cubit<SavedState> {
   final GetAllContentRepository getAllContentRepository;
   final _storage = getIt<Storage>();
 
-  FavouriteCubit(this.getAllContentRepository) : super(const FavouriteState.loading());
+  SavedCubit(this.getAllContentRepository) : super(const SavedState.loading());
 
 
   List<ContentResponseEntity> savedContentList = [];
 
   List<ContentResponseEntity> contentList = [];
 
+
+  static final ValueNotifier<int> selectedIndex = ValueNotifier<int>(0);
+
   Future getAllContents() async{
-    emit(const FavouriteState.loading());
+    emit(const SavedState.loading());
     final result = await getAllContentRepository.getAllContent();
     result.whenOrNull(
       success: (data) async{
@@ -29,13 +31,13 @@ class FavouriteCubit extends Cubit<FavouriteState> {
         }
       },
       failure: (error) {
-        emit(FavouriteState.error(errorMessage: error ?? ''));
+        emit(SavedState.error(errorMessage: error ?? ''));
       },
     );
   }
 
   Future getSaveContent() async {
-    emit(const FavouriteState.loading());
+    emit(const SavedState.loading());
     try {
       await getAllContents();
       List<int> listContentId = [];
@@ -43,7 +45,6 @@ class FavouriteCubit extends Cubit<FavouriteState> {
       if (encodedData.isNotEmpty) {
         listContentId = (jsonDecode(encodedData) as List<dynamic>).map((e) => e as int).toList();
       }
-      print(listContentId);
       for(var i in contentList) {
         for(var j in listContentId) {
           if(i.id == j) {
@@ -51,10 +52,9 @@ class FavouriteCubit extends Cubit<FavouriteState> {
           }
         }
       }
-      print(savedContentList);
-      emit(const FavouriteState.success());
+      emit(const SavedState.success());
     }catch(e) {
-      emit(FavouriteState.error(errorMessage: e.toString()));
+      emit(SavedState.error(errorMessage: e.toString()));
     }
   }
 }
