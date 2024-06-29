@@ -1,6 +1,4 @@
 import 'dart:math';
-
-import 'package:academy/src/core/extensions/widget_extensions.dart';
 import 'package:academy/src/core/widgets/app_header.dart';
 import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/core/core.dart';
@@ -64,7 +62,7 @@ class _WebHomePageState extends State<WebHomePage> {
 
                       ///categories
                       idleChips(context),
-                      AppSize.s8.heightSizeBox(),
+                      Space.h8,
 
                       ///videos
                       categorySection(
@@ -99,7 +97,7 @@ class _WebHomePageState extends State<WebHomePage> {
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
-            AppSize.s8.heightSizeBox(),
+            Space.h8,
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
@@ -110,7 +108,7 @@ class _WebHomePageState extends State<WebHomePage> {
                           SizedBox(
                               width: 350,
                               child: RelatedVideoContainer(videoModel: e)),
-                          AppSize.s8.widthSizeBox(),
+                          Space.w8,
                         ],
                       ),
                     )

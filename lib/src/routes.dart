@@ -4,6 +4,7 @@ import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/add/presentation/pages/add_video_page.dart';
 import 'package:academy/src/features/add/presentation/pages/widgets/upload_video/upload_video.dart';
 import 'package:academy/src/features/add/presentation/pages/widgets/video_recorder/video_recorder_widget.dart';
+import 'package:academy/src/features/meeting/meeting.dart';
 import 'package:academy/src/features/saved/domain/entity/content/response/content_response_entity.dart';
 import 'package:academy/src/features/saved/presentation/saved_page.dart';
 import 'package:academy/src/features/new_content/presentation/pages/new_content_page.dart';
@@ -42,6 +43,21 @@ class Routes {
             : '/',
     debugLogDiagnostics: true,
     routes: [
+      GoRoute(
+        path: '/meeting_users',
+        name: '/meeting_users',
+        builder: (context, state) => const UsersPage(),
+      ),
+      GoRoute(
+        path: '/chat',
+        name: '/chat',
+        builder: (context, state) => const ChatPage(),
+      ),
+      GoRoute(
+        path: '/meeting',
+        name: '/meeting',
+        builder: (context, state) => const MeetingPage(),
+      ),
       GoRoute(
         path: UploadVideo.uploadVideoPageName,
         name: UploadVideo.uploadVideoPageName,

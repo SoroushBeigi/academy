@@ -1,7 +1,4 @@
-export 'widget_extensions.dart';
+export 'string_extension.dart';
+export 'color_extension.dart';
+export 'widget_extension.dart';
 
-extension BulletExtension on String?{
-  String? addBulletPoint(){
-    return '• $this' ?? '';
-  }
-}

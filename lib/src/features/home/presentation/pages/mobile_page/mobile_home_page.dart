@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/home/presentation/bloc/home_state.dart';
@@ -40,7 +39,7 @@ class _MobileHomePageState extends State<MobileHomePage> {
                       borderRadius: BorderRadius.circular(30),
                       child: Image.asset('assets/icon.png')),
                 ),
-                AppSize.s4.widthSizeBox(),
+                Space.w4,
                 Text(AppLocalizations.of(context).academy),
               ],
             ),
@@ -68,9 +67,9 @@ class _MobileHomePageState extends State<MobileHomePage> {
                 done: () {
                   return Column(
                     children: [
-                      AppSize.s4.heightSizeBox(),
+                      Space.h4,
                       idleChips(context),
-                      AppSize.s4.heightSizeBox(),
+                      Space.h4,
                       Flexible(
                         child: Padding(
                           padding: const EdgeInsets.only(left: 8, right: 8),
@@ -115,7 +114,7 @@ class _MobileHomePageState extends State<MobileHomePage> {
               title,
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            AppSize.s8.heightSizeBox(),
+            Space.h8,
             Column(
               children: models
                   .map(

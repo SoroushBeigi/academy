@@ -58,7 +58,10 @@ dependencies:
   url_launcher: ^6.3.0
   share_plus: ^9.0.0
   shimmer: ^3.0.0
-#  image_picker: ^1.1.2
+  fluttertoast: ^8.0.6
+  cloud_firestore: ^5.0.2
+  firebase_auth: ^5.1.1
+  sliding_sheet: ^0.5.0
 
 
 dev_dependencies:

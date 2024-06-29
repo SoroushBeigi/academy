@@ -1,5 +1,4 @@
 import 'package:academy/src/core/data/local/shared_pref.dart';
-import 'package:academy/src/core/extensions/widget_extensions.dart';
 import 'package:academy/src/core/resources/value_manager.dart';
 import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/main/presentation/bloc/main_cubit.dart';
@@ -85,14 +84,14 @@ class AppHeader extends StatelessWidget {
                   )
                 ],
               ),
-              AppSize.s8.widthSizeBox(),
+              Space.w8,
               VerticalDivider(
                 thickness: AppSize.s1,
                 width: AppSize.s1,
                 color:
                 Theme.of(context).colorScheme.tertiary,
               ),
-              AppSize.s8.widthSizeBox(),
+              Space.w8,
               InkWell(
                 onTap: () {
                   context.go('/profile', extra: true);
@@ -117,7 +116,7 @@ class AppHeader extends StatelessWidget {
                         ),
                       ),
                     ),
-                    AppSize.s8.widthSizeBox(),
+                    Space.w8,
                     Text(
                       getIt<Storage>().getUsername(),
                       style: Theme.of(context)
@@ -127,7 +126,7 @@ class AppHeader extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           fontSize: 10),
                     ),
-                    AppSize.s16.widthSizeBox(),
+                    Space.w16,
                   ],
                 ),
               ),
@@ -135,6 +134,13 @@ class AppHeader extends StatelessWidget {
 
             ],
           ),
+        ),
+
+        InkWell(
+          onTap: () {
+            context.pushNamed('/meeting');
+          },
+          child: Text('meeting'),
         )
       ],
     );

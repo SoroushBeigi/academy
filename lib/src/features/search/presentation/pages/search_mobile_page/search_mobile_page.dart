@@ -1,4 +1,4 @@
-import 'package:academy/src/core/extensions/widget_extensions.dart';
+import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/home/home.dart';
