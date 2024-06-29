@@ -118,6 +118,7 @@ class SearchCubit extends Cubit<SearchState> {
         .toList();
     emit(SearchState.chipsChanged(chips));
     emit(SearchState.foundVideos(foundVideos));
+
   }
 
   Future<void> initialLoad() async {
