@@ -5,5 +5,6 @@ part of 'video_details_cubit.dart';
 class VideoDetailsState with _$VideoDetailsState {
   const factory VideoDetailsState.initial() = _Initial;
   const factory VideoDetailsState.loading() = _Loading;
-  const factory VideoDetailsState.done() = _Done;
+  const factory VideoDetailsState.success() = _Success;
+  const factory VideoDetailsState.error({required String errorMessage}) = _Error;
 }

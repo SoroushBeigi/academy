@@ -14,7 +14,7 @@ class SavedPage extends StatefulWidget {
 
 class _SavedPageState extends State<SavedPage> {
 
-  final ValueNotifier<bool> _rebuildNotifier = ValueNotifier<bool>(false);
+
 
   @override
   void initState() {
@@ -27,13 +27,13 @@ class _SavedPageState extends State<SavedPage> {
   @override
   void dispose() {
     SavedCubit.selectedIndex.removeListener(_updateRebuildNotifier);
-    _rebuildNotifier.dispose();
+    SavedCubit.rebuildNotifier.dispose();
     super.dispose();
   }
 
   void _updateRebuildNotifier() {
     if (SavedCubit.selectedIndex.value == 3) {
-      _rebuildNotifier.value = true;
+      SavedCubit.rebuildNotifier.value = true;
     }
   }
 
@@ -42,12 +42,12 @@ class _SavedPageState extends State<SavedPage> {
     return BlocProvider(
       create: (_) => getIt<SavedCubit>()..getSaveContent(),
       child: ValueListenableBuilder(
-        valueListenable: _rebuildNotifier,
+        valueListenable: SavedCubit.rebuildNotifier,
 
         builder: (BuildContext context, bool value, Widget? child) {
           if (value) {
             context.read<SavedCubit>().getSaveContent();
-            _rebuildNotifier.value = false;
+            SavedCubit.rebuildNotifier.value = false;
           }
           return BlocBuilder<SavedCubit, SavedState>(
             builder: (context, state) {

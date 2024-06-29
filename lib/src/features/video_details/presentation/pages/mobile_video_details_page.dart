@@ -32,7 +32,6 @@ class MobileVideoDetailsPage extends StatefulWidget {
 
 class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
   bool? like;
-  bool? save;
 
   late String username;
   late int userId;
@@ -58,12 +57,12 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
           getIt<VideoDetailsCubit>()..getRelatedContent(widget.entity),
       child: BlocBuilder<VideoDetailsCubit, VideoDetailsState>(
         builder: (context, state) {
-          return state.when(
+          return state.whenOrNull(
               initial: () => const SizedBox(),
               loading: () => const Center(
                     child: ACLoading(),
                   ),
-              done: () => Scaffold(
+              success: () => Scaffold(
                     appBar: AppBar(
                       title: Text(widget.entity.title ?? ''),
                     ),
@@ -88,7 +87,16 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
                               color: Theme.of(context).colorScheme.onSurface,
                             ),
 
-                            actionButtonsWidget(context),
+                            actionButtonsWidget(context,() {
+                              VideoDetailsCubit.savedNotifier.value =! VideoDetailsCubit.savedNotifier.value;
+                              if(VideoDetailsCubit.savedNotifier.value) {
+                                context.read<VideoDetailsCubit>().setSaveContent(
+                                    contentId: widget.entity.id ?? 1);
+                              } else {
+                                context.read<VideoDetailsCubit>().removeSaveContent(
+                                    contentId: widget.entity.id ?? 1);
+                              }
+                            }),
                             AppSize.s8.heightSizeBox(),
                             contentInfoWidget(),
 
@@ -112,7 +120,7 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
                         ),
                       ),
                     ),
-                  ));
+                  )) ?? const SizedBox();
         },
       ),
     );
@@ -203,13 +211,13 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
     );
   }
 
-  actionButtonsWidget(context) {
+  actionButtonsWidget(context, VoidCallback onTap) {
     final likesCount = widget.entity.likesCount;
     return SizedBox(
       child: Row(
         children: [
           Expanded(
-            flex: 2,
+            flex: 1,
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
               padding: const EdgeInsets.all(AppPadding.p6),
@@ -305,48 +313,48 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
               ),
             ),
           ),
-          Expanded(
-            flex: 2,
-            child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
-                padding: const EdgeInsets.all(AppPadding.p6),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceContainer,
-                  borderRadius: BorderRadius.circular(AppSize.s60),
-                ),
-                child: InkWell(
-                  onTap: () {
-                    save = !(save ?? false);
-                    // context
-                    //     .read<VideoDetailsCubit>()
-                    //     .saveVideo(widget.entity.id);
-                    setState(() {});
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        save ?? false ? Icons.bookmark : Icons.bookmark_border,
-                        color: save ?? false
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.onSurface,
-                      ),
-                      (AppSize.s4).widthSizeBox(),
-                      Text(
-                        AppLocalizations.of(context).save,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: save ?? false
+          ValueListenableBuilder(
+            valueListenable: VideoDetailsCubit.savedNotifier,
+            builder: (BuildContext context, value, Widget? child) {
+              return Expanded(
+                flex: 2,
+                child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
+                    padding: const EdgeInsets.all(AppPadding.p6),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surfaceContainer,
+                      borderRadius: BorderRadius.circular(AppSize.s60),
+                    ),
+                    child: InkWell(
+                      onTap: onTap,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            value ? Icons.bookmark : Icons.bookmark_border,
+                            color: value
                                 ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context).colorScheme.onSurface),
-                      )
-                    ],
-                  ),
-                )),
+                                : Theme.of(context).colorScheme.onSurface,
+                          ),
+                          (AppSize.s4).widthSizeBox(),
+                          Text(
+                            AppLocalizations.of(context).save,
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: value ?? false
+                                    ? Theme.of(context).colorScheme.primary
+                                    : Theme.of(context).colorScheme.onSurface),
+                          )
+                        ],
+                      ),
+                    )),
+              );
+            },
           )
         ],
       ),
     );
   }
+
 
   contentInfoWidget() {
     String categories = '';

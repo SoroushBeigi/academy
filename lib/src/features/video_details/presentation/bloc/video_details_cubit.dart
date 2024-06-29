@@ -23,6 +23,9 @@ class VideoDetailsCubit extends Cubit<VideoDetailsState> {
 
   static String url = '';
   List<ContentResponseEntity> relatedContent = [];
+  List<ContentResponseEntity> savedContentList = [];
+
+  static final ValueNotifier<bool> savedNotifier = ValueNotifier(false);
 
   final _dio = Dio(
     BaseOptions(
@@ -34,14 +37,12 @@ class VideoDetailsCubit extends Cubit<VideoDetailsState> {
   Future setSaveContent({required int contentId}) async {
     List<int> listContentId = [];
     String? encodedData = _storage.getSavedContent();
-    print(encodedData);
     if (encodedData.isNotEmpty) {
       listContentId = (jsonDecode(encodedData) as List<dynamic>)
           .map((e) => e as int)
           .toList();
     }
     listContentId.add(contentId);
-    print(listContentId);
     String decodedData = jsonEncode(listContentId);
     await _storage.setSavedContent(decodedData);
   }
@@ -60,6 +61,27 @@ class VideoDetailsCubit extends Cubit<VideoDetailsState> {
     }
   }
 
+  Future getSaveContent({required ContentResponseEntity entity}) async {
+    emit(const VideoDetailsState.loading());
+    try {
+      savedNotifier.value = false;
+      savedContentList.clear();
+      List<int> listContentId = [];
+      String? encodedData = _storage.getSavedContent();
+      if (encodedData.isNotEmpty) {
+        listContentId = (jsonDecode(encodedData) as List<dynamic>).map((e) => e as int).toList();
+      }
+        for(var j in listContentId) {
+          if(entity.id == j) {
+            savedNotifier.value = true;
+          }
+        }
+      emit(const VideoDetailsState.success());
+    }catch(e) {
+      emit(VideoDetailsState.error(errorMessage: e.toString()));
+    }
+  }
+
   Future<void> like(bool isLiked, int contentId) async {
     final result = await _dio.post('/content/likes/$contentId', data: {
       'content_id': contentId,
@@ -72,7 +94,7 @@ class VideoDetailsCubit extends Cubit<VideoDetailsState> {
     relatedContent.clear();
     if (entity.relatedContentIds == null ||
         (entity.relatedContentIds?.isEmpty ?? true)) {
-      emit(const VideoDetailsState.done());
+      getSaveContent(entity: entity);
       return;
     }
     emit(const VideoDetailsState.loading());
@@ -86,7 +108,7 @@ class VideoDetailsCubit extends Cubit<VideoDetailsState> {
         debugPrint(e.toString());
       }
     }
-    emit(const VideoDetailsState.done());
+    getSaveContent(entity: entity);
     print('emitted');
     print(relatedContent);
   }

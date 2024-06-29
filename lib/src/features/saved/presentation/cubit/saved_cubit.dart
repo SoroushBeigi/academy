@@ -20,25 +20,32 @@ class SavedCubit extends Cubit<SavedState> {
 
 
   static final ValueNotifier<int> selectedIndex = ValueNotifier<int>(0);
+  static final ValueNotifier<bool> rebuildNotifier = ValueNotifier<bool>(false);
 
   Future getAllContents() async{
-    emit(const SavedState.loading());
-    final result = await getAllContentRepository.getAllContent();
-    result.whenOrNull(
-      success: (data) async{
-        for(var i in data) {
-          contentList.add(i);
-        }
-      },
-      failure: (error) {
-        emit(SavedState.error(errorMessage: error ?? ''));
-      },
-    );
+    try{
+      emit(const SavedState.loading());
+      contentList.clear();
+      final result = await getAllContentRepository.getAllContent();
+      result.whenOrNull(
+        success: (data) async{
+          for(var i in data) {
+            contentList.add(i);
+          }
+        },
+        failure: (error) {
+          emit(SavedState.error(errorMessage: error ?? ''));
+        },
+      );
+    }catch(e) {
+      emit(SavedState.error(errorMessage: e.toString()));
+    }
   }
 
   Future getSaveContent() async {
     emit(const SavedState.loading());
     try {
+      savedContentList.clear();
       await getAllContents();
       List<int> listContentId = [];
       String? encodedData = _storage.getSavedContent();

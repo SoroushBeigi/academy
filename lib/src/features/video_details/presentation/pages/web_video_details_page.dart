@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:academy/src/core/data/local/shared_pref.dart';
 import 'package:academy/src/core/extensions/extensions.dart';
 import 'package:academy/src/core/logic/common/date_format.dart';
@@ -9,12 +8,14 @@ import 'package:academy/src/features/core/core.dart';
 import 'package:academy/src/features/saved/domain/entity/attachment/response/attachment_response_entity.dart';
 import 'package:academy/src/features/saved/domain/entity/category/response/category_response_entity.dart';
 import 'package:academy/src/features/saved/domain/entity/comment/response/comment_response_entity.dart';
+import 'package:academy/src/features/saved/presentation/cubit/saved_cubit.dart';
 import 'package:academy/src/features/video_details/presentation/bloc/video_details_cubit.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/related_video/related_video_container.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/video_player_widget/video_player_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
@@ -34,7 +35,6 @@ class WebVideoDetailsPage extends StatefulWidget {
 class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
   ///when like is null, no selection. dislike == false, like == true
   bool? like;
-  bool? save;
 
   late String username;
   late int userId;
@@ -56,96 +56,107 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) =>
-          getIt<VideoDetailsCubit>()..getRelatedContent(widget.entity),
+      create: (context) => getIt<VideoDetailsCubit>()..getRelatedContent(widget.entity),
       child: BlocBuilder<VideoDetailsCubit, VideoDetailsState>(
         builder: (context, state) {
-          return state.when(
+          return state.whenOrNull(
             initial: () => const SizedBox(),
             loading: () => const Center(
               child: ACLoading(),
             ),
-            done: () => Scaffold(
-              appBar: AppBar(
-                title: Text(widget.entity.title ?? ''),
-              ),
-              body: Padding(
-                padding: const EdgeInsets.all(AppPadding.p16),
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          ///left column
-                          Flexible(
-                            flex: 5,
-                            child: Column(
-                              children: [
-                                Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.6,
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.circular(AppSize.s12),
+            success: () => PopScope(
+              onPopInvoked: (value) async{
+                SavedCubit.rebuildNotifier.value = true;
+              },
+              child: Scaffold(
+                appBar: AppBar(
+                  title: Text(widget.entity.title ?? ''),
+                  centerTitle: true,
+                  leading: InkWell(
+                    onTap: () {
+                      SavedCubit.rebuildNotifier.value = true;
+                      context.pop();
+                    },
+                    child: const Icon(Icons.arrow_back),
+                  ),
+                ),
+                body: Padding(
+                  padding: const EdgeInsets.all(AppPadding.p16),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ///left column
+                            Flexible(
+                              flex: 5,
+                              child: Column(
+                                children: [
+                                  Container(
+                                    height:
+                                        MediaQuery.of(context).size.height * 0.6,
+                                    decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.circular(AppSize.s12),
+                                    ),
+                                    child:
+                                        VideoPlayerWidget(entity: widget.entity),
                                   ),
-                                  child:
-                                      VideoPlayerWidget(entity: widget.entity),
-                                ),
-                                AppSize.s12.heightSizeBox(),
-                                actionButtonsWidget(context, () {
-                                  save = !(save ?? false);
-                                  if(save ?? false) {
-                                    context.read<VideoDetailsCubit>().setSaveContent(
-                                        contentId: widget.entity.id ?? 1);
-                                  } else {
-                                    context.read<VideoDetailsCubit>().removeSaveContent(
-                                        contentId: widget.entity.id ?? 1);
-                                  }
-                                  setState(() {});
-                                }),
-                                AppSize.s12.heightSizeBox(),
-                                commentsWidget(context)
-                              ],
+                                  AppSize.s12.heightSizeBox(),
+                                  actionButtonsWidget(context, () {
+                                    VideoDetailsCubit.savedNotifier.value =! VideoDetailsCubit.savedNotifier.value;
+                                    if(VideoDetailsCubit.savedNotifier.value) {
+                                      context.read<VideoDetailsCubit>().setSaveContent(
+                                          contentId: widget.entity.id ?? 1);
+                                    } else {
+                                      context.read<VideoDetailsCubit>().removeSaveContent(
+                                          contentId: widget.entity.id ?? 1);
+                                    }
+                                  }),
+                                  AppSize.s12.heightSizeBox(),
+                                  commentsWidget(context)
+                                ],
+                              ),
                             ),
-                          ),
-                          AppSize.s8.widthSizeBox(),
+                            AppSize.s8.widthSizeBox(),
 
-                          ///right column
-                          Flexible(
-                            flex: 2,
-                            child: Column(
-                              children: [
-                                contentInfoWidget(),
-                                if (widget.entity.attachments != null &&
-                                    (widget.entity.attachments?.isNotEmpty ??
-                                        false)) ...[
-                                  AppSize.s12.heightSizeBox(),
-                                  attachmentsWidget(context),
+                            ///right column
+                            Flexible(
+                              flex: 2,
+                              child: Column(
+                                children: [
+                                  contentInfoWidget(),
+                                  if (widget.entity.attachments != null &&
+                                      (widget.entity.attachments?.isNotEmpty ??
+                                          false)) ...[
+                                    AppSize.s12.heightSizeBox(),
+                                    attachmentsWidget(context),
+                                  ],
+                                  if (widget.entity.relatedContentIds != null &&
+                                      (widget.entity.relatedContentIds?.isNotEmpty ??
+                                          false)) ...[
+                                    AppSize.s12.heightSizeBox(),
+                                    relatedContents(context),
+                                  ],
                                 ],
-                                if (widget.entity.relatedContentIds != null &&
-                                    (widget.entity.relatedContentIds?.isNotEmpty ??
-                                        false)) ...[
-                                  AppSize.s12.heightSizeBox(),
-                                  relatedContents(context),
-                                ],
-                              ],
-                            ),
-                          )
-                        ],
-                      ),
-                      Divider(
-                        thickness: AppSize.s1,
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
-                      AppSize.s8.heightSizeBox(),
-                    ],
+                              ),
+                            )
+                          ],
+                        ),
+                        Divider(
+                          thickness: AppSize.s1,
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                        AppSize.s8.heightSizeBox(),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          );
+          ) ?? const SizedBox();
         },
       ),
     );
@@ -340,37 +351,42 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
               ),
             ),
           ),
-          Expanded(
-            flex: 2,
-            child: Container(
-                margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
-                padding: const EdgeInsets.all(AppPadding.p6),
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.surfaceContainer,
-                  borderRadius: BorderRadius.circular(AppSize.s60),
-                ),
-                child: InkWell(
-                  onTap: onTap,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        save ?? false ? Icons.bookmark : Icons.bookmark_border,
-                        color: save ?? false
-                            ? Theme.of(context).colorScheme.primary
-                            : Theme.of(context).colorScheme.onSurface,
-                      ),
-                      (AppSize.s4).widthSizeBox(),
-                      Text(
-                        AppLocalizations.of(context).save,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: save ?? false
+          ValueListenableBuilder(
+            valueListenable: VideoDetailsCubit.savedNotifier,
+            builder: (BuildContext context, value, Widget? child) {
+              return Expanded(
+                flex: 2,
+                child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
+                    padding: const EdgeInsets.all(AppPadding.p6),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surfaceContainer,
+                      borderRadius: BorderRadius.circular(AppSize.s60),
+                    ),
+                    child: InkWell(
+                      onTap: onTap,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            value ? Icons.bookmark : Icons.bookmark_border,
+                            color: value
                                 ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context).colorScheme.onSurface),
-                      )
-                    ],
-                  ),
-                )),
+                                : Theme.of(context).colorScheme.onSurface,
+                          ),
+                          (AppSize.s4).widthSizeBox(),
+                          Text(
+                            AppLocalizations.of(context).save,
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: value ?? false
+                                    ? Theme.of(context).colorScheme.primary
+                                    : Theme.of(context).colorScheme.onSurface),
+                          )
+                        ],
+                      ),
+                    )),
+              );
+            },
           )
         ],
       ),

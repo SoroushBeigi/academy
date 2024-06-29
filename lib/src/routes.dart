@@ -146,7 +146,7 @@ class Routes {
             navigatorKey: savedTabNavigatorKey,
             routes: [
               GoRoute(
-                path: '/favourite',
+                path: '/saved',
                 pageBuilder: (context, state) {
                   return getPage(
                     child: const SavedPage(),

@@ -2,7 +2,7 @@ class ApiConfig {
   ApiConfig._();
 
   /// **** Production ****
-  static const String baseApiUrl = "http://46.209.222.131";
+  static const String baseApiUrl = "http://46.209.222.131:8080";
 
   static const Duration receiveTimeout = Duration(seconds: 30);
   static const Duration connectionTimeout = Duration(seconds: 30);
