@@ -29,16 +29,34 @@ class _MobileHomePageState extends State<MobileHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SizedBox(
-              width: AppBar().preferredSize.height,
-              height: AppBar().preferredSize.height,
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: Image.asset('assets/icon.png')),
+            Row(
+              children: [
+                SizedBox(
+                  width: AppBar().preferredSize.height-10,
+                  height: AppBar().preferredSize.height-10,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(30),
+                      child: Image.asset('assets/icon.png')),
+                ),
+                AppSize.s4.widthSizeBox(),
+                Text(AppLocalizations.of(context).academy),
+              ],
             ),
-            AppSize.s4.widthSizeBox(),
-            Text(AppLocalizations.of(context).academy),
+
+            GestureDetector(
+                onTap: () {
+                  context.go('/search', extra: {
+                    'isFromHome': true,
+                    'selectedChip': null
+                  });
+                  context
+                      .read<MainCubit>()
+                      .updateNavigationIndexState(1);
+                },
+                child: const Icon(Icons.search)
+            ),
           ],
         ),
       ),
@@ -50,24 +68,6 @@ class _MobileHomePageState extends State<MobileHomePage> {
                 done: () {
                   return Column(
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: GestureDetector(
-                          onTap: () {
-                            context.go('/search', extra: {
-                              'isFromHome': true,
-                              'selectedChip': null
-                            });
-                            context
-                                .read<MainCubit>()
-                                .updateNavigationIndexState(1);
-                          },
-                          child: const SearchField(
-                            enabled: false,
-                            autoFocus: false,
-                          ),
-                        ),
-                      ),
                       AppSize.s4.heightSizeBox(),
                       idleChips(context),
                       AppSize.s4.heightSizeBox(),
