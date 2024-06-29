@@ -18,7 +18,7 @@ import '../features/add/data/upload_video/upload_video.dart' as _i12;
 import '../features/add/domain/repository/upload_video_repository.dart' as _i19;
 import '../features/add/presentation/cubit/add_cubit.dart' as _i23;
 import '../features/auth/presentation/cubit/auth_cubit.dart' as _i4;
-import '../features/favourite/data/content/content_data_source.dart' as _i15;
+import '../features/favourite/data/content/content_data_source.dart' as _i13;
 import '../features/favourite/domain/repository/content/content_repository.dart'
     as _i16;
 import '../features/favourite/domain/repository/repository.dart' as _i21;
@@ -26,8 +26,8 @@ import '../features/favourite/presentation/cubit/favourite_cubit.dart' as _i20;
 import '../features/home/presentation/bloc/home_cubit.dart' as _i9;
 import '../features/main/presentation/bloc/main_cubit.dart' as _i10;
 import '../features/new_content/data/category/get_category_data_source.dart'
-    as _i13;
-import '../features/new_content/data/content/get_all_content.dart' as _i14;
+    as _i14;
+import '../features/new_content/data/content/get_all_content.dart' as _i15;
 import '../features/new_content/domain/repository/category/get_category_repository.dart'
     as _i18;
 import '../features/new_content/domain/repository/content/get_all_content.dart'
@@ -60,29 +60,29 @@ _i1.GetIt $initGetIt(
   gh.singleton<_i10.MainCubit>(() => _i10.MainCubit());
   gh.singleton<_i11.SearchCubit>(() => _i11.SearchCubit());
   gh.lazySingleton<_i12.UploadDataSource>(() => _i12.UploadDataSource());
-  gh.lazySingleton<_i13.GetCategoryDataSource>(
-      () => _i13.GetCategoryDataSource());
-  gh.lazySingleton<_i14.GetAllContentDataSource>(
-      () => _i14.GetAllContentDataSource());
+  gh.lazySingleton<_i13.GetAllContentDataSource>(
+      () => _i13.GetAllContentDataSource());
+  gh.lazySingleton<_i13.DeleteContentDataSource>(
+      () => _i13.DeleteContentDataSource());
+  gh.lazySingleton<_i13.PutContentDataSource>(
+      () => _i13.PutContentDataSource());
+  gh.lazySingleton<_i14.GetCategoryDataSource>(
+      () => _i14.GetCategoryDataSource());
   gh.lazySingleton<_i15.GetAllContentDataSource>(
       () => _i15.GetAllContentDataSource());
-  gh.lazySingleton<_i15.DeleteContentDataSource>(
-      () => _i15.DeleteContentDataSource());
-  gh.lazySingleton<_i15.PutContentDataSource>(
-      () => _i15.PutContentDataSource());
   gh.lazySingleton<_i16.DeleteContentRepository>(() =>
       _i16.DeleteContentRepository(
-          deleteContentDataSource: gh<_i15.DeleteContentDataSource>()));
+          deleteContentDataSource: gh<_i13.DeleteContentDataSource>()));
   gh.lazySingleton<_i16.GetAllContentRepository>(() =>
       _i16.GetAllContentRepository(
-          getAllContentDataSource: gh<_i15.GetAllContentDataSource>()));
+          getAllContentDataSource: gh<_i13.GetAllContentDataSource>()));
   gh.lazySingleton<_i17.GetAllContentRepository>(() =>
       _i17.GetAllContentRepository(
-          getAllContentDataSource: gh<_i14.GetAllContentDataSource>()));
+          getAllContentDataSource: gh<_i15.GetAllContentDataSource>()));
   gh.lazySingleton<_i16.PutContentRepository>(() => _i16.PutContentRepository(
-      putContentDataSource: gh<_i15.PutContentDataSource>()));
+      putContentDataSource: gh<_i13.PutContentDataSource>()));
   gh.lazySingleton<_i18.GetCategoryRepository>(() => _i18.GetCategoryRepository(
-      getCategoryDataSource: gh<_i13.GetCategoryDataSource>()));
+      getCategoryDataSource: gh<_i14.GetCategoryDataSource>()));
   gh.lazySingleton<_i19.UploadRepository>(() =>
       _i19.UploadRepository(uploadDataSource: gh<_i12.UploadDataSource>()));
   gh.singleton<_i20.FavouriteCubit>(

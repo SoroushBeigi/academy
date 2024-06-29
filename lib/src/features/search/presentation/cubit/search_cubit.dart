@@ -1,3 +1,4 @@
+import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -82,4 +83,13 @@ void selectChip(String chipName) {
       .toList();
   emit(SearchState.chipsChanged(chips));
   emit(SearchState.foundVideos(foundVideos));
-}}
+}
+
+Future<void> getCategories()async{
+    emit(const SearchState.loading());
+  await getIt<HomeCubit>().getCategories();
+    emit(const SearchState.initial());
+}
+
+
+}

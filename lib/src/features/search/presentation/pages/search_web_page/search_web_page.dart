@@ -1,4 +1,5 @@
 import 'package:academy/src/core/widgets/app_header.dart';
+import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/home/home.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_cubit.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_state.dart';
@@ -19,6 +20,13 @@ class SearchWebPage extends StatefulWidget {
 }
 
 class _SearchWebPageState extends State<SearchWebPage> {
+  @override
+  void initState() {
+    if(HomeCubit.chips.entries.isEmpty){
+      context.read<SearchCubit>().getCategories();
+    }
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SearchCubit, SearchState>(
