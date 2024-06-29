@@ -14,34 +14,37 @@ class SearchCubit extends Cubit<SearchState> {
 
   void search(String value) {
     if (value == '' || value == ' ') {
-      if(!chips.entries.any((element) => element.value)){
+      if (!chips.entries.any((element) => element.value)) {
         emit(const SearchState.initial());
         return;
-      }else{
+      } else {
         emit(SearchState.chipsChanged(chips));
       }
-
     }
     query = value;
     final videos = HomeCubit.videos;
     final foundVideos = videos
         .where((element) => element.title?.contains(value) ?? false)
         .toList();
-    MapEntry<String, bool> mapEntry = const MapEntry('',false);
-    if(chips.entries.any((element) {
-      if(element.value){
-        mapEntry=element;
+    MapEntry<String, bool> mapEntry = const MapEntry('', false);
+    if (chips.entries.any((element) {
+      if (element.value) {
+        mapEntry = element;
         return true;
-      }else{
+      } else {
         return false;
       }
-    })){
-      final videosWithChips = foundVideos.where((content) => content.categories?.any((category) =>category.name==mapEntry.key) ?? false).toList();
+    })) {
+      final videosWithChips = foundVideos
+          .where((content) =>
+              content.categories
+                  ?.any((category) => category.name == mapEntry.key) ??
+              false)
+          .toList();
       emit(SearchState.foundVideos(videosWithChips));
-    }else{
+    } else {
       emit(SearchState.foundVideos(foundVideos));
     }
-
   }
 
   void switchChips(String key, bool value) {
@@ -53,58 +56,70 @@ class SearchCubit extends Cubit<SearchState> {
 
     ///has no selected chip!
     if (!(chips[key] ?? false)) {
-      print('1');
       emit(SearchState.chipsChanged(chips));
-      if(query!='' && query.trim()!= ''){
-        print('2');
-        final searchResult = HomeCubit.videos.where((element) =>element.title?.contains(query) ?? false).toList();
+      if (query != '' && query.trim() != '') {
+        final searchResult = HomeCubit.videos
+            .where((element) => element.title?.contains(query) ?? false)
+            .toList();
         emit(SearchState.foundVideos(searchResult));
-      }else {
-        print('3');
+      } else {
         emit(const SearchState.initial());
       }
-    } else{
-      print('4');
+    } else {
       final videos = HomeCubit.videos;
-    final foundVideos = videos.where((element) =>
-    element.categories?.any((category) => category.name == key,) ?? false,)
-        .toList();
+      if(key=='All2'){
+        emit(SearchState.foundVideos(videos));
+        return;
+      }
+      final foundVideos = videos
+          .where(
+            (element) =>
+                element.categories?.any(
+                  (category) => category.name == key,
+                ) ??
+                false,
+          )
+          .toList();
       emit(SearchState.chipsChanged(chips));
-    if(query!='' && query.trim()!= '') {
-      print('5');
-      final searchResult = foundVideos.where((element) =>element.title?.contains(query) ?? false).toList();
-      emit(SearchState.foundVideos(searchResult));
-    }else{
-      print('6');
-      emit(SearchState.foundVideos(foundVideos));
+      if (query != '' && query.trim() != '') {
+        final searchResult = foundVideos
+            .where((element) => element.title?.contains(query) ?? false)
+            .toList();
+        emit(SearchState.foundVideos(searchResult));
+      } else {
+        emit(SearchState.foundVideos(foundVideos));
+      }
     }
   }
-}
 
-void selectChip(String chipName) {
-  chips = HomeCubit.chips;
-  for (var element in chips.entries) {
-    chips[element.key] = false;
+  void selectChip(String chipName) {
+    chips = HomeCubit.chips;
+    for (var element in chips.entries) {
+      chips[element.key] = false;
+    }
+    final foundChip = chips.entries.firstWhere(
+      (element) => element.key == chipName,
+    );
+    chips[foundChip.key] = true;
+
+    final videos = HomeCubit.videos;
+    final foundVideos = videos
+        .where(
+          (element) =>
+              element.categories?.any(
+                (category) => category.name == chipName,
+              ) ??
+              false,
+        )
+        .toList();
+    emit(SearchState.chipsChanged(chips));
+    emit(SearchState.foundVideos(foundVideos));
   }
-  final foundChip = chips.entries.firstWhere((element) =>
-  element.key == chipName,);
-  chips[foundChip.key] = true;
 
-
-  final videos = HomeCubit.videos;
-  final foundVideos = videos.where((element) =>
-  element.categories?.any((category) => category.name == chipName,) ?? false,)
-      .toList();
-  emit(SearchState.chipsChanged(chips));
-  emit(SearchState.foundVideos(foundVideos));
-}
-
-Future<void> initialLoad()async{
-  emit(const SearchState.loading());
-  await getIt<HomeCubit>().getCategories();
-  await getIt<HomeCubit>().getVideos();
-  emit(const SearchState.initial());
-}
-
-
+  Future<void> initialLoad() async {
+    emit(const SearchState.loading());
+    await getIt<HomeCubit>().getCategories();
+    await getIt<HomeCubit>().getVideos();
+    emit(const SearchState.initial());
+  }
 }

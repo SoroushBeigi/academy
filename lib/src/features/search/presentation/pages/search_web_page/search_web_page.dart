@@ -51,19 +51,21 @@ class _SearchWebPageState extends State<SearchWebPage> {
                                 child: Text(
                                     AppLocalizations.of(context).noItemsFound),
                               )
-                            : Wrap(
-                                children: videos
-                                    .map(
-                                      (e) => Container(
-                                        margin: const EdgeInsets.all(8),
-                                        width: 350,
-                                        child: RelatedVideoContainer(
-                                          videoModel: e,
+                            : SingleChildScrollView(
+                              child: Wrap(
+                                  children: videos
+                                      .map(
+                                        (e) => Container(
+                                          margin: const EdgeInsets.all(8),
+                                          width: 350,
+                                          child: RelatedVideoContainer(
+                                            videoModel: e,
+                                          ),
                                         ),
-                                      ),
-                                    )
-                                    .toList(),
-                              )),
+                                      )
+                                      .toList(),
+                                ),
+                            )),
                   ) ??
                   const SizedBox(),
               Column(

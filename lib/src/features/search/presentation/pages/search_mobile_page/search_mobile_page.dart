@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
+import '../../../../core/ui_kits/ui_kits.dart';
+
 class SearchMobilePage extends StatelessWidget {
   const SearchMobilePage({required this.isFromHome,required this.selectedChip, super.key});
 
@@ -27,6 +29,7 @@ class SearchMobilePage extends StatelessWidget {
               child: Stack(
                 children: [
                   state.whenOrNull(
+                    loading: () => const ACLoading(),
                         initial: () => SizedBox(
                           height: MediaQuery.of(context).size.height,
                           child: Center(
@@ -59,8 +62,8 @@ class SearchMobilePage extends StatelessWidget {
                       SearchField(enabled: true, autoFocus: isFromHome),
                       AppSize.s8.heightSizeBox(),
                       state.whenOrNull(
-                        foundVideos: (_) => activeChips(context,context.read<SearchCubit>().chips),
-                        initial: () => idleChips(context),
+                        foundVideos: (_) => activeChips(context,HomeCubit.chips),
+                        initial: () => activeChips(context,HomeCubit.chips),
                         chipsChanged: (chips) => activeChips(context,chips),
                       ) ??
                           const SizedBox(),
