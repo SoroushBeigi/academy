@@ -4,16 +4,16 @@ import 'package:academy/src/core/extensions/widget_extensions.dart';
 import 'package:academy/src/core/widgets/app_header.dart';
 import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/core/core.dart';
+import 'package:academy/src/features/favourite/domain/entity/content/response/content_response_entity.dart';
 import 'package:academy/src/features/home/presentation/bloc/home_state.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_cubit.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/related_video/related_video_container.dart';
-import 'package:academy/content_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shimmer/shimmer.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../../../../core/resources/resources.dart';
 import '../../bloc/home_cubit.dart';
 
@@ -44,6 +44,7 @@ class _WebHomePageState extends State<WebHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final textLocalization = AppLocalizations.of(context);
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return state.whenOrNull(
@@ -53,7 +54,7 @@ class _WebHomePageState extends State<WebHomePage> {
                 onRefresh: () => context.read<HomeCubit>().initial(),
                 child: SingleChildScrollView(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       ///page header
                       const AppHeader(
@@ -63,17 +64,17 @@ class _WebHomePageState extends State<WebHomePage> {
 
                       ///categories
                       idleChips(context),
+                      AppSize.s8.heightSizeBox(),
 
+                      ///videos
                       categorySection(
-                          context, 'Live', HomeCubit.videos.sublist(0)),
+                          context, textLocalization.newContents, HomeCubit.videos.sublist(0)),
                       categorySection(
-                          context, 'Education', HomeCubit.videos.sublist(0, 5)),
-                      categorySection(context, 'Entertainment',
-                          HomeCubit.videos.sublist(2, 4)),
-                      categorySection(context, 'Music',
-                          HomeCubit.videos.sublist(1, HomeCubit.videos.length)),
+                          context, textLocalization.trends, HomeCubit.videos.sublist(3)),
                       categorySection(
-                          context, 'Nature', HomeCubit.videos.sublist(2, 5)),
+                          context, textLocalization.topRated, HomeCubit.videos.sublist(6)),
+                      categorySection(
+                          context, textLocalization.forYou, HomeCubit.videos.sublist(1)),
                     ],
                   ),
                 ),
@@ -85,7 +86,7 @@ class _WebHomePageState extends State<WebHomePage> {
   }
 
   categorySection(
-          BuildContext context, String title, List<ContentEntity> models) =>
+          BuildContext context, String title, List<ContentResponseEntity> models) =>
       Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -150,7 +151,7 @@ class _WebHomePageState extends State<WebHomePage> {
       period: const Duration(milliseconds: 1000),
       child: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const AppHeader(
               textFieldAutoFocus: false,
@@ -177,7 +178,7 @@ class _WebHomePageState extends State<WebHomePage> {
               children: List.generate(
                 3,
                 (_) => categorySection(
-                    context, '', List.generate(10, (_) => ContentEntity())),
+                    context, '', List.generate(10, (_) => ContentResponseEntity())),
               ),
             )
           ],

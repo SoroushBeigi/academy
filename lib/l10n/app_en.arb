@@ -55,5 +55,9 @@
   "attachments": "Attachments",
   "successfulAddNewContent": "New content uploaded successfully",
   "accept": "ok",
-  "newContent": "New Content"
+  "newContent": "New Content",
+  "trends": "Trends",
+  "newContents": "New",
+  "topRated": "Top Rated",
+  "forYou": "For You"
 }

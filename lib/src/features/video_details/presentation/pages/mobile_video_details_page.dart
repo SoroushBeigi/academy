@@ -6,10 +6,12 @@ import 'package:academy/src/core/logic/common/date_format.dart';
 import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/core/core.dart';
+import 'package:academy/src/features/favourite/domain/entity/attachment/response/attachment_response_entity.dart';
+import 'package:academy/src/features/favourite/domain/entity/category/response/category_response_entity.dart';
+import 'package:academy/src/features/favourite/domain/entity/comment/response/comment_response_entity.dart';
 import 'package:academy/src/features/video_details/presentation/bloc/video_details_cubit.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/related_video/related_video_container.dart';
 import 'package:academy/src/features/video_details/presentation/pages/widgets/video_player_widget/video_player_widget.dart';
-import 'package:academy/content_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -17,10 +19,12 @@ import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart' as UrlLauncher;
 import 'package:http/http.dart' as http;
 
+import '../../../favourite/domain/entity/content/response/content_response_entity.dart';
+
 class MobileVideoDetailsPage extends StatefulWidget {
   const MobileVideoDetailsPage({required this.entity, super.key});
 
-  final ContentEntity entity;
+  final ContentResponseEntity entity;
 
   @override
   State<MobileVideoDetailsPage> createState() => _MobileVideoDetailsPageState();
@@ -94,9 +98,10 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
                               AppSize.s8.heightSizeBox(),
                               attachmentsWidget(context),
                             ],
-                            if (widget.entity.relatedContent != null &&
-                                (widget.entity.relatedContent?.isNotEmpty ??
-                                    false)) ...[
+                            if ((widget.entity.relatedContentIds != null) &&
+                                (widget.entity.relatedContentIds?.isNotEmpty ??
+                                    false)
+                            ) ...[
                               AppSize.s8.heightSizeBox(),
                               relatedContents(context),
                             ],
@@ -128,10 +133,13 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
               .read<VideoDetailsCubit>()
               .relatedContent
               .map(
-                (e) => RelatedVideoContainer(
-                  videoModel: e,
-                  margin: 8,
-                ),
+                (e) => Column(children: [
+                  RelatedVideoContainer(
+                    videoModel: e,
+                    margin: 8,
+                  ),
+                  AppSize.s8.heightSizeBox(),
+                ],)
               )
               .toList(),
         )
@@ -141,7 +149,7 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
 
   commentsWidget(BuildContext context) {
     List<Widget> list = [];
-    for (Comment comment in widget.entity.comments ?? []) {
+    for (CommentResponseEntity comment in widget.entity.comments ?? []) {
       list.add(commentItemBuilder(context, comment));
     }
 
@@ -209,19 +217,19 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
                 color: Theme.of(context).colorScheme.surfaceContainer,
                 borderRadius: BorderRadius.circular(AppSize.s60),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  InkWell(
-                    onTap: () {
-                      if (like != true) {
-                        getIt<VideoDetailsCubit>()
-                            .like(true, widget.entity.id ?? 0);
-                      }
-                      like = true;
-                      setState(() {});
-                    },
-                    child: Icon(
+              child: InkWell(
+                onTap: () {
+                  if (like != true) {
+                    getIt<VideoDetailsCubit>()
+                        .like(true, widget.entity.id ?? 0);
+                  }
+                  like = true;
+                  setState(() {});
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
                       like == true
                           ? Icons.thumb_up_alt
                           : Icons.thumb_up_alt_outlined,
@@ -229,16 +237,16 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
                           ? Theme.of(context).colorScheme.primary
                           : Theme.of(context).colorScheme.onSurface,
                     ),
-                  ),
-                  AppSize.s8.widthSizeBox(),
-                  Text(
-                    '${likesCount == null ? 0 : like == true ? likesCount + 1 : like == false ? likesCount == 0 ? 0 : likesCount - 1 : likesCount} likes',
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodyMedium!
-                        .copyWith(fontWeight: FontWeight.bold),
-                  )
-                ],
+                    AppSize.s8.widthSizeBox(),
+                    Text(
+                      '${likesCount == null ? 0 : like == true ? likesCount + 1 : like == false ? likesCount == 0 ? 0 : likesCount - 1 : likesCount} likes',
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(fontWeight: FontWeight.bold),
+                    )
+                  ],
+                ),
               ),
             ),
           ),
@@ -342,13 +350,10 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
 
   contentInfoWidget() {
     String categories = '';
-    for (Category item in widget.entity.categories ?? []) {
+    for (CategoryResponseEntity item in widget.entity.categories ?? []) {
       categories = '$categories ${item.name}';
     }
-    String tags = '';
-    for (String item in widget.entity.tags ?? []) {
-      tags = '$tags $item';
-    }
+    final tags = widget.entity.tags?.join(', ') ?? '';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -417,7 +422,7 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
 
   attachmentsWidget(context) {
     List<Widget> list = [];
-    for (Attachment attachment in widget.entity.attachments ?? []) {
+    for (AttachmentResponseEntity attachment in widget.entity.attachments ?? []) {
       list.add(attachmentItemBuilder(context, attachment));
     }
     return Column(
@@ -447,7 +452,7 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
     );
   }
 
-  attachmentItemBuilder(BuildContext context, Attachment attachment) {
+  attachmentItemBuilder(BuildContext context, AttachmentResponseEntity attachment) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       margin: const EdgeInsets.only(right: 8),
@@ -481,7 +486,7 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
     );
   }
 
-  commentItemBuilder(BuildContext context, Comment comment) {
+  commentItemBuilder(BuildContext context, CommentResponseEntity comment) {
     return Column(
       children: [
         AppSize.s16.heightSizeBox(),
@@ -574,8 +579,8 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
       if (response.statusCode == 200) {
         print('Comment added successfully');
         final List<dynamic> responseData = jsonDecode(response.body);
-        final List<Comment> newComments =
-            responseData.map((data) => Comment.fromJson(data)).toList();
+        final List<CommentResponseEntity> newComments =
+            responseData.map((data) => CommentResponseEntity.fromJson(data)).toList();
 
         widget.entity.comments = newComments;
 

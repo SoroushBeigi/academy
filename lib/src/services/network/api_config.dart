@@ -13,4 +13,7 @@ class ApiConfig {
 
   static const String _category = '$baseApiUrl/categories';
   static get category => _category;
+
+  static const String _content = '$baseApiUrl/content';
+  static get content => _content;
 }

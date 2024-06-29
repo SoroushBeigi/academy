@@ -31,26 +31,17 @@ class Storage {
     _sharedPrefs?.remove(AppConstants.tokenKey);
   }
 
-  void saveVideo(int id) {
-    final savedVideos = _sharedPrefs!.getStringList(AppConstants.saveKey);
-    late final List<String> newSavedVideos;
-    if (savedVideos?.any(
-          (element) => element == id.toString(),
-        ) ??
-        false) {
-      newSavedVideos = savedVideos ?? [];
-      newSavedVideos.removeWhere(
-        (element) => element == id.toString(),
-      );
-    } else {
-      newSavedVideos = (savedVideos ?? <String>[]) + [id.toString()];
-    }
-
-    _sharedPrefs?.setStringList(AppConstants.saveKey, newSavedVideos);
+  Future setSavedContent(String listContentId) async{
+    await _sharedPrefs!.setString(AppConstants.saveContentList, listContentId);
   }
 
-  List<String> getSavedVideos() =>
-      _sharedPrefs?.getStringList(AppConstants.saveKey) ?? [];
+  String getSavedContent() =>
+      _sharedPrefs?.getString(AppConstants.saveContentList) ?? '';
+
+  Future remove(String key) async{
+    await _sharedPrefs?.remove(key);
+
+  }
 
   void setIsFa(bool value) =>
       _sharedPrefs?.setBool(AppConstants.languageKey, value);

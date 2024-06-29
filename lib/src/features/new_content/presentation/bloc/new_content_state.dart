@@ -14,5 +14,7 @@ class NewContentState with _$NewContentState {
 
   const factory NewContentState.successAddNewContent() = NewContentStateSuccessAddNewContent;
 
+  const factory NewContentState.loadingAddNewContent({required int progress}) = NewContentStateLoadingAddNewContent;
+
   const factory NewContentState.loading() = NewContentStateLoading;
 }

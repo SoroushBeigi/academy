@@ -1,4 +1,5 @@
 import 'package:academy/src/core/widgets/app_header.dart';
+import 'package:academy/src/features/core/core.dart';
 import 'package:academy/src/features/home/home.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_cubit.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_state.dart';
@@ -20,6 +21,13 @@ class SearchWebPage extends StatefulWidget {
 
 class _SearchWebPageState extends State<SearchWebPage> {
   @override
+  void initState() {
+    if(HomeCubit.chips.entries.isEmpty){
+      context.read<SearchCubit>().initialLoad();
+    }
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<SearchCubit, SearchState>(
       builder: (context, state) {
@@ -27,6 +35,7 @@ class _SearchWebPageState extends State<SearchWebPage> {
           body: Stack(
             children: [
               state.whenOrNull(
+                loading: () => const ACLoading(),
                     initial: () => SizedBox(
                       height: MediaQuery.of(context).size.height,
                       child: Center(
@@ -42,19 +51,21 @@ class _SearchWebPageState extends State<SearchWebPage> {
                                 child: Text(
                                     AppLocalizations.of(context).noItemsFound),
                               )
-                            : Wrap(
-                                children: videos
-                                    .map(
-                                      (e) => SizedBox(
-                                        width: 350,
-                                        child: RelatedVideoContainer(
-                                          margin: 8,
-                                          videoModel: e,
+                            : SingleChildScrollView(
+                              child: Wrap(
+                                  children: videos
+                                      .map(
+                                        (e) => Container(
+                                          margin: const EdgeInsets.all(8),
+                                          width: 350,
+                                          child: RelatedVideoContainer(
+                                            videoModel: e,
+                                          ),
                                         ),
-                                      ),
-                                    )
-                                    .toList(),
-                              )),
+                                      )
+                                      .toList(),
+                                ),
+                            )),
                   ) ??
                   const SizedBox(),
               Column(
@@ -64,8 +75,8 @@ class _SearchWebPageState extends State<SearchWebPage> {
                       textFieldEnabled: true,
                       textFieldAutoFocus: widget.isFromHome ?? false),
                   state.whenOrNull(
-                        foundVideos: (_) => activeChips(context,context.read<SearchCubit>().chips),
-                        initial: () => idleChips(context),
+                        foundVideos: (_) => activeChips(context,HomeCubit.chips),
+                        initial: () => activeChips(context,HomeCubit.chips),
                         chipsChanged: (chips) => activeChips(context,chips),
                       ) ??
                       const SizedBox(),

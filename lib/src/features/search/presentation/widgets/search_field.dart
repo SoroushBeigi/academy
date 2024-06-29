@@ -29,7 +29,7 @@ class SearchField extends StatelessWidget {
           ),
           child: _buildTextField(context)),
       largeScreen: Container(
-          width: MediaQuery.of(context).size.width * 0.5,
+          width: MediaQuery.of(context).size.width * 0.4,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30.0),
             // Reduced border radius
