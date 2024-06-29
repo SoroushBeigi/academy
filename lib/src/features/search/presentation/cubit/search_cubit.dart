@@ -66,9 +66,17 @@ class SearchCubit extends Cubit<SearchState> {
         emit(const SearchState.initial());
       }
     } else {
+      emit(SearchState.chipsChanged(chips));
       final videos = HomeCubit.videos;
       if(key=='All2'){
-        emit(SearchState.foundVideos(videos));
+        if(query != '' && query.trim() != ''){
+          final searchResult = videos
+              .where((element) => element.title?.contains(query) ?? false)
+              .toList();
+          emit(SearchState.foundVideos(searchResult));
+        }else{
+          emit(SearchState.foundVideos(videos));
+        }
         return;
       }
       final foundVideos = videos
