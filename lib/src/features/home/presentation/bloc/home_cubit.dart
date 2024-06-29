@@ -57,10 +57,14 @@ class HomeCubit extends Cubit<HomeState> {
           (result.data as List).map((json) => CategoryResponseEntity.fromJson(json)).toList();
       categories.clear();
       categories.addAll(fetchedCategories);
-      chips = {for (var category in categories) category.name ?? '': false};
+      chips.addAll({'All2':false,'Live2':false});
+      chips.addAll( {for (var category in categories) category.name ?? '': false});
+
       // return;
     } on DioException catch (e) {
       debugPrint(e.error.toString());
     }
   }
+
+
 }
