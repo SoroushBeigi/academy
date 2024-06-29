@@ -14,8 +14,13 @@ class SearchCubit extends Cubit<SearchState> {
 
   void search(String value) {
     if (value == '' || value == ' ') {
-      emit(const SearchState.initial());
-      return;
+      if(!chips.entries.any((element) => element.value)){
+        emit(const SearchState.initial());
+        return;
+      }else{
+        emit(SearchState.chipsChanged(chips));
+      }
+
     }
     query = value;
     final videos = HomeCubit.videos;
@@ -48,22 +53,31 @@ class SearchCubit extends Cubit<SearchState> {
 
     ///has no selected chip!
     if (!(chips[key] ?? false)) {
-      emit(const SearchState.initial());
+      print('1');
+      emit(SearchState.chipsChanged(chips));
+      if(query!='' && query.trim()!= ''){
+        print('2');
+        final searchResult = HomeCubit.videos.where((element) =>element.title?.contains(query) ?? false).toList();
+        emit(SearchState.foundVideos(searchResult));
+      }else {
+        print('3');
+        emit(const SearchState.initial());
+      }
     } else{
+      print('4');
       final videos = HomeCubit.videos;
     final foundVideos = videos.where((element) =>
     element.categories?.any((category) => category.name == key,) ?? false,)
         .toList();
       emit(SearchState.chipsChanged(chips));
     if(query!='' && query.trim()!= '') {
+      print('5');
       final searchResult = foundVideos.where((element) =>element.title?.contains(query) ?? false).toList();
       emit(SearchState.foundVideos(searchResult));
     }else{
+      print('6');
       emit(SearchState.foundVideos(foundVideos));
     }
-    // emit(const SearchState.initial());
-
-    // emit(SearchState.foundVideos(foundVideos));
   }
 }
 
@@ -85,10 +99,11 @@ void selectChip(String chipName) {
   emit(SearchState.foundVideos(foundVideos));
 }
 
-Future<void> getCategories()async{
-    emit(const SearchState.loading());
+Future<void> initialLoad()async{
+  emit(const SearchState.loading());
   await getIt<HomeCubit>().getCategories();
-    emit(const SearchState.initial());
+  await getIt<HomeCubit>().getVideos();
+  emit(const SearchState.initial());
 }
 
 
