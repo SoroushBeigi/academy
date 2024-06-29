@@ -100,9 +100,13 @@ class SearchCubit extends Cubit<SearchState> {
     final foundChip = chips.entries.firstWhere(
       (element) => element.key == chipName,
     );
-    chips[foundChip.key] = true;
-
     final videos = HomeCubit.videos;
+    chips[foundChip.key] = true;
+    if(foundChip.key=='All2'){
+      emit(SearchState.foundVideos(videos));
+      return;
+    }
+
     final foundVideos = videos
         .where(
           (element) =>
