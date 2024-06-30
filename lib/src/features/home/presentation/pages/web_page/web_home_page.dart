@@ -70,6 +70,13 @@ class _WebHomePageState extends State<WebHomePage> {
                       categorySection(
                           context, textLocalization.newContents, HomeCubit.videos.sublist(0)),
                       categorySection(
+                          context,
+                          AppConstants.tvChip,
+                          HomeCubit.videos
+                              .where((element) =>
+                          element.isLive == true)
+                              .toList()),
+                      categorySection(
                           context, textLocalization.trends, HomeCubit.videos.sublist(3)),
                       categorySection(
                           context, textLocalization.topRated, HomeCubit.videos.sublist(6)),
