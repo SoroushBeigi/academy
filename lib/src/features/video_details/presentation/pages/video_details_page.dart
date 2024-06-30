@@ -19,7 +19,9 @@ class VideoDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    callViewCount(contentId: entity.id!);
+    if(entity.id!=null){
+      callViewCount(contentId: entity.id!);
+    }
     return ResponsiveWidget(
       smallScreen: MobileVideoDetailsPage(
         entity: entity,
