@@ -65,17 +65,20 @@ class _NewContentPageState extends State<NewContentPage> {
             return state.whenOrNull(
                   loading: () => const ACLoading(),
                   success: () => ResponsiveWidget(
-                    smallScreen: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          '${textLocalization.newContent}:',
-                          style: Theme.of(context).textTheme.titleMedium,
-                          textAlign: TextAlign.start,
-                        ),
-                        Space.h16,
-                        const NewContentWidgetPhone()
-                      ],
+                    smallScreen: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${textLocalization.newContent}:',
+                            style: Theme.of(context).textTheme.titleMedium,
+                            textAlign: TextAlign.start,
+                          ),
+                          Space.h16,
+                          const NewContentWidgetPhone(),
+                          Space.h64,
+                        ],
+                      ),
                     ),
                     largeScreen: Center(
                       child: Column(

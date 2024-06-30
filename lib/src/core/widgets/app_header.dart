@@ -1,12 +1,15 @@
 import 'package:academy/src/core/data/local/shared_pref.dart';
 import 'package:academy/src/core/resources/value_manager.dart';
 import 'package:academy/src/di/di_setup.dart';
+import 'package:academy/src/features/core/ui_kits/ac_elevated_button/ac_elevated_button.dart';
 import 'package:academy/src/features/main/presentation/bloc/main_cubit.dart';
 import 'package:academy/src/features/search/presentation/widgets/search_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:go_router/go_router.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:url_launcher/url_launcher.dart';
 
 class AppHeader extends StatelessWidget {
   const AppHeader({required this.textFieldEnabled,required this.textFieldAutoFocus,super.key});
@@ -15,6 +18,7 @@ class AppHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textLocalization = AppLocalizations.of(context);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -63,6 +67,18 @@ class AppHeader extends StatelessWidget {
         IntrinsicHeight(
           child: Row(
             children: [
+              ACElevatedButton(
+                onTap: () async{
+                  final Uri url = Uri.parse('https://46.209.222.131:8082/');
+                  if(kIsWeb) {
+                    if (!await launchUrl(url)) {
+                      throw Exception('Could not launch $url');
+                    }
+                  }
+                },
+                child: Text(textLocalization.meeting, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onPrimary),),
+              ),
+              Space.w8,
               Stack(
                 children: [
                   const Icon(
@@ -135,13 +151,6 @@ class AppHeader extends StatelessWidget {
             ],
           ),
         ),
-
-        InkWell(
-          onTap: () {
-            context.pushNamed('/meeting');
-          },
-          child: Text('meeting'),
-        )
       ],
     );
   }

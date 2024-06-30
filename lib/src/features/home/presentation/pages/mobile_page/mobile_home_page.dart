@@ -14,7 +14,6 @@ import 'package:shimmer/shimmer.dart';
 import '../../../../core/ui_kits/ac_loading/ac_loading.dart';
 import '../../../../saved/domain/entity/content/response/content_response_entity.dart';
 import '../../bloc/home_cubit.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class MobileHomePage extends StatefulWidget {
   const MobileHomePage({super.key});
 
@@ -25,6 +24,7 @@ class MobileHomePage extends StatefulWidget {
 class _MobileHomePageState extends State<MobileHomePage> {
   @override
   Widget build(BuildContext context) {
+    final textLocalization = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
         forceMaterialTransparency: true,
@@ -43,6 +43,19 @@ class _MobileHomePageState extends State<MobileHomePage> {
                 Space.w4,
                 Text(AppLocalizations.of(context).academy),
               ],
+            ),
+            InkWell(
+              onTap: () {
+                context.pushNamed('/meeting_web_view');
+              },
+              child: Container(
+                padding: const EdgeInsets.all(AppPadding.p12),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.all(Radius.circular(AppSize.s12)),
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                child: Text(textLocalization.meeting, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onPrimary),),
+              ),
             ),
             GestureDetector(
                 onTap: () {

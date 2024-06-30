@@ -1,11 +1,11 @@
 import 'package:academy/src/di/di_setup.dart';
-import 'package:academy/src/features/favourite/domain/entity/content/response/content_response_entity.dart';
 import 'package:academy/src/features/search/presentation/cubit/search_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../core/resources/app_constants.dart';
 import '../../../home/presentation/bloc/home_cubit.dart';
+import '../../../saved/domain/entity/content/response/content_response_entity.dart';
 
 @singleton
 class SearchCubit extends Cubit<SearchState> {
@@ -41,8 +41,7 @@ class SearchCubit extends Cubit<SearchState> {
       if (mapEntry.key == AppConstants.allVideosChip) {
         videosWithChips = foundVideos;
       } else if (mapEntry.key == AppConstants.tvChip) {
-        videosWithChips =
-            foundVideos.where((content) => content.isLive == true).toList();
+        videosWithChips = foundVideos.where((content) => content.isLive == true).toList();
       } else {
         videosWithChips = foundVideos
             .where((content) =>

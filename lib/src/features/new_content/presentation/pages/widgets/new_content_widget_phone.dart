@@ -96,6 +96,7 @@ class _NewContentWidgetPhoneState extends State<NewContentWidgetPhone> {
                           Space.w12,
                           Expanded(
                             child: CategoryWidget(
+                              isMobile: true,
                               onTagListChanged: (Map<String, int>
                               updatedCategoryMap) {
                                 setState(() {
@@ -167,44 +168,44 @@ class _NewContentWidgetPhoneState extends State<NewContentWidgetPhone> {
                         ),
                         borderRadius: BorderRadius.circular(AppSize.s12),
                       ),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Text('${textLocalization.relatedContent}:',
                               style: Theme.of(context)
                                   .textTheme
                                   .titleMedium),
                           Space.w12,
-                          Expanded(
-                            child: CategoryWidget(
-                              onTagListChanged:
-                                  (Map<String, int> updatedCategoryMap) {
-                                setState(() {
-                                  context
-                                      .read<NewContentCubit>()
-                                      .contentsMap = updatedCategoryMap;
-                                });
+                          CategoryWidget(
+                            isMobile: true,
+                            onTagListChanged:
+                                (Map<String, int> updatedCategoryMap) {
+                              setState(() {
                                 context
                                     .read<NewContentCubit>()
-                                    .relatedIds
-                                    .clear();
-                                (context
-                                    .read<NewContentCubit>()
-                                    .contentsMap)
-                                    .entries
-                                    .map((entry) => context
-                                    .read<NewContentCubit>()
-                                    .relatedIds
-                                    .add(entry.value))
-                                    .toList();
-                              },
-                              categoryMap: context
+                                    .contentsMap = updatedCategoryMap;
+                              });
+                              context
                                   .read<NewContentCubit>()
-                                  .contentsMap,
-                              allCategoryMap: context
+                                  .relatedIds
+                                  .clear();
+                              (context
                                   .read<NewContentCubit>()
-                                  .allContentsMap,
-                            ),
+                                  .contentsMap)
+                                  .entries
+                                  .map((entry) => context
+                                  .read<NewContentCubit>()
+                                  .relatedIds
+                                  .add(entry.value))
+                                  .toList();
+                            },
+                            categoryMap: context
+                                .read<NewContentCubit>()
+                                .contentsMap,
+                            allCategoryMap: context
+                                .read<NewContentCubit>()
+                                .allContentsMap,
                           ),
                         ],
                       ),
@@ -280,11 +281,11 @@ class _NewContentWidgetPhoneState extends State<NewContentWidgetPhone> {
                   : CrossAxisAlignment.stretch,
               children: [
                 Icon(Icons.file_upload,
-                    size: AppSize.s42,
+                    size: AppSize.s28,
                     color: Theme.of(context).colorScheme.tertiary),
                 Space.h8,
                 Text(label,
-                    style: Theme.of(context).textTheme.displaySmall,
+                    style: Theme.of(context).textTheme.titleMedium,
                     textAlign: TextAlign.center),
                 Space.h8,
                 if (fileResult != null)

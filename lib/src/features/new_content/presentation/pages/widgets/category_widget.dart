@@ -5,10 +5,11 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CategoryWidget extends StatefulWidget {
-  const CategoryWidget({super.key, required this.onTagListChanged, required this.categoryMap, required this.allCategoryMap});
+  const CategoryWidget({super.key, required this.onTagListChanged, required this.categoryMap, required this.allCategoryMap, this.isMobile});
   final ValueChanged<Map<String, int>> onTagListChanged;
   final Map<String, int> allCategoryMap;
   final Map<String, int> categoryMap;
+  final bool? isMobile;
 
   @override
   State<CategoryWidget> createState() => _CategoryWidgetState();
@@ -81,7 +82,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
             ),
             child: InkWell(
               onTap: () {
-                showAddCategoryDialog(context);
+                showAddCategoryDialog(context, widget.isMobile);
               },
               child: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -97,14 +98,14 @@ class _CategoryWidgetState extends State<CategoryWidget> {
     );
   }
 
-  void showAddCategoryDialog(BuildContext context) {
+  void showAddCategoryDialog(BuildContext context, bool? isMobile) {
     String? selectedKey;
     showDialog(
       context: context,
       builder: (BuildContext _) {
         return Dialog(
           child: SizedBox(
-            width: MediaQuery.of(context).size.width * 0.3,
+            width: (isMobile ?? false) ? MediaQuery.of(context).size.width : MediaQuery.of(context).size.width * 0.3,
             child: StatefulBuilder(
               builder: (BuildContext _, setState) {
                 final textLocalization = AppLocalizations.of(context);
@@ -113,7 +114,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                   child: SingleChildScrollView(
                     child: Column(
                       mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         DropdownButton<String>(
                           hint: Text(
@@ -124,7 +125,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                           items: widget.allCategoryMap.keys.map((String key) {
                             return DropdownMenuItem<String>(
                               value: key,
-                              child: Text(key),
+                              child: Text(key, style: Theme.of(context).textTheme.bodyMedium,),
                             );
                           }).toList(),
                           onChanged: (String? newKey) {

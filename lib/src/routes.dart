@@ -4,6 +4,7 @@ import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/add/presentation/pages/add_video_page.dart';
 import 'package:academy/src/features/add/presentation/pages/widgets/upload_video/upload_video.dart';
 import 'package:academy/src/features/add/presentation/pages/widgets/video_recorder/video_recorder_widget.dart';
+import 'package:academy/src/features/home/presentation/pages/mobile_page/widgets/meeting_web_view.dart';
 import 'package:academy/src/features/meeting/meeting.dart';
 import 'package:academy/src/features/saved/domain/entity/content/response/content_response_entity.dart';
 import 'package:academy/src/features/saved/presentation/saved_page.dart';
@@ -43,6 +44,11 @@ class Routes {
             : '/',
     debugLogDiagnostics: true,
     routes: [
+      GoRoute(
+        path: '/meeting_web_view',
+        name: '/meeting_web_view',
+        builder: (context, state) => const MeetingWebView(),
+      ),
       GoRoute(
         path: '/meeting_users',
         name: '/meeting_users',
