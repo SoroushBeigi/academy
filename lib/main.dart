@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:academy/src/app.dart';
 import 'package:academy/src/core/data/local/shared_pref.dart';
 import 'package:academy/src/core/locale_provdier.dart';
@@ -9,6 +11,7 @@ import 'package:responsive_sizer/responsive_sizer.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  HttpOverrides.global = MyHttpOverrides();
   configureDependencies();
   await getIt<Storage>().init();
   getIt<LocaleProvider>().initialize();
@@ -22,4 +25,13 @@ Future<void> main() async {
       builder: (context, orientation, screenType) => const App(),
     ),
   );
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+  }
 }

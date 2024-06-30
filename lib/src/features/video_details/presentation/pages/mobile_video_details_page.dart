@@ -385,24 +385,28 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
             AppSize.s4.heightSizeBox(),
             rowOfData('Description: ', widget.entity.description ?? '-'),
             AppSize.s4.heightSizeBox(),
-            rowOfData('Created By: ', widget.entity.authorName ?? '-'),
-            AppSize.s4.heightSizeBox(),
-            rowOfData(
-                'Created At: ',
-                DateFormat.timeAgo(
-                      widget.entity.createdAt ??
-                          DateTime.now().subtract(
-                            const Duration(days: 5),
-                          ),
-                    ) ??
-                    '-'),
-            AppSize.s4.heightSizeBox(),
-            rowOfData('Views: ', widget.entity.viewCount.toString()),
-            AppSize.s4.heightSizeBox(),
-            rowOfData('Categories: ', categories ?? '-'),
-            AppSize.s4.heightSizeBox(),
-            rowOfData('Tags: ', tags ?? '-'),
-            AppSize.s4.heightSizeBox(),
+
+            if(widget.entity.isLive!=true)...[
+              rowOfData('Created By: ', widget.entity.authorName ?? '-'),
+              AppSize.s4.heightSizeBox(),
+              rowOfData(
+                  'Created At: ',
+                  DateFormat.timeAgo(
+                    widget.entity.createdAt ??
+                        DateTime.now().subtract(
+                          const Duration(days: 5),
+                        ),
+                  ) ??
+                      '-'),
+              AppSize.s4.heightSizeBox(),
+              rowOfData('Views: ', widget.entity.viewCount.toString()),
+              AppSize.s4.heightSizeBox(),
+              rowOfData('Categories: ', categories ?? '-'),
+              AppSize.s4.heightSizeBox(),
+              rowOfData('Tags: ', tags ?? '-'),
+              AppSize.s4.heightSizeBox(),
+            ],
+
           ]),
         ),
       ],

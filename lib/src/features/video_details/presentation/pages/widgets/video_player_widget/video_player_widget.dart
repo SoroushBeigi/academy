@@ -47,6 +47,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
       setState(() {});
     });
     _chewieController = ChewieController(
+
       isLive: widget.entity.isLive == true,
       videoPlayerController: _videoPlayerController1,
       autoPlay: true,
