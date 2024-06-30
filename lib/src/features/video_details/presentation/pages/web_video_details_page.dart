@@ -96,12 +96,16 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                                 AppSize.s12.heightSizeBox(),
                                 actionButtonsWidget(context, () {
                                   save = !(save ?? false);
-                                  if(save ?? false) {
-                                    context.read<VideoDetailsCubit>().setSaveContent(
-                                        contentId: widget.entity.id ?? 1);
+                                  if (save ?? false) {
+                                    context
+                                        .read<VideoDetailsCubit>()
+                                        .setSaveContent(
+                                            contentId: widget.entity.id ?? 1);
                                   } else {
-                                    context.read<VideoDetailsCubit>().removeSaveContent(
-                                        contentId: widget.entity.id ?? 1);
+                                    context
+                                        .read<VideoDetailsCubit>()
+                                        .removeSaveContent(
+                                            contentId: widget.entity.id ?? 1);
                                   }
                                   setState(() {});
                                 }),
@@ -125,7 +129,8 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                                   attachmentsWidget(context),
                                 ],
                                 if (widget.entity.relatedContentIds != null &&
-                                    (widget.entity.relatedContentIds?.isNotEmpty ??
+                                    (widget.entity.relatedContentIds
+                                            ?.isNotEmpty ??
                                         false)) ...[
                                   AppSize.s12.heightSizeBox(),
                                   relatedContents(context),
@@ -407,24 +412,26 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
             AppSize.s4.heightSizeBox(),
             rowOfData('Description: ', widget.entity.description ?? '-'),
             AppSize.s4.heightSizeBox(),
-            rowOfData('Created By: ', widget.entity.authorName ?? '-'),
-            AppSize.s4.heightSizeBox(),
-            rowOfData(
-                'Created At: ',
-                DateFormat.timeAgo(
-                      widget.entity.createdAt ??
-                          DateTime.now().subtract(
-                            const Duration(days: 5),
-                          ),
-                    ) ??
-                    '-'),
-            AppSize.s4.heightSizeBox(),
-            rowOfData('Views: ', widget.entity.viewCount.toString()),
-            AppSize.s4.heightSizeBox(),
-            rowOfData('Categories: ', categories ?? '-'),
-            AppSize.s4.heightSizeBox(),
-            rowOfData('Tags: ', tags ?? '-'),
-            AppSize.s4.heightSizeBox(),
+            if (widget.entity.isLive != true) ...[
+              rowOfData('Created By: ', widget.entity.authorName ?? '-'),
+              AppSize.s4.heightSizeBox(),
+              rowOfData(
+                  'Created At: ',
+                  DateFormat.timeAgo(
+                        widget.entity.createdAt ??
+                            DateTime.now().subtract(
+                              const Duration(days: 5),
+                            ),
+                      ) ??
+                      '-'),
+              AppSize.s4.heightSizeBox(),
+              rowOfData('Views: ', widget.entity.viewCount.toString()),
+              AppSize.s4.heightSizeBox(),
+              rowOfData('Categories: ', categories ?? '-'),
+              AppSize.s4.heightSizeBox(),
+              rowOfData('Tags: ', tags ?? '-'),
+              AppSize.s4.heightSizeBox(),
+            ],
           ]),
         ),
       ],
@@ -452,7 +459,8 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
 
   attachmentsWidget(context) {
     List<Widget> list = [];
-    for (AttachmentResponseEntity attachment in widget.entity.attachments ?? []) {
+    for (AttachmentResponseEntity attachment
+        in widget.entity.attachments ?? []) {
       list.add(attachmentItemBuilder(context, attachment));
     }
     return Column(
@@ -482,7 +490,8 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
     );
   }
 
-  attachmentItemBuilder(BuildContext context, AttachmentResponseEntity attachment) {
+  attachmentItemBuilder(
+      BuildContext context, AttachmentResponseEntity attachment) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       margin: const EdgeInsets.only(right: 8),
@@ -609,8 +618,9 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
       if (response.statusCode == 200) {
         print('Comment added successfully');
         final List<dynamic> responseData = jsonDecode(response.body);
-        final List<CommentResponseEntity> newComments =
-            responseData.map((data) => CommentResponseEntity.fromJson(data)).toList();
+        final List<CommentResponseEntity> newComments = responseData
+            .map((data) => CommentResponseEntity.fromJson(data))
+            .toList();
 
         widget.entity.comments = newComments;
 
