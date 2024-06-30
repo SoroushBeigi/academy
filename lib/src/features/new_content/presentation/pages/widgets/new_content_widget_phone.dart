@@ -1,27 +1,16 @@
-import 'package:academy/src/core/resources/resources.dart';
-import 'package:academy/src/core/widgets/responsive_widget/responsive_widget.dart';
-import 'package:academy/src/features/core/ui_kits/ac_loading/ac_loading.dart';
-import 'package:academy/src/features/core/ui_kits/ac_text_form_field/ac_text_form_field.dart';
-import 'package:academy/src/features/new_content/domain/entity/category/response/category_response_entity.dart';
+
+
 import 'package:academy/src/features/new_content/new_content.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
-
-import '../../../../core/ui_kits/ac_elevated_button/ac_elevated_button.dart';
 import '../../../../saved/domain/entity/content/response/content_response_entity.dart';
-import 'category_widget.dart';
 
-class NewContentWidget extends StatefulWidget {
-  const NewContentWidget({super.key});
+class NewContentWidgetPhone extends StatefulWidget {
+  const NewContentWidgetPhone({super.key});
 
   @override
-  State<NewContentWidget> createState() => _NewContentWidgetState();
+  State<NewContentWidgetPhone> createState() => _NewContentWidgetPhoneState();
 }
 
-class _NewContentWidgetState extends State<NewContentWidget> {
+class _NewContentWidgetPhoneState extends State<NewContentWidgetPhone> {
   String? selectedCategoryKey;
 
   String? selectedApprovedContentKey;
@@ -55,105 +44,87 @@ class _NewContentWidgetState extends State<NewContentWidget> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    IntrinsicHeight(
+                    ACTextFormField(
+                        controller: context.read<NewContentCubit>().videoTitle,
+                        borderColor: Theme.of(context).colorScheme.secondaryContainer,
+                        hintText: textLocalization.title,
+                        style: Theme.of(context).textTheme.titleMedium,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Title is required';
+                          }
+                          return null;
+                        }),
+                    Space.h16,
+                    ACTextFormField(
+                        controller: context
+                            .read<NewContentCubit>()
+                            .videoDescription,
+                        borderColor: Theme.of(context)
+                            .colorScheme
+                            .secondaryContainer,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        maxLines: 5,
+                        hintText: textLocalization.description,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Title is required';
+                          }
+                          return null;
+                        }),
+                    Space.h16,
+                    Container(
+                      padding: const EdgeInsets.all(AppPadding.p6),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: AppSize.s2,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .secondaryContainer,
+                        ),
+                        borderRadius:
+                        BorderRadius.circular(AppSize.s12),
+                      ),
                       child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment:
+                        CrossAxisAlignment.center,
                         children: [
+                          Text('${textLocalization.categories}:',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium),
+                          Space.w12,
                           Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                ACTextFormField(
-                                    controller: context
-                                        .read<NewContentCubit>()
-                                        .videoTitle,
-                                    borderColor: Theme.of(context)
-                                        .colorScheme
-                                        .secondaryContainer,
-                                    hintText: textLocalization.title,
-                                    validator: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Title is required';
-                                      }
-                                      return null;
-                                    }),
-                                Space.h12,
-                                Container(
-                                  padding: const EdgeInsets.all(AppPadding.p6),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      width: AppSize.s2,
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .secondaryContainer,
-                                    ),
-                                    borderRadius:
-                                    BorderRadius.circular(AppSize.s12),
-                                  ),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.center,
-                                    children: [
-                                      Text('${textLocalization.categories}:',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .titleMedium),
-                                      Space.w12,
-                                      Expanded(
-                                        child: CategoryWidget(
-                                          onTagListChanged: (Map<String, int>
-                                          updatedCategoryMap) {
-                                            setState(() {
-                                              context
-                                                  .read<NewContentCubit>()
-                                                  .categoryMap =
-                                                  updatedCategoryMap;
-                                            });
-                                            context
-                                                .read<NewContentCubit>()
-                                                .categoryIds
-                                                .clear();
-                                            (context
-                                                .read<NewContentCubit>()
-                                                .categoryMap)
-                                                .entries
-                                                .map((entry) => context
-                                                .read<NewContentCubit>()
-                                                .categoryIds
-                                                .add(entry.value))
-                                                .toList();
-                                          },
-                                          categoryMap: context
-                                              .read<NewContentCubit>()
-                                              .categoryMap,
-                                          allCategoryMap: context
-                                              .read<NewContentCubit>()
-                                              .allCategoryMap,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Space.w8,
-                          Expanded(
-                            child: ACTextFormField(
-                                controller: context
+                            child: CategoryWidget(
+                              onTagListChanged: (Map<String, int>
+                              updatedCategoryMap) {
+                                setState(() {
+                                  context
+                                      .read<NewContentCubit>()
+                                      .categoryMap =
+                                      updatedCategoryMap;
+                                });
+                                context
                                     .read<NewContentCubit>()
-                                    .videoDescription,
-                                borderColor: Theme.of(context)
-                                    .colorScheme
-                                    .secondaryContainer,
-                                maxLines: 5,
-                                hintText: textLocalization.description,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Title is required';
-                                  }
-                                  return null;
-                                }),
+                                    .categoryIds
+                                    .clear();
+                                (context
+                                    .read<NewContentCubit>()
+                                    .categoryMap)
+                                    .entries
+                                    .map((entry) => context
+                                    .read<NewContentCubit>()
+                                    .categoryIds
+                                    .add(entry.value))
+                                    .toList();
+                              },
+                              categoryMap: context
+                                  .read<NewContentCubit>()
+                                  .categoryMap,
+                              allCategoryMap: context
+                                  .read<NewContentCubit>()
+                                  .allCategoryMap,
+                            ),
                           ),
                         ],
                       ),
@@ -183,66 +154,60 @@ class _NewContentWidgetState extends State<NewContentWidget> {
                       ],
                     ),
                     Space.h16,
-                    Row(
-                      children: [
-                        Expanded(child: _buildTagsInput()),
-                        Space.w12,
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.all(AppPadding.p6),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: AppSize.s2,
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .secondaryContainer,
-                              ),
-                              borderRadius: BorderRadius.circular(AppSize.s12),
-                            ),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text('${textLocalization.relatedContent}:',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .titleMedium),
-                                Space.w12,
-                                Expanded(
-                                  child: CategoryWidget(
-                                    onTagListChanged:
-                                        (Map<String, int> updatedCategoryMap) {
-                                      setState(() {
-                                        context
-                                            .read<NewContentCubit>()
-                                            .contentsMap = updatedCategoryMap;
-                                      });
-                                      context
-                                          .read<NewContentCubit>()
-                                          .relatedIds
-                                          .clear();
-                                      (context
-                                          .read<NewContentCubit>()
-                                          .contentsMap)
-                                          .entries
-                                          .map((entry) => context
-                                          .read<NewContentCubit>()
-                                          .relatedIds
-                                          .add(entry.value))
-                                          .toList();
-                                    },
-                                    categoryMap: context
-                                        .read<NewContentCubit>()
-                                        .contentsMap,
-                                    allCategoryMap: context
-                                        .read<NewContentCubit>()
-                                        .allContentsMap,
-                                  ),
-                                ),
-                              ],
+                    _buildTagsInput(),
+                    Space.h16,
+                    Container(
+                      padding: const EdgeInsets.all(AppPadding.p6),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: AppSize.s2,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .secondaryContainer,
+                        ),
+                        borderRadius: BorderRadius.circular(AppSize.s12),
+                      ),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text('${textLocalization.relatedContent}:',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium),
+                          Space.w12,
+                          Expanded(
+                            child: CategoryWidget(
+                              onTagListChanged:
+                                  (Map<String, int> updatedCategoryMap) {
+                                setState(() {
+                                  context
+                                      .read<NewContentCubit>()
+                                      .contentsMap = updatedCategoryMap;
+                                });
+                                context
+                                    .read<NewContentCubit>()
+                                    .relatedIds
+                                    .clear();
+                                (context
+                                    .read<NewContentCubit>()
+                                    .contentsMap)
+                                    .entries
+                                    .map((entry) => context
+                                    .read<NewContentCubit>()
+                                    .relatedIds
+                                    .add(entry.value))
+                                    .toList();
+                              },
+                              categoryMap: context
+                                  .read<NewContentCubit>()
+                                  .contentsMap,
+                              allCategoryMap: context
+                                  .read<NewContentCubit>()
+                                  .allContentsMap,
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     Space.h16,
                     _buildAttachmentPicker(),

@@ -1,12 +1,9 @@
-import 'package:academy/src/core/resources/resources.dart';
+import 'package:academy/src/core/widgets/responsive_widget/responsive_widget.dart';
 import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/core/ui_kits/ac_elevated_button/ac_elevated_button.dart';
 import 'package:academy/src/features/core/ui_kits/ac_loading/ac_loading.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:go_router/go_router.dart';
-import '../../new_content.dart';
+import 'package:academy/src/features/new_content/new_content.dart';
+
 
 class NewContentPage extends StatefulWidget {
   const NewContentPage({super.key});
@@ -67,32 +64,88 @@ class _NewContentPageState extends State<NewContentPage> {
           builder: (BuildContext context, state) {
             return state.whenOrNull(
                   loading: () => const ACLoading(),
-                  success: () => SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                  success: () => ResponsiveWidget(
+                    smallScreen: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           '${textLocalization.newContent}:',
                           style: Theme.of(context).textTheme.titleMedium,
+                          textAlign: TextAlign.start,
                         ),
-                        Space.h8,
-                        const NewContentWidget()
+                        Space.h16,
+                        const NewContentWidgetPhone()
                       ],
+                    ),
+                    largeScreen: Center(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            '${textLocalization.newContent}:',
+                            style: Theme.of(context).textTheme.titleMedium,
+                            textAlign: TextAlign.start,
+                          ),
+                          Space.h16,
+                          LayoutBuilder(builder: (context, constraints) {
+                            double containerWidth = constraints.maxWidth;
+                            return Container(
+                              width: containerWidth >= 1350 ? containerWidth * 0.5 : (containerWidth < 1350 && containerWidth > 1150) ? containerWidth * 0.6 : (containerWidth < 1150 && containerWidth > 1050) ? containerWidth * 0.7 : (containerWidth < 1050 && containerWidth > 950) ? containerWidth * 0.8 : containerWidth * 0.9,
+                              decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.surface,
+                                borderRadius: BorderRadius.circular(AppSize.s12),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: const Offset(0, 3), // changes position of shadow
+                                  ),
+                                ],
+                              ),
+                              child: const Padding(
+                                padding: EdgeInsets.all(AppPadding.p16),
+                                child: NewContentWidgetWeb(),
+                              ),
+                            );
+                          }),
+                        ],
+                      ),
                     ),
                   ),
                 ) ??
-                SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Text(
-                        '${textLocalization.newContent}:',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      Space.h8,
-                      const NewContentWidget()
-                    ],
-                  ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${textLocalization.newContent}:',
+                      style: Theme.of(context).textTheme.headlineMedium,
+                      textAlign: TextAlign.start,
+                    ),
+                    Space.h16,
+                    LayoutBuilder(builder: (context, constraints) {
+                      double containerWidth = constraints.maxWidth * 0.5;
+                      return Container(
+                        width: containerWidth,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.surface,
+                          borderRadius: BorderRadius.circular(AppSize.s12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.5),
+                              spreadRadius: 5,
+                              blurRadius: 7,
+                              offset: const Offset(0, 3), // changes position of shadow
+                            ),
+                          ],
+                        ),
+                        child: const Padding(
+                          padding: EdgeInsets.all(AppPadding.p16),
+                          child: NewContentWidgetWeb(),
+                        ),
+                      );
+                    }),
+                  ],
                 );
           },
         ),
