@@ -14,6 +14,7 @@ import 'package:shimmer/shimmer.dart';
 import '../../../../core/ui_kits/ac_loading/ac_loading.dart';
 import '../../../../saved/domain/entity/content/response/content_response_entity.dart';
 import '../../bloc/home_cubit.dart';
+
 class MobileHomePage extends StatefulWidget {
   const MobileHomePage({super.key});
 
@@ -51,19 +52,31 @@ class _MobileHomePageState extends State<MobileHomePage> {
               child: Container(
                 padding: const EdgeInsets.all(AppPadding.p12),
                 decoration: BoxDecoration(
-                  borderRadius: const BorderRadius.all(Radius.circular(AppSize.s12)),
+                  borderRadius:
+                      const BorderRadius.all(Radius.circular(AppSize.s12)),
                   color: Theme.of(context).colorScheme.primary,
                 ),
-                child: Text(textLocalization.meeting, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Theme.of(context).colorScheme.onPrimary),),
+                child: Text(
+                  textLocalization.meeting,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onPrimary),
+                ),
               ),
             ),
             GestureDetector(
-                onTap: () {
-                  context.go('/search',
-                      extra: {'isFromHome': true, 'selectedChip': null});
-                  context.read<MainCubit>().updateNavigationIndexState(1);
-                },
-                child: const Icon(Icons.search)),
+              onTap: () {
+                context.go('/search',
+                    extra: {'isFromHome': true, 'selectedChip': null});
+                context.read<MainCubit>().updateNavigationIndexState(1);
+              },
+              child: CircleAvatar(
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                child: Icon(
+                  Icons.search,
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -76,7 +89,7 @@ class _MobileHomePageState extends State<MobileHomePage> {
                   return Column(
                     children: [
                       Space.h4,
-                      idleChips(context),
+                      Padding(padding: const EdgeInsets.symmetric(horizontal: 16),child: idleChips(context),),
                       Space.h4,
                       Flexible(
                         child: Padding(
@@ -87,8 +100,10 @@ class _MobileHomePageState extends State<MobileHomePage> {
                             child: SingleChildScrollView(
                               child: Column(
                                 children: [
-                                  categorySection(context, AppLocalizations.of(context).newContents,
-                                      HomeCubit.videos.sublist(0)),
+                                  categorySection(
+                                      context,
+                                      AppLocalizations.of(context).newContents,
+                                      HomeCubit.videos.sublist(0,5)),
                                   categorySection(
                                       context,
                                       AppConstants.tvChip,
@@ -96,11 +111,17 @@ class _MobileHomePageState extends State<MobileHomePage> {
                                           .where((element) =>
                                               element.isLive == true)
                                           .toList()),
-                                  categorySection(context, AppLocalizations.of(context).trends,
+                                  categorySection(
+                                      context,
+                                      AppLocalizations.of(context).trends,
                                       HomeCubit.videos.sublist(3)),
-                                  categorySection(context, AppLocalizations.of(context).topRated,
-                                      HomeCubit.videos.sublist(6)),
-                                  categorySection(context, AppLocalizations.of(context).forYou,
+                                  categorySection(
+                                      context,
+                                      AppLocalizations.of(context).topRated,
+                                      HomeCubit.videos.sublist(5)),
+                                  categorySection(
+                                      context,
+                                      AppLocalizations.of(context).forYou,
                                       HomeCubit.videos.sublist(1)),
                                 ],
                               ),
@@ -127,7 +148,7 @@ class _MobileHomePageState extends State<MobileHomePage> {
           children: [
             Text(
               title,
-              style: Theme.of(context).textTheme.titleLarge,
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(fontWeight: FontWeight.bold),
             ),
             Space.h8,
             Column(
@@ -135,7 +156,6 @@ class _MobileHomePageState extends State<MobileHomePage> {
                   .map(
                     (e) => Container(
                         padding: const EdgeInsets.symmetric(vertical: 4),
-                        width: 350,
                         child: RelatedVideoContainer(videoModel: e)),
                   )
                   .toList(),

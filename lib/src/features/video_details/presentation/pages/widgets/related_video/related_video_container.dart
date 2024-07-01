@@ -52,7 +52,7 @@ class RelatedVideoContainer extends StatelessWidget {
                       child: CachedNetworkImage(
                         fit: BoxFit.contain,
                         imageUrl: videoModel.imageUrl == null
-                            ? "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg"
+                            ? ""
                             : (AppConstants.baseUrlWithoutPort +
                                 videoModel.imageUrl!),
                         imageBuilder: (context, imageProvider) => Container(
