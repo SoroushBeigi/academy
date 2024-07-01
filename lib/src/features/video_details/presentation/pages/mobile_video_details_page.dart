@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:academy/src/core/data/local/shared_pref.dart';
 import 'package:academy/src/core/extensions/extensions.dart';
+import 'package:academy/src/core/locale_provdier.dart';
 import 'package:academy/src/core/logic/common/date_format.dart';
 import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/di/di_setup.dart';

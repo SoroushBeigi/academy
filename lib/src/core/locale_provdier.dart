@@ -9,7 +9,6 @@ class LocaleProvider extends ChangeNotifier {
   Locale? locale = const Locale('en');
   bool canNotify = true;
 
-
   LocaleProvider() {
     initialize();
   }
@@ -26,6 +25,8 @@ class LocaleProvider extends ChangeNotifier {
     canNotify = false;
     super.dispose();
   }
+
+  bool get isFa => locale == const Locale('fa');
 
   void initialize() {
     if (getIt<Storage>().isFa()) {

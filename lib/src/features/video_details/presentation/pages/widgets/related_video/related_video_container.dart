@@ -1,11 +1,9 @@
+import 'package:academy/src/core/locale_provdier.dart';
 import 'package:academy/src/core/logic/common/date_format.dart';
-import 'package:academy/src/core/resources/resources.dart';
 import 'package:academy/src/features/new_content/new_content.dart';
 import 'package:academy/src/features/saved/domain/entity/content/response/content_response_entity.dart';
 import 'package:academy/src/features/home/presentation/pages/mobile_page/widgets/more_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import '../../../../../core/ui_kits/ac_loading/ac_loading.dart';
 import '../../../bloc/video_details_cubit.dart';
 
@@ -131,8 +129,9 @@ class RelatedVideoContainer extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8),
                 child: Row(
                   children: [
+                    if (videoModel.isLive != true)
                     Text(
-                      '${AppLocalizations.of(context).by} ${videoModel.authorName ?? AppLocalizations.of(context).unknown}',
+                      '${AppLocalizations.of(context).by} ${videoModel.authorName ?? AppLocalizations.of(context).unknown} • ',
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
