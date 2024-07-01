@@ -4,7 +4,6 @@ import 'package:academy/src/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:academy/src/features/new_content/new_content.dart';
 import 'package:flutter_login/flutter_login.dart';
 
-
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
 
@@ -27,8 +26,8 @@ class AuthScreen extends StatelessWidget {
           confirmPasswordHint: localizations.confirmPassword,
           flushbarTitleError: localizations.error,
           confirmPasswordError: localizations.confirmPasswordError,
-          additionalSignUpFormDescription: localizations
-              .additionalSignUpFormDescription,
+          additionalSignUpFormDescription:
+              localizations.additionalSignUpFormDescription,
           additionalSignUpSubmitButton: localizations.submit,
           goBackButton: localizations.back,
         ),
@@ -49,11 +48,12 @@ class AuthScreen extends StatelessWidget {
           }
         },
         userValidator: (value) =>
-        RegExp(
-            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-            .hasMatch(value ?? '') ? null : localizations.invalidEmail,
+            RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                    .hasMatch(value ?? '')
+                ? null
+                : localizations.invalidEmail,
         passwordValidator: (value) =>
-        (value?.length ?? 0) < 4 ? localizations.shortPasswordError : null,
+            (value?.length ?? 0) < 4 ? localizations.shortPasswordError : null,
         onRecoverPassword: (p0) => null,
         onSignup: (p0) async {
           final result = await cubit.register(p0.name ?? '', p0.password ?? '',
@@ -65,39 +65,51 @@ class AuthScreen extends StatelessWidget {
             return result;
           }
         },
-        headerWidget: Container(
-          height: 40,
-          margin: const EdgeInsets.only(bottom: 4,),
-          child: InkWell(
-            borderRadius: BorderRadius.circular(12),
-            onTap: () {
-              if (localeProvider.locale == const Locale('en')) {
-                localeProvider.changeLocale(const Locale('fa'));
-              } else {
-                localeProvider.changeLocale(const Locale('en'));
-              }
-            },
-            child: Directionality(
-              textDirection: TextDirection.ltr,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('English'),
-                  Switch(value: AppConstants.isFa, onChanged: (value) {
+        children: [
+          Container(
+            height: MediaQuery.of(context).size.height*0.9,
+            width: MediaQuery.of(context).size.width,
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: Card(
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(20),
+                  onTap: () {
                     if (localeProvider.locale == const Locale('en')) {
                       localeProvider.changeLocale(const Locale('fa'));
                     } else {
                       localeProvider.changeLocale(const Locale('en'));
                     }
                   },
-                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),
+                    child: Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Text('EN',style: TextStyle(fontWeight: FontWeight.w700),),
+                          Switch(value: AppConstants.isFa, onChanged: (value) {
+                            if (localeProvider.locale == const Locale('en')) {
+                              localeProvider.changeLocale(const Locale('fa'));
+                            } else {
+                              localeProvider.changeLocale(const Locale('en'));
+                            }
+                          },
 
-                  Text('فارسی'),
-                ],
+                          ),
+
+                          const Text('فا',style: TextStyle(fontWeight: FontWeight.w700)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
+          )
+        ],
       ),
     );
   }
