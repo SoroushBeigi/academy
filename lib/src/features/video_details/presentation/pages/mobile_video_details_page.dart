@@ -217,7 +217,7 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
       child: Row(
         children: [
           Expanded(
-            flex: 1,
+            flex: 4,
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
               padding: const EdgeInsets.all(AppPadding.p6),
@@ -259,7 +259,7 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
             ),
           ),
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
               padding: const EdgeInsets.all(AppPadding.p6),
@@ -288,7 +288,7 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
             ),
           ),
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
               padding: const EdgeInsets.all(AppPadding.p6),
@@ -317,7 +317,7 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
             valueListenable: VideoDetailsCubit.savedNotifier,
             builder: (BuildContext context, value, Widget? child) {
               return Expanded(
-                flex: 2,
+                flex: 3,
                 child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
                     padding: const EdgeInsets.all(AppPadding.p6),
