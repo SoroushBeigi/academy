@@ -46,7 +46,7 @@ class Storage {
   void setIsFa(bool value) =>
       _sharedPrefs?.setBool(AppConstants.languageKey, value);
 
-  bool isFa() => _sharedPrefs?.getBool(AppConstants.languageKey) ?? false;
+  bool isFa() => _sharedPrefs?.getBool(AppConstants.languageKey) ?? true;
 
   void setIsDark(bool value) =>
       _sharedPrefs?.setBool(AppConstants.themeKey, value);

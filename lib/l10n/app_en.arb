@@ -64,6 +64,9 @@
   "views": "views",
   "meeting": "Meeting",
   "unknown": "Unknown",
-  "by": "by"
+  "by": "by",
+  "onboardingFirst": "Learn anywhere",
+  "onboardingSecond": "Learn at your own pace",
+  "onboardingThird": "Help others learn"
 
 }

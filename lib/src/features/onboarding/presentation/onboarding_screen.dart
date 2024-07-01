@@ -3,62 +3,65 @@ import 'package:academy/src/features/onboarding/domain/page_data_entity.dart';
 import 'package:concentric_transition/concentric_transition.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-
-final pages = [
-   PageData(
-      title: "Learn anywhere",
-      bgColor: Colors.blue[900]!,
-      textColor: Colors.white,
-      imagePath: 'assets/onboarding1.jpg'),
-   PageData(
-      title: "Learn at your own pace",
-      textColor: Colors.white,
-      bgColor: Colors.purple[900]!,
-      imagePath: 'assets/onboarding2.jpg'),
-   PageData(
-      title: "Help others to learn",
-      bgColor: Colors.cyan[900]!,
-       textColor: Colors.white,
-      imagePath: 'assets/onboarding3.jpg'),
-
-];
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OnboardingScreen extends StatelessWidget {
   const OnboardingScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: ConcentricPageView(
-        colors: pages.map((p) => p.bgColor).toList(),
-        radius: screenWidth * 0.1,
-        // curve: Curves.ease,
-        onFinish: () {
-          context.go('/auth');
-        },
-        onChange: (page) {
-          if (page == AppConstants.onboardingPagesCount) {
-            context.go('/auth');
-          }
-        },
-        nextButtonBuilder: (context) => Padding(
-          padding: const EdgeInsets.only(left: 3), // visual center
-          child: Icon(
-            Icons.navigate_next,
-            color: Colors.white,
-            size: screenWidth * 0.08,
-          ),
-        ),
-        itemBuilder: (index) {
-          final page = pages[index % pages.length];
-          return SafeArea(
-            child: _Page(page: page),
-          );
-        },
-      ),
-    );
+        body: Directionality(
+            textDirection: TextDirection.ltr, child: _buildPageView(context),),);
   }
+}
+
+_buildPageView(BuildContext context) {
+  final pages = [
+    PageData(
+        title: AppLocalizations.of(context).onboardingFirst,
+        bgColor: Colors.blue[900]!,
+        textColor: Colors.white,
+        imagePath: 'assets/onboarding1.jpg'),
+    PageData(
+        title: AppLocalizations.of(context).onboardingSecond,
+        textColor: Colors.white,
+        bgColor: Colors.purple[900]!,
+        imagePath: 'assets/onboarding2.jpg'),
+    PageData(
+        title: AppLocalizations.of(context).onboardingThird,
+        bgColor: Colors.cyan[900]!,
+        textColor: Colors.white,
+        imagePath: 'assets/onboarding3.jpg'),
+  ];
+  final screenWidth = MediaQuery.of(context).size.width;
+  return ConcentricPageView(
+    colors: pages.map((p) => p.bgColor).toList(),
+    radius: screenWidth * 0.1,
+    // curve: Curves.ease,
+    onFinish: () {
+      context.go('/auth');
+    },
+    onChange: (page) {
+      if (page == AppConstants.onboardingPagesCount) {
+        context.go('/auth');
+      }
+    },
+    nextButtonBuilder: (context) => Padding(
+      padding: const EdgeInsets.only(left: 3), // visual center
+      child: Icon(
+        Icons.navigate_next,
+        color: Colors.white,
+        size: screenWidth * 0.08,
+      ),
+    ),
+    itemBuilder: (index) {
+      final page = pages[index % pages.length];
+      return SafeArea(
+        child: _Page(page: page),
+      );
+    },
+  );
 }
 
 class _Page extends StatelessWidget {
@@ -107,7 +110,7 @@ class _Text extends StatelessWidget {
       style: TextStyle(
         color: page.textColor,
         fontWeight: FontWeight.w600,
-        fontFamily: 'Helvetica',
+        fontFamily: AppConstants.isFa? 'Vazir' : 'Poppins',
         letterSpacing: 0.0,
         fontSize: 18,
         height: 1.2,
@@ -131,7 +134,6 @@ class _Image extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return ClipRRect(
       borderRadius: const BorderRadius.all(Radius.circular(50)),
       child: Image.asset(

@@ -6,7 +6,7 @@ import 'package:injectable/injectable.dart';
 
 @singleton
 class LocaleProvider extends ChangeNotifier {
-  Locale? locale = const Locale('en');
+  Locale? locale = const Locale('fa');
   bool canNotify = true;
 
   LocaleProvider() {
@@ -29,14 +29,14 @@ class LocaleProvider extends ChangeNotifier {
   bool get isFa => locale == const Locale('fa');
 
   void initialize() {
-    if (getIt<Storage>().isFa()) {
-      locale = const Locale('fa');
-      AppConstants.isFa = true;
+    if (!getIt<Storage>().isFa()) {
+      locale = const Locale('en');
+      AppConstants.isFa = false;
     }
   }
 
   void changeLocale(Locale? newLocale) {
-    locale = newLocale ?? const Locale('en');
+    locale = newLocale ?? const Locale('fa');
     getIt<Storage>().setIsFa(newLocale?.languageCode == 'fa');
     AppConstants.isFa = newLocale?.languageCode == 'fa';
     notifyListeners();

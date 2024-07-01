@@ -13,7 +13,7 @@ class AppConstants {
   static const String imageUrl =
       'https://fastly.picsum.photos/id/1044/200/200.jpg?hmac=HB3e6tTss6J_9wexZ1v1psMlccdyQIrHrrijUgWXFhg';
   static bool isDark = false;
-  static bool isFa = false;
+  static bool isFa = true;
   static const bool showApprovedOnly = true;
   static const String mobileTVUrl = 'https://live.aionet.ir';
   static const String webTVUrl = 'http://46.209.222.131:8081';

@@ -64,5 +64,8 @@
     "watching": "درحال تماشا",
     "views": "بازدید",
     "unknown": "ناشناس",
-    "by": "توسط"
+    "by": "توسط",
+    "onboardingFirst": "هرجایی میخوای یادبگیر",
+    "onboardingSecond": "با سرعت دلخواه یادبگیر",
+    "onboardingThird": "کمک کن بقیه یادبگیرن"
 }
