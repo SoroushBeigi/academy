@@ -77,6 +77,8 @@
   "invalidEmail": "Invalid Email",
   "shortPasswordError": "Password is too short",
   "confirmPasswordError": "Passwords do not match",
-  "error": "Error"
+  "error": "Error",
+  "additionalSignUpFormDescription": "Please enter a username to complete your signup",
+  "back": "Back"
 
 }

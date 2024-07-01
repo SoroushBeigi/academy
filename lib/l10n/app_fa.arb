@@ -77,5 +77,7 @@
     "invalidEmail": "ایمیل نادرست است",
     "shortPasswordError": "رمزعبور کوتاه است",
     "confirmPasswordError": "رمزها یکسان نیستند",
-    "error": "خطا"
+    "error": "خطا",
+    "additionalSignUpFormDescription": "لطفا یک نام\u200Cکاربری برای اتمام ثبت\u200Cنام وارد کنید",
+    "back": "بازگشت"
 }
