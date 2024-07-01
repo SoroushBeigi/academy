@@ -57,7 +57,7 @@ class AuthScreen extends StatelessWidget {
         onRecoverPassword: (p0) => null,
         onSignup: (p0) async {
           final result = await cubit.register(p0.name ?? '', p0.password ?? '',
-              p0.additionalSignupData?['username'] ?? '');
+              p0.additionalSignupData?[AppConstants.isFa ? 'نام‌کاربری' : 'username'] ?? '');
           if (result == null) {
             context.go('/main');
             return null;

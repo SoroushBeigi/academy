@@ -26,6 +26,11 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<String?> register(
       String email, String password, String username) async {
+    print({
+      'email': email,
+      'username': username,
+      'password': password,
+    },);
     try {
       final result = await _dio.post(
         '/users',
@@ -38,10 +43,12 @@ class AuthCubit extends Cubit<AuthState> {
       if (result.statusCode == 200 || result.statusCode == 201) {
         return null;
       } else {
+        print(result.statusCode);
         setLoggedIn();
         return 'Registration failed';
       }
     } on DioException catch (e) {
+    print(e.message);
       return 'Registration failed';
     }
   }
