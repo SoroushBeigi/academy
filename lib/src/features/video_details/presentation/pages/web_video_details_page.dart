@@ -93,6 +93,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                             Flexible(
                               flex: 5,
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Container(
                                     height:
@@ -252,10 +253,12 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
   actionButtonsWidget(context, VoidCallback onTap) {
     final likesCount = widget.entity.likesCount;
     return SizedBox(
+      width: MediaQuery.of(context).size.width * 0.35,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Expanded(
-            flex: 1,
+            flex: 4,
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
               padding: const EdgeInsets.all(AppPadding.p6),
@@ -297,7 +300,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
             ),
           ),
           Expanded(
-            flex: 1,
+            flex: 2,
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
               padding: const EdgeInsets.all(AppPadding.p6),
@@ -326,7 +329,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
             ),
           ),
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
               padding: const EdgeInsets.all(AppPadding.p6),
@@ -355,7 +358,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
             valueListenable: VideoDetailsCubit.savedNotifier,
             builder: (BuildContext context, value, Widget? child) {
               return Expanded(
-                flex: 2,
+                flex: 3,
                 child: Container(
                     margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
                     padding: const EdgeInsets.all(AppPadding.p6),
