@@ -67,5 +67,15 @@
     "by": "توسط",
     "onboardingFirst": "هرجایی میخوای یادبگیر",
     "onboardingSecond": "با سرعت دلخواه یادبگیر",
-    "onboardingThird": "کمک کن بقیه یادبگیرن"
+    "onboardingThird": "کمک کن بقیه یادبگیرن",
+    "signup": "ثبت\u200Cنام",
+    "login": "ورود",
+    "email": "ایمیل",
+    "password": "رمزعبور",
+    "confirmPassword": "تکرار رمزعبور",
+    "forgotPassword": "رمزعبور را فراموش کرده\u200Cاید؟",
+    "invalidEmail": "ایمیل نادرست است",
+    "shortPasswordError": "رمزعبور کوتاه است",
+    "confirmPasswordError": "رمزها یکسان نیستند",
+    "error": "خطا"
 }

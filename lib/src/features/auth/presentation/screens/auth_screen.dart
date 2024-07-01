@@ -1,21 +1,31 @@
 import 'package:academy/src/di/di_setup.dart';
 import 'package:academy/src/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:academy/src/features/new_content/new_content.dart';
 import 'package:flutter_login/flutter_login.dart';
-import 'package:go_router/go_router.dart';
+
 
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final localizations = AppLocalizations.of(context);
     final cubit = getIt<AuthCubit>();
     return BlocProvider(
       create: (context) {
         return AuthCubit();
       },
       child: FlutterLogin(
+        hideForgotPasswordButton: true,
+        messages: LoginMessages(
+          signupButton: localizations.signup,
+          loginButton: localizations.login,
+          userHint: localizations.email,
+          passwordHint: localizations.password,
+          confirmPasswordHint: localizations.confirmPassword,
+          flushbarTitleError: localizations.error,
+          confirmPasswordError: localizations.confirmPasswordError,
+        ),
         logo: 'assets/icon.png',
         additionalSignupFields: const [
           UserFormField(
@@ -29,9 +39,11 @@ class AuthScreen extends StatelessWidget {
             context.go('/main');
             return null;
           }else{
-            return result;
+            return AppConstants.isFa? 'ورود ناموفق': result;
           }
         },
+        userValidator: (value) => RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value??'')?null:localizations.invalidEmail,
+        passwordValidator: (value) => (value?.length??0)<4 ? localizations.shortPasswordError : null,
         onRecoverPassword: (p0) => null,
         onSignup: (p0) async {
           final result = await cubit.register(p0.name ?? '', p0.password ?? '',

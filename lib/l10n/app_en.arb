@@ -67,6 +67,16 @@
   "by": "by",
   "onboardingFirst": "Learn anywhere",
   "onboardingSecond": "Learn at your own pace",
-  "onboardingThird": "Help others learn"
+  "onboardingThird": "Help others learn",
+  "signup": "signup",
+  "login": "login",
+  "email": "Email",
+  "password": "Password",
+  "confirmPassword": "Confirm Password",
+  "forgotPassword": "Forgot Password?",
+  "invalidEmail": "Invalid Email",
+  "shortPasswordError": "Password is too short",
+  "confirmPasswordError": "Passwords do not match",
+  "error": "Error"
 
 }
