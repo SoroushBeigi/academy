@@ -22,10 +22,10 @@ class RelatedVideoContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).colorScheme.surfaceContainer,
+      color: Colors.transparent,
       borderRadius: BorderRadius.circular(AppSize.s12),
       child: InkWell(
-        hoverColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+        hoverColor: Theme.of(context).colorScheme.surfaceContainer,
         borderRadius: BorderRadius.circular(AppSize.s12),
         onTap: () {
           VideoDetailsCubit.url = videoModel.url!;
@@ -50,8 +50,7 @@ class RelatedVideoContainer extends StatelessWidget {
                 child: Stack(
                   children: [
                     ClipRRect(
-                      borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(12), bottom: Radius.zero),
+                      borderRadius: const BorderRadius.all(Radius.circular(12)),
                       child: CachedNetworkImage(
                         fit: BoxFit.contain,
                         imageUrl: videoModel.imageUrl == null
@@ -132,8 +131,16 @@ class RelatedVideoContainer extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: AppPadding.p8),
                 child: Row(
                   children: [
-                    // Text('$publisherName ---'),
-                    videoModel.isLive == true?Text('${videoModel.viewCount ?? 0} ${AppLocalizations.of(context).watching}'): Text('${videoModel.viewCount ?? 0} ${AppLocalizations.of(context).views} • '),
+                    Text(
+                      '${AppLocalizations.of(context).by} ${videoModel.authorName ?? AppLocalizations.of(context).unknown}',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    videoModel.isLive == true
+                        ? Text(
+                            '${videoModel.viewCount ?? 0} ${AppLocalizations.of(context).watching}')
+                        : Text(
+                            '${videoModel.viewCount ?? 0} ${AppLocalizations.of(context).views} • '),
                     if (videoModel.isLive != true)
                       Text(DateFormat.timeAgo(
                           videoModel.createdAt ?? DateTime.now())),

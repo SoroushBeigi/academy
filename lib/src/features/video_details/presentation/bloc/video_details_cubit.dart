@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:share_plus/share_plus.dart';
 
 import '../../../../core/resources/app_constants.dart';
 
@@ -103,13 +104,17 @@ class VideoDetailsCubit extends Cubit<VideoDetailsState> {
         final result = await _dio.get('/content/$contentId');
         relatedContent
             .add(ContentResponseEntity.fromJson(json.decode(result.data)));
-        print('related content added');
       } catch (e) {
         debugPrint(e.toString());
       }
     }
     getSaveContent(entity: entity);
-    print('emitted');
-    print(relatedContent);
+
+  }
+
+  void share(){
+    Share.share(
+        'check out my website http://academy.behpardaz.net',
+        subject: 'Look what We made!');
   }
 }

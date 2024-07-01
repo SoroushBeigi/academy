@@ -62,5 +62,8 @@
   "forYou": "For You",
   "watching": "watching",
   "views": "views",
-  "meeting": "Meeting"
+  "meeting": "Meeting",
+  "unknown": "Unknown",
+  "by": "by"
+
 }

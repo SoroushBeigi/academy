@@ -338,11 +338,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                 borderRadius: BorderRadius.circular(AppSize.s60),
               ),
               child: InkWell(
-                onTap: () {
-                  Share.share(
-                      'check out my website http://academy.behpardaz.net',
-                      subject: 'Look what We made!');
-                },
+                onTap: ()=>context.read<VideoDetailsCubit>().share(),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
