@@ -1,5 +1,6 @@
 import 'package:academy/src/core/logic/common/date_format.dart';
 import 'package:academy/src/core/resources/resources.dart';
+import 'package:academy/src/features/new_content/new_content.dart';
 import 'package:academy/src/features/saved/domain/entity/content/response/content_response_entity.dart';
 import 'package:academy/src/features/home/presentation/pages/mobile_page/widgets/more_widget.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -17,6 +18,7 @@ class RelatedVideoContainer extends StatelessWidget {
 
   final ContentResponseEntity videoModel;
   final double? margin;
+
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -33,7 +35,7 @@ class RelatedVideoContainer extends StatelessWidget {
           );
         },
         child: Container(
-          margin:margin==null? EdgeInsets.zero:EdgeInsets.all(margin!),
+          margin: margin == null ? EdgeInsets.zero : EdgeInsets.all(margin!),
           padding: const EdgeInsets.only(bottom: 8),
           // height: MediaQuery.of(context).size.height * 0.3,
           decoration: BoxDecoration(
@@ -54,7 +56,8 @@ class RelatedVideoContainer extends StatelessWidget {
                         fit: BoxFit.contain,
                         imageUrl: videoModel.imageUrl == null
                             ? "https://mestergraph.com/uploads/pictures/teklonozhiiiiiiiiiiii/shabake/master_groph_8-8_1.jpg"
-                            : (AppConstants.baseUrlWithoutPort + videoModel.imageUrl!),
+                            : (AppConstants.baseUrlWithoutPort +
+                                videoModel.imageUrl!),
                         imageBuilder: (context, imageProvider) => Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
@@ -86,8 +89,8 @@ class RelatedVideoContainer extends StatelessWidget {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Icon(
-                                        Icons.settings_input_antenna,
-                                        size: 15,
+                                        Icons.circle,
+                                        size: 10,
                                         color: Colors.white,
                                       ),
                                       SizedBox(
@@ -130,9 +133,10 @@ class RelatedVideoContainer extends StatelessWidget {
                 child: Row(
                   children: [
                     // Text('$publisherName ---'),
-                    Text('${videoModel.viewCount ?? 0} views • '),
-                    Text(DateFormat.timeAgo(
-                        videoModel.createdAt ?? DateTime.now())),
+                    videoModel.isLive == true?Text('${videoModel.viewCount ?? 0} ${AppLocalizations.of(context).watching}'): Text('${videoModel.viewCount ?? 0} ${AppLocalizations.of(context).views} • '),
+                    if (videoModel.isLive != true)
+                      Text(DateFormat.timeAgo(
+                          videoModel.createdAt ?? DateTime.now())),
                     const Spacer(),
                     const MoreWidget(),
                   ],
