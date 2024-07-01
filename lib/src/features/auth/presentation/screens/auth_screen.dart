@@ -66,42 +66,45 @@ class AuthScreen extends StatelessWidget {
           }
         },
         children: [
-          Container(
-            height: MediaQuery.of(context).size.height*0.9,
+          SizedBox(
+            height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            child: Align(
-              alignment: Alignment.topCenter,
-              child: Card(
-                child: InkWell(
-                  borderRadius: BorderRadius.circular(20),
-                  onTap: () {
-                    if (localeProvider.locale == const Locale('en')) {
-                      localeProvider.changeLocale(const Locale('fa'));
-                    } else {
-                      localeProvider.changeLocale(const Locale('en'));
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),
-                    child: Directionality(
-                      textDirection: TextDirection.ltr,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Text('EN',style: TextStyle(fontWeight: FontWeight.w700),),
-                          Switch(value: AppConstants.isFa, onChanged: (value) {
-                            if (localeProvider.locale == const Locale('en')) {
-                              localeProvider.changeLocale(const Locale('fa'));
-                            } else {
-                              localeProvider.changeLocale(const Locale('en'));
-                            }
-                          },
-
-                          ),
-
-                          const Text('فا',style: TextStyle(fontWeight: FontWeight.w700)),
-                        ],
+            child: Padding(
+              padding: const EdgeInsets.all(8),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Card(
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(20),
+                    onTap: () {
+                      if (localeProvider.locale == const Locale('en')) {
+                        localeProvider.changeLocale(const Locale('fa'));
+                      } else {
+                        localeProvider.changeLocale(const Locale('en'));
+                      }
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8,horizontal: 16),
+                      child: Directionality(
+                        textDirection: TextDirection.ltr,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Text('EN',style: TextStyle(fontWeight: FontWeight.w700),),
+                            Switch(value: AppConstants.isFa, onChanged: (value) {
+                              if (localeProvider.locale == const Locale('en')) {
+                                localeProvider.changeLocale(const Locale('fa'));
+                              } else {
+                                localeProvider.changeLocale(const Locale('en'));
+                              }
+                            },
+              
+                            ),
+              
+                            const Text('فا',style: TextStyle(fontWeight: FontWeight.w700)),
+                          ],
+                        ),
                       ),
                     ),
                   ),

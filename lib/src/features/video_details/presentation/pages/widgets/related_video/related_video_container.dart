@@ -130,19 +130,23 @@ class RelatedVideoContainer extends StatelessWidget {
                 child: Row(
                   children: [
                     if (videoModel.isLive != true)
-                    Text(
-                      '${AppLocalizations.of(context).by} ${videoModel.authorName ?? AppLocalizations.of(context).unknown} • ',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                      Text(
+                        '${AppLocalizations.of(context).by} ${videoModel.authorName ?? AppLocalizations.of(context).unknown} • ',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     videoModel.isLive == true
                         ? Text(
                             '${videoModel.viewCount ?? 0} ${AppLocalizations.of(context).watching}')
                         : Text(
                             '${videoModel.viewCount ?? 0} ${AppLocalizations.of(context).views} • '),
                     if (videoModel.isLive != true)
-                      Text(DateFormat.timeAgo(
-                          videoModel.createdAt ?? DateTime.now())),
+                      Text(
+                        DateFormat.timeAgo(
+                          videoModel.createdAt ?? DateTime.now(),
+                          AppLocalizations.of(context),
+                        ),
+                      ),
                     const Spacer(),
                     const MoreWidget(),
                   ],

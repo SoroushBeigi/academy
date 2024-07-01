@@ -79,5 +79,18 @@
     "confirmPasswordError": "رمزها یکسان نیستند",
     "error": "خطا",
     "additionalSignUpFormDescription": "لطفا یک نام\u200Cکاربری برای اتمام ثبت\u200Cنام وارد کنید",
-    "back": "بازگشت"
+    "back": "بازگشت",
+    "likes": "پسندها",
+    "yearAgo": "سال پیش",
+    "yearsAgo": "سال پیش",
+    "monthAgo": "ماه پیش",
+    "monthsAgo": "ماه پیش",
+    "dayAgo": "روز پیش",
+    "daysAgo": "روز پیش",
+    "hourAgo": "ساعت پیش",
+    "hoursAgo": "ساعت پیش",
+    "minuteAgo": "دقیقه پیش",
+    "minutesAgo": "دقیقه پیش",
+    "secondAgo": "ثانیه پیش",
+    "secondsAgo": "ثانیه پیش"
 }

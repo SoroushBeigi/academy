@@ -56,108 +56,123 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<VideoDetailsCubit>()..getRelatedContent(widget.entity),
+      create: (context) =>
+          getIt<VideoDetailsCubit>()..getRelatedContent(widget.entity),
       child: BlocBuilder<VideoDetailsCubit, VideoDetailsState>(
         builder: (context, state) {
           return state.whenOrNull(
-            initial: () => const SizedBox(),
-            loading: () => const Center(
-              child: ACLoading(),
-            ),
-            success: () => PopScope(
-              onPopInvoked: (value) async{
-                SavedCubit.rebuildNotifier.value = true;
-              },
-              child: Scaffold(
-                appBar: AppBar(
-                  title: Text(widget.entity.title ?? ''),
-                  centerTitle: true,
-                  leading: InkWell(
-                    onTap: () {
-                      SavedCubit.rebuildNotifier.value = true;
-                      context.pop();
-                    },
-                    child: const Icon(Icons.arrow_back),
-                  ),
+                initial: () => const SizedBox(),
+                loading: () => const Center(
+                  child: ACLoading(),
                 ),
-                body: Padding(
-                  padding: const EdgeInsets.all(AppPadding.p16),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
+                success: () => PopScope(
+                  onPopInvoked: (value) async {
+                    SavedCubit.rebuildNotifier.value = true;
+                  },
+                  child: Scaffold(
+                    appBar: AppBar(
+                      title: Text(widget.entity.title ?? ''),
+                      centerTitle: true,
+                      leading: InkWell(
+                        onTap: () {
+                          SavedCubit.rebuildNotifier.value = true;
+                          context.pop();
+                        },
+                        child: const Icon(Icons.arrow_back),
+                      ),
+                    ),
+                    body: Padding(
+                      padding: const EdgeInsets.all(AppPadding.p16),
+                      child: SingleChildScrollView(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            ///left column
-                            Flexible(
-                              flex: 5,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Container(
-                                    height:
-                                        MediaQuery.of(context).size.height * 0.6,
-                                    decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.circular(AppSize.s12),
-                                    ),
-                                    child:
-                                        VideoPlayerWidget(entity: widget.entity),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                ///left column
+                                Flexible(
+                                  flex: 5,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    children: [
+                                      Container(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.6,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                              AppSize.s12),
+                                        ),
+                                        child: VideoPlayerWidget(
+                                            entity: widget.entity),
+                                      ),
+                                      AppSize.s12.heightSizeBox(),
+                                      actionButtonsWidget(context, () {
+                                        VideoDetailsCubit.savedNotifier.value =
+                                            !VideoDetailsCubit
+                                                .savedNotifier.value;
+                                        if (VideoDetailsCubit
+                                            .savedNotifier.value) {
+                                          context
+                                              .read<VideoDetailsCubit>()
+                                              .setSaveContent(
+                                                  contentId:
+                                                      widget.entity.id ?? 1);
+                                        } else {
+                                          context
+                                              .read<VideoDetailsCubit>()
+                                              .removeSaveContent(
+                                                  contentId:
+                                                      widget.entity.id ?? 1);
+                                        }
+                                      }),
+                                      AppSize.s12.heightSizeBox(),
+                                      commentsWidget(context)
+                                    ],
                                   ),
-                                  AppSize.s12.heightSizeBox(),
-                                  actionButtonsWidget(context, () {
-                                    VideoDetailsCubit.savedNotifier.value =! VideoDetailsCubit.savedNotifier.value;
-                                    if(VideoDetailsCubit.savedNotifier.value) {
-                                      context.read<VideoDetailsCubit>().setSaveContent(
-                                          contentId: widget.entity.id ?? 1);
-                                    } else {
-                                      context.read<VideoDetailsCubit>().removeSaveContent(
-                                          contentId: widget.entity.id ?? 1);
-                                    }
-                                  }),
-                                  AppSize.s12.heightSizeBox(),
-                                  commentsWidget(context)
-                                ],
-                              ),
-                            ),
-                            AppSize.s8.widthSizeBox(),
+                                ),
+                                AppSize.s8.widthSizeBox(),
 
-                            ///right column
-                            Flexible(
-                              flex: 2,
-                              child: Column(
-                                children: [
-                                  contentInfoWidget(),
-                                  if (widget.entity.attachments != null &&
-                                      (widget.entity.attachments?.isNotEmpty ??
-                                          false)) ...[
-                                    AppSize.s12.heightSizeBox(),
-                                    attachmentsWidget(context),
-                                  ],
-                                  if (widget.entity.relatedContentIds != null &&
-                                      (widget.entity.relatedContentIds?.isNotEmpty ??
-                                          false)) ...[
-                                    AppSize.s12.heightSizeBox(),
-                                    relatedContents(context),
-                                  ],
-                                ],
-                              ),
-                            )
+                                ///right column
+                                Flexible(
+                                  flex: 2,
+                                  child: Column(
+                                    children: [
+                                      contentInfoWidget(),
+                                      if (widget.entity.attachments != null &&
+                                          (widget.entity.attachments
+                                                  ?.isNotEmpty ??
+                                              false)) ...[
+                                        AppSize.s12.heightSizeBox(),
+                                        attachmentsWidget(context),
+                                      ],
+                                      if (widget.entity.relatedContentIds !=
+                                              null &&
+                                          (widget.entity.relatedContentIds
+                                                  ?.isNotEmpty ??
+                                              false)) ...[
+                                        AppSize.s12.heightSizeBox(),
+                                        relatedContents(context),
+                                      ],
+                                    ],
+                                  ),
+                                )
+                              ],
+                            ),
+                            Divider(
+                              thickness: AppSize.s1,
+                              color: Theme.of(context).colorScheme.onSurface,
+                            ),
+                            AppSize.s8.heightSizeBox(),
                           ],
                         ),
-                        Divider(
-                          thickness: AppSize.s1,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
-                        AppSize.s8.heightSizeBox(),
-                      ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-          ) ?? const SizedBox();
+              ) ??
+              const SizedBox();
         },
       ),
     );
@@ -338,7 +353,7 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                 borderRadius: BorderRadius.circular(AppSize.s60),
               ),
               child: InkWell(
-                onTap: ()=>context.read<VideoDetailsCubit>().share(),
+                onTap: () => context.read<VideoDetailsCubit>().share(),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -356,7 +371,8 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
               return Expanded(
                 flex: 3,
                 child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: AppPadding.p4),
                     padding: const EdgeInsets.all(AppPadding.p6),
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.surfaceContainer,
@@ -376,10 +392,15 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
                           (AppSize.s4).widthSizeBox(),
                           Text(
                             AppLocalizations.of(context).save,
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: value ?? false
-                                    ? Theme.of(context).colorScheme.primary
-                                    : Theme.of(context).colorScheme.onSurface),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                    color: value ?? false
+                                        ? Theme.of(context).colorScheme.primary
+                                        : Theme.of(context)
+                                            .colorScheme
+                                            .onSurface),
                           )
                         ],
                       ),
@@ -427,11 +448,11 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
             rowOfData(
                 'Created At: ',
                 DateFormat.timeAgo(
-                      widget.entity.createdAt ??
-                          DateTime.now().subtract(
-                            const Duration(days: 5),
-                          ),
-                    ) ??
+                        widget.entity.createdAt ??
+                            DateTime.now().subtract(
+                              const Duration(days: 5),
+                            ),
+                        AppLocalizations.of(context)) ??
                     '-'),
             AppSize.s4.heightSizeBox(),
             rowOfData('Views: ', widget.entity.viewCount.toString()),
@@ -467,7 +488,8 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
 
   attachmentsWidget(context) {
     List<Widget> list = [];
-    for (AttachmentResponseEntity attachment in widget.entity.attachments ?? []) {
+    for (AttachmentResponseEntity attachment
+        in widget.entity.attachments ?? []) {
       list.add(attachmentItemBuilder(context, attachment));
     }
     return Column(
@@ -497,7 +519,8 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
     );
   }
 
-  attachmentItemBuilder(BuildContext context, AttachmentResponseEntity attachment) {
+  attachmentItemBuilder(
+      BuildContext context, AttachmentResponseEntity attachment) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
       margin: const EdgeInsets.only(right: 8),
@@ -553,12 +576,11 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
             const Spacer(),
             Text(
               DateFormat.timeAgo(
-                comment.createdAt ??
-                    DateTime.now().subtract(
-                      const Duration(days: 5),
-                    ),
-
-              ),
+                  comment.createdAt ??
+                      DateTime.now().subtract(
+                        const Duration(days: 5),
+                      ),
+                  AppLocalizations.of(context)),
               style: Theme.of(context).textTheme.bodyMedium,
             )
           ],
@@ -625,8 +647,9 @@ class _WebVideoDetailsPageState extends State<WebVideoDetailsPage> {
       if (response.statusCode == 200) {
         print('Comment added successfully');
         final List<dynamic> responseData = jsonDecode(response.body);
-        final List<CommentResponseEntity> newComments =
-            responseData.map((data) => CommentResponseEntity.fromJson(data)).toList();
+        final List<CommentResponseEntity> newComments = responseData
+            .map((data) => CommentResponseEntity.fromJson(data))
+            .toList();
 
         widget.entity.comments = newComments;
 

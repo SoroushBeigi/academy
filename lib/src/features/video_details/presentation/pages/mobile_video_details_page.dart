@@ -216,135 +216,122 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
     final likesCount = widget.entity.likesCount;
     return SizedBox(
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Expanded(
-            flex: 4,
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
-              padding: const EdgeInsets.all(AppPadding.p6),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainer,
-                borderRadius: BorderRadius.circular(AppSize.s60),
-              ),
-              child: InkWell(
-                onTap: () {
-                  if (like != true) {
-                    getIt<VideoDetailsCubit>()
-                        .like(true, widget.entity.id ?? 0);
-                  }
-                  like = true;
-                  setState(() {});
-                },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      like == true
-                          ? Icons.thumb_up_alt
-                          : Icons.thumb_up_alt_outlined,
-                      color: like == true
-                          ? Theme.of(context).colorScheme.primary
-                          : Theme.of(context).colorScheme.onSurface,
-                    ),
-                    AppSize.s8.widthSizeBox(),
-                    Text(
-                      '${likesCount == null ? 0 : like == true ? likesCount + 1 : like == false ? likesCount == 0 ? 0 : likesCount - 1 : likesCount} likes',
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyMedium!
-                          .copyWith(fontWeight: FontWeight.bold),
-                    )
-                  ],
-                ),
+          Container(
+            padding: const EdgeInsets.all(AppPadding.p6),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceContainer,
+              borderRadius: BorderRadius.circular(AppSize.s60),
+            ),
+            child: InkWell(
+              onTap: () {
+                if (like != true) {
+                  getIt<VideoDetailsCubit>()
+                      .like(true, widget.entity.id ?? 0);
+                }
+                like = true;
+                setState(() {});
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    like == true
+                        ? Icons.thumb_up_alt
+                        : Icons.thumb_up_alt_outlined,
+                    color: like == true
+                        ? Theme.of(context).colorScheme.primary
+                        : Theme.of(context).colorScheme.onSurface,
+                  ),
+                  AppSize.s8.widthSizeBox(),
+                  Text(
+                    '${likesCount == null ? 0 : like == true ? likesCount + 1 : like == false ? likesCount == 0 ? 0 : likesCount - 1 : likesCount} ${AppLocalizations.of(context).likes}',
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodyMedium!
+                        .copyWith(fontWeight: FontWeight.bold),
+                  )
+                ],
               ),
             ),
           ),
-          Expanded(
-            flex: 2,
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
-              padding: const EdgeInsets.all(AppPadding.p6),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainer,
-                borderRadius: BorderRadius.circular(AppSize.s60),
-              ),
-              child: InkWell(
-                onTap: () {
-                  if (like != false) {
-                    getIt<VideoDetailsCubit>()
-                        .like(false, widget.entity.id ?? 0);
-                  }
-                  like = false;
-                  setState(() {});
-                },
-                child: Icon(
-                  like == false
-                      ? Icons.thumb_down_alt
-                      : Icons.thumb_down_alt_outlined,
-                  color: like == false
-                      ? Theme.of(context).colorScheme.primary
-                      : Theme.of(context).colorScheme.onSurface,
-                ),
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: AppPadding.p6,horizontal: AppPadding.p12),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceContainer,
+              borderRadius: BorderRadius.circular(AppSize.s60),
+            ),
+            child: InkWell(
+              onTap: () {
+                if (like != false) {
+                  getIt<VideoDetailsCubit>()
+                      .like(false, widget.entity.id ?? 0);
+                }
+                like = false;
+                setState(() {});
+              },
+              child: Icon(
+                like == false
+                    ? Icons.thumb_down_alt
+                    : Icons.thumb_down_alt_outlined,
+                color: like == false
+                    ? Theme.of(context).colorScheme.primary
+                    : Theme.of(context).colorScheme.onSurface,
               ),
             ),
           ),
-          Expanded(
-            flex: 3,
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
-              padding: const EdgeInsets.all(AppPadding.p6),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.surfaceContainer,
-                borderRadius: BorderRadius.circular(AppSize.s60),
-              ),
-              child: InkWell(
-                onTap: ()=>context.read<VideoDetailsCubit>().share(),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.share),
-                    (AppSize.s4).widthSizeBox(),
-                    Text(AppLocalizations.of(context).share)
-                  ],
-                ),
+          Container(
+            padding: const EdgeInsets.all(AppPadding.p6),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceContainer,
+              borderRadius: BorderRadius.circular(AppSize.s60),
+            ),
+            child: InkWell(
+              onTap: ()=>context.read<VideoDetailsCubit>().share(),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Icon(Icons.share),
+                  (AppSize.s4).widthSizeBox(),
+                  Text(AppLocalizations.of(context).share)
+                ],
               ),
             ),
           ),
           ValueListenableBuilder(
             valueListenable: VideoDetailsCubit.savedNotifier,
             builder: (BuildContext context, value, Widget? child) {
-              return Expanded(
-                flex: 3,
-                child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: AppPadding.p4),
-                    padding: const EdgeInsets.all(AppPadding.p6),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).colorScheme.surfaceContainer,
-                      borderRadius: BorderRadius.circular(AppSize.s60),
-                    ),
-                    child: InkWell(
-                      onTap: onTap,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Icon(
-                            value ? Icons.bookmark : Icons.bookmark_border,
-                            color: value
-                                ? Theme.of(context).colorScheme.primary
-                                : Theme.of(context).colorScheme.onSurface,
-                          ),
-                          (AppSize.s4).widthSizeBox(),
-                          Text(
+              return Container(
+                  padding: const EdgeInsets.all(AppPadding.p6),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surfaceContainer,
+                    borderRadius: BorderRadius.circular(AppSize.s60),
+                  ),
+                  child: InkWell(
+                    onTap: onTap,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          value ? Icons.bookmark : Icons.bookmark_border,
+                          color: value
+                              ? Theme.of(context).colorScheme.primary
+                              : Theme.of(context).colorScheme.onSurface,
+                        ),
+                        (AppSize.s4).widthSizeBox(),
+                        FittedBox(
+                          child: Text(
                             AppLocalizations.of(context).save,
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                 color: value ?? false
                                     ? Theme.of(context).colorScheme.primary
                                     : Theme.of(context).colorScheme.onSurface),
-                          )
-                        ],
-                      ),
-                    )),
-              );
+                          ),
+                        )
+                      ],
+                    ),
+                  ));
             },
           )
         ],
@@ -393,6 +380,7 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
                         DateTime.now().subtract(
                           const Duration(days: 5),
                         ),
+                      AppLocalizations.of(context)
                   ) ??
                       '-'),
               AppSize.s4.heightSizeBox(),
@@ -521,6 +509,7 @@ class _MobileVideoDetailsPageState extends State<MobileVideoDetailsPage> {
                     DateTime.now().subtract(
                       const Duration(days: 5),
                     ),
+                  AppLocalizations.of(context)
               ),
               style: Theme.of(context).textTheme.bodyMedium,
             )
