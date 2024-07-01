@@ -27,28 +27,33 @@ class AuthScreen extends StatelessWidget {
           confirmPasswordHint: localizations.confirmPassword,
           flushbarTitleError: localizations.error,
           confirmPasswordError: localizations.confirmPasswordError,
-          additionalSignUpFormDescription: localizations.additionalSignUpFormDescription,
+          additionalSignUpFormDescription: localizations
+              .additionalSignUpFormDescription,
           additionalSignUpSubmitButton: localizations.submit,
           goBackButton: localizations.back,
         ),
         logo: 'assets/icon.png',
         additionalSignupFields: [
           UserFormField(
-            keyName: AppConstants.isFa? 'نام‌کاربری' : 'username',
+            keyName: AppConstants.isFa ? 'نام‌کاربری' : 'username',
             icon: const Icon(Icons.person),
           )
         ],
-        onLogin: (p0)async {
-          final result = await cubit.login(p0.name,p0.password);
-          if(result==null){
+        onLogin: (p0) async {
+          final result = await cubit.login(p0.name, p0.password);
+          if (result == null) {
             context.go('/main');
             return null;
-          }else{
-            return AppConstants.isFa? 'ورود ناموفق': result;
+          } else {
+            return AppConstants.isFa ? 'ورود ناموفق' : result;
           }
         },
-        userValidator: (value) => RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(value??'')?null:localizations.invalidEmail,
-        passwordValidator: (value) => (value?.length??0)<4 ? localizations.shortPasswordError : null,
+        userValidator: (value) =>
+        RegExp(
+            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+            .hasMatch(value ?? '') ? null : localizations.invalidEmail,
+        passwordValidator: (value) =>
+        (value?.length ?? 0) < 4 ? localizations.shortPasswordError : null,
         onRecoverPassword: (p0) => null,
         onSignup: (p0) async {
           final result = await cubit.register(p0.name ?? '', p0.password ?? '',
@@ -61,8 +66,8 @@ class AuthScreen extends StatelessWidget {
           }
         },
         headerWidget: Container(
-          margin: const EdgeInsets.all(4),
-          height: 60,
+          height: 40,
+          margin: const EdgeInsets.only(bottom: 4,),
           child: InkWell(
             borderRadius: BorderRadius.circular(12),
             onTap: () {
@@ -72,22 +77,22 @@ class AuthScreen extends StatelessWidget {
                 localeProvider.changeLocale(const Locale('en'));
               }
             },
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Directionality(
+              textDirection: TextDirection.ltr,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    AppLocalizations.of(context).appLanguage,
+                  Text('English'),
+                  Switch(value: AppConstants.isFa, onChanged: (value) {
+                    if (localeProvider.locale == const Locale('en')) {
+                      localeProvider.changeLocale(const Locale('fa'));
+                    } else {
+                      localeProvider.changeLocale(const Locale('en'));
+                    }
+                  },
                   ),
-                  Padding(
-                    padding:
-                    const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      AppLocalizations.of(context).oppositeLanguage,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
+
+                  Text('فارسی'),
                 ],
               ),
             ),
